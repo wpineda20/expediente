@@ -16,7 +16,7 @@
       />
     </v-container>
 
-    <disclaimer-register v-if="step == 1" />
+    <disclaimer-register />
 
     <v-stepper
       v-model="step"
@@ -46,20 +46,7 @@
           @click="changeStepSection(1)"
           max-width="600px"
         >
-          <step-1
-            v-if="step >= 1"
-            :culturalAgent="culturalAgent.step1"
-            :familyHead="familyHead"
-            :countries="countries"
-            :genders="genders"
-            :ethnicities="ethnicities"
-            :disabilities="disabilities"
-            :validation="$v.culturalAgent.step1"
-            @update-alert="
-              updateAlert($event.show, $event.message, $event.type)
-            "
-            @valid-step="saveData($event)"
-          />
+          <step-1 />
         </v-stepper-content>
         <!-- Datos personales -->
 
