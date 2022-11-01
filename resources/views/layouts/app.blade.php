@@ -47,6 +47,19 @@
                     </li>
                     <!-- Home -->
 
+                    <!-- Record -->
+                    <li class="text-center pb-1">
+                        <a href="{{ url('/record') }}" class="text-center">
+                            <i class="material-icons md-18 mx-auto">
+                                fact_check
+                            </i>
+                        </a>
+                        <a href="{{ url('/record') }}">
+                            <p class="link mx-auto">Expediente</p>
+                        </a>
+                    </li>
+                    <!-- Record -->
+
                     <!-- Settings -->
                     <!-- Administrative routes -->
                     @if (auth()->user()->hasRole('Administrador') == 'Administrador')
@@ -58,9 +71,16 @@
                                 <p class="link">Administración</p>
                             </div>
                             <ul class="sub-menu">
-                                <li><a href="{{ url('/departments ') }}">Departamentos</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Municipios</a></li>
-                                <li><a href="{{ url('/users') }}">Usuarios</a></li>
+                                <li><a href="{{ url('/departments ') }}">Departamento</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Municipio</a></li>
+                                <li><a href="{{ url('/users') }}">Usuario</a></li>
+                                <li><a href="{{ url('/directions') }}">Dirección</a></li>
+                                <li><a href="{{ url('/kinships') }}">Parentesco</a></li>
+                                <li><a href="{{ url('/academicLevels') }}">Nivel Académico</a></li>
+                                <li><a href="{{ url('/professions') }}">Profesión</a></li>
+                                <li><a href="{{ url('/units') }}">Unidad</a></li>
+                                <li><a href="{{ url('/subdirections') }}">Subdirección</a></li>
+                                <li><a href="{{ url('/familyStatus') }}">Estado familiar</a></li>
                             </ul>
                         </li>
                     @endif
@@ -143,7 +163,7 @@
                             <!-- Logo Brand -->
                             <div class=" col-sm-4 col-md-6 d-none d-md-block d-lg-block d-xl-block">
                                 <div class="col-4 col-sm-12 mb-2">
-                                    <a class="navbar-brand" href="{{ url('/') }}">
+                                    <a class="navbar-brand" href="{{ url('/home') }}">
                                         <img class="" src="/logos/Logo_GOES_horizontal_D.svg"
                                             style="max-width: 60%" />
                                     </a>
