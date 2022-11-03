@@ -5,10 +5,13 @@ export default {
     municipalities: [],
     professions: [],
     academicLevels: [],
-    culturalAgent: {
+    employee: {
         idSection: 1,
 
-        step1: {},
+        step1: {
+            full_name: "",
+            address: "",
+        },
 
         step2: {},
 

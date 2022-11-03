@@ -65,8 +65,8 @@
         <v-stepper-content step="2" class="pt-0 pb-0 pr-5">
           <step-2
             v-if="step >= 2"
-            :culturalAgent="culturalAgent.step2"
-            :validation="$v.culturalAgent.step2"
+            :employee="employee.step2"
+            :validation="$v.employee.step2"
             @update-alert="
               updateAlert($event.show, $event.message, $event.type)
             "
@@ -91,8 +91,8 @@
         <v-stepper-content step="3" class="pt-0 pb-0 pr-5">
           <step-3
             v-if="step >= 3 && departments.length > 0"
-            :culturalAgent="culturalAgent.step3"
-            :validation="$v.culturalAgent.step3"
+            :employee="employee.step3"
+            :validation="$v.employee.step3"
             :departments="departments"
             @update-alert="
               updateAlert($event.show, $event.message, $event.type)
@@ -117,8 +117,8 @@
         <v-stepper-content step="4" class="pt-0 pb-0 pr-5">
           <step-4
             v-if="step >= 4"
-            :culturalAgent="culturalAgent.step4"
-            :validation="$v.culturalAgent.step4"
+            :employee="employee.step4"
+            :validation="$v.employee.step4"
             @update-alert="
               updateAlert($event.show, $event.message, $event.type)
             "

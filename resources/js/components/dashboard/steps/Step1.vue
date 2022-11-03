@@ -2,36 +2,84 @@
   <div class="mb-1 mt-4 h-100">
     <v-row>
       <!-- Full name -->
-      <v-col cols="12" xs="12" sm="12" md="6">
-        <base-input label="Nombre completo" />
+      <v-col cols="12" xs="12" sm="12" md="12">
+        <base-input label="Nombre completo según DUI" />
       </v-col>
 
-      <!-- Artistic name -->
-      <v-col cols="12" xs="12" sm="12" md="6">
-        <base-input label="Nombre artístico" />
+      <!-- Family Status -->
+      <v-col cols="12" xs="12" sm="12" md="4">
+        <base-select-search label="Estado familiar" />
       </v-col>
 
-      <!-- Artistic group name -->
+      <!-- Profession -->
       <v-col cols="12" xs="12" sm="12" md="4">
-        <base-input label="Nombre de grupo artístico/Colectivo/Banda" />
+        <base-select-search label="Profesión" />
       </v-col>
-      <!-- Birth date -->
+
+      <!-- Current Address -->
+      <v-col cols="12" xs="12" sm="12" md="12" class="mb-2">
+        <base-text-area
+          label="Domicilio actual"
+          v-model.trim="validation.address.$model"
+          :validation="validation.address"
+          validationTextType="default"
+          :min="1"
+          :max="150"
+          :rows="3"
+        />
+      </v-col>
+
+      <!-- Departments -->
+      <v-col cols="12" xs="12" sm="12" md="6">
+        <base-select
+          label="Departamento"
+          v-model.trim="validation.department_name.$model"
+          :items="departments"
+          item="department_name"
+          :validation="validation.department_name"
+          @change="changeDepartment()"
+        />
+      </v-col>
+
+      <!-- Municipalities -->
+      <v-col cols="12" xs="12" sm="12" md="6">
+        <base-select-search
+          label="Municipio"
+          v-model.trim="validation.municipality_name.$model"
+          :items="municipalities"
+          item="municipality_name"
+          :validation="validation.municipality_name"
+        />
+      </v-col>
+
+      <!-- Vurnerable Area -->
       <v-col cols="12" xs="12" sm="12" md="4">
-        <base-input label="Fecha de nacimiento" />
+        <base-select-search label="Área vulnerable" />
+      </v-col>
+
+      <!-- Email -->
+      <v-col cols="12" xs="12" sm="12" md="6">
+        <base-input
+          label="Correo electrónico"
+          v-model.trim="validation.email.$model"
+          :validation="validation.email"
+          validationTextType="none"
+          :readonly="true"
+        />
       </v-col>
 
       <!-- Cellphone -->
-      <v-col cols="12" xs="12" sm="12" md="4">
+      <v-col cols="12" xs="12" sm="12" md="6">
         <base-input
-          label="Teléfono comercial"
+          label="Teléfono"
           v-mask="'####-####'"
           validationTextType="only-numbers"
         />
       </v-col>
       <!-- Phone -->
-      <v-col cols="12" xs="12" sm="12" md="4">
+      <v-col cols="12" xs="12" sm="12" md="6">
         <base-input
-          label="Teléfono personal"
+          label="Celular"
           validationTextType="only-numbers"
           v-mask="'####-####'"
         />
@@ -45,9 +93,32 @@
 
 <script>
 export default {
-  props: {},
+  props: {
+    validation: {
+      type: Object,
+      required: true,
+    },
+  },
 
-  methods: {},
+  methods: {
+    validateData() {
+      this.validation.$touch();
+
+      if (this.validation.$invalid) {
+        this.$emit("update-alert", {
+          show: true,
+          message: "Campos obligatorios",
+          type: "fail",
+        });
+
+        return;
+      }
+
+      this.$emit("valid-step", {
+        validStep: true,
+      });
+    },
+  },
 };
 </script>
 
