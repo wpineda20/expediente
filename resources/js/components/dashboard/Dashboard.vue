@@ -46,7 +46,19 @@
           @click="changeStepSection(1)"
           max-width="600px"
         >
-          <step-1 />
+          <step-1
+            v-if="step >= 1"
+            :employee="employee.step1"
+            :familyStatus="familyStatus"
+            :professions="professions"
+            :vulnerableArea="vulnerableArea"
+            :departments="departments"
+            :validation="$v.employee.step1"
+            @update-alert="
+              updateAlert($event.show, $event.message, $event.type)
+            "
+            @valid-step="saveData($event)"
+          />
         </v-stepper-content>
         <!-- Datos personales -->
 
@@ -59,13 +71,17 @@
           color="#2D52A8"
         >
           <h6 class="ml-2 mb-1">Datos laborales</h6>
-          <small class="ml-2">Datos laborales</small>
+          <small class="ml-2">Unidad organizativa</small>
         </v-stepper-step>
 
         <v-stepper-content step="2" class="pt-0 pb-0 pr-5">
           <step-2
             v-if="step >= 2"
             :employee="employee.step2"
+            :departments="departments"
+            :directions="directions"
+            :subdirections="subdirections"
+            :units="units"
             :validation="$v.employee.step2"
             @update-alert="
               updateAlert($event.show, $event.message, $event.type)
@@ -90,10 +106,10 @@
 
         <v-stepper-content step="3" class="pt-0 pb-0 pr-5">
           <step-3
-            v-if="step >= 3 && departments.length > 0"
+            v-if="step >= 3"
             :employee="employee.step3"
+            :kinships="kinships"
             :validation="$v.employee.step3"
-            :departments="departments"
             @update-alert="
               updateAlert($event.show, $event.message, $event.type)
             "

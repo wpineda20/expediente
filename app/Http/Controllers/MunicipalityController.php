@@ -86,4 +86,16 @@ class MunicipalityController extends Controller
         Municipality::where("id", $id)->delete();
         return response()->json(["status"=>"success", "message"=>"Registro creado correctamente."]);
     }
+
+     public function byDepartmentName(Request $request)
+    {
+        // dd($request->department);
+        $municipalities = Municipality::select('*')
+        ->join('department', 'municipality.department_id', '=', 'department.id')
+        ->where('department.department_name', $request->department)
+        ->get();
+
+        return response()->json(['message' => 'success', 'municipalities'=>$municipalities]);
+    }
+
 }

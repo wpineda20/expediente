@@ -16,25 +16,21 @@ export default {
         dialog(val) {
             val || this.close();
         },
-        step(val, oldVal) {
-            // console.log(this.step);
-            if (val != oldVal) {
-                this.getDataForm();
-                this.culturalAgent.idSection = val;
-                this.setLocalStorage();
-            }
+        // step(val, oldVal) {
+        //     // console.log(this.step);
+        //     if (val != oldVal) {
+        //         this.getDataForm();
+        //         this.culturalAgent.idSection = val;
+        //         this.setLocalStorage();
+        //     }
 
-            if (val == 10) {
-                this.sendToHome = true;
-            }
-        },
+        //     if (val == 10) {
+        //         this.sendToHome = true;
+        //     }
+        // },
     },
 
-    created() {
-        if (this.userAccess > 1) {
-            window.location = "/";
-        }
-    },
+    created() {},
 
     mounted() {
         this.initialize();

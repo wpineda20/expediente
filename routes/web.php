@@ -96,10 +96,6 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
             return view('family_status.index');
         });
 
-        Route::get('/familyStatus', function () {
-            return view('family_status.index');
-        });
-
         Route::get('/record', function () {
             return view('form.employee');
         });
@@ -113,5 +109,13 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
+
+// Auth::routes(['verify' => true, 'login' => true, 'reset' => true, 'register' => true]);
+
+Route::get('api/familyStatus', [FamilyStatusController::class, 'index']);
+Route::get('api/departments', [DepartmentController::class, 'index']);
+Route::get('api/municipality', [MunicipalityController::class, 'index']);
+Route::get('api/professions', [ProfessionController::class, 'index']);
+Route::get('api/municipality/byDepartmentName/{department}', [MunicipalityController::class, 'byDepartmentName']);
 
 Route::post('import', [ExcelController::class, 'import']);
