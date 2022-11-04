@@ -33,6 +33,8 @@ export default {
             case 4:
                 this.academicLevels = responses[0].data.records;
                 break;
+            case 5:
+                break;
         }
 
         this.loading = false;
@@ -42,32 +44,32 @@ export default {
         this.step = step;
     },
 
-    // async saveData() {
-    //     this.culturalAgent["step" + this.step].idSection = this.step;
+    async saveData() {
+        this.employee["step" + this.step].idSection = this.step;
 
-    //     const { data } = await axios
-    //         .post("api/culturalAgent", this.culturalAgent["step" + this.step])
-    //         .catch((error) => {
-    //             this.updateAlert(
-    //                 true,
-    //                 "No fue posible actualizar el agente cultural.",
-    //                 "fail"
-    //             );
-    //             this.verifySessionFinished(error.response.status, 419);
-    //         });
+        const { data } = await axios
+            .post("api/employee", this.employee["step" + this.step])
+            .catch((error) => {
+                this.updateAlert(
+                    true,
+                    "No fue posible actualizar la información del empleado.",
+                    "fail"
+                );
+                this.verifySessionFinished(error.response.status, 419);
+            });
 
-    //     if (data.success) {
-    //         // Final message for cultural agents
-    //         if (this.step == 9) {
-    //             this.sendToHome = true;
-    //             this.timeAlert = 20000;
-    //         }
-    //         this.updateAlert(true, data.message, "success");
+        if (data.success) {
+            // Final message for employee
+            if (this.step == 4) {
+                this.sendToHome = true;
+                this.timeAlert = 20000;
+            }
+            this.updateAlert(true, data.message, "success");
 
-    //         this.step++;
-    //         this.setLocalStorage();
-    //     }
-    // },
+            this.step++;
+            // this.setLocalStorage();
+        }
+    },
 
     // calculateDate() {
     //     let today = new Date();

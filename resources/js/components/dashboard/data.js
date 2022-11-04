@@ -1,6 +1,6 @@
 export default {
     loading: false,
-    step: 4,
+    step: 1,
     familyStatus: [],
     professions: [],
     departments: [],
@@ -49,6 +49,11 @@ export default {
 
         step4: {
             level_name: "",
+            subjects_approved: "",
+        },
+        step5: {
+            dui_file: "",
+            title_file: "",
         },
     },
 

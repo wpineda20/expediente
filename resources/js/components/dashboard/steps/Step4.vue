@@ -114,6 +114,26 @@
         <!-- New Academic Level -->
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="12" xs="12" md="12" lg="12">
+        <!-- Subjects Approved -->
+        <h6 class="mb-5">
+          En caso de haber estudiado una carrera universitaria y no fue
+          finalizada, establezca cuantas materias aprobó:
+        </h6>
+        <v-col cols="12" xs="12" sm="12" md="6">
+          <base-input
+            label="Materias aprobadas"
+            v-model.trim="validation.subjects_approved.$model"
+            :validation="validation.subjects_approved"
+            validationTextType="only-numbers"
+            v-mask="'##'"
+            type="number"
+            :min="1"
+          />
+        </v-col>
+      </v-col>
+    </v-row>
 
     <v-btn class="btn btn-normal mt-3 mb-3" @click="validateData()">
       Continuar y guardar

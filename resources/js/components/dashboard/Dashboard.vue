@@ -144,6 +144,31 @@
           />
         </v-stepper-content>
         <!-- Formación Académica -->
+        <!-- Anexar Documentos -->
+        <v-stepper-step
+          :complete="step > 5"
+          step="5"
+          @click="changeStepSection(5)"
+          class="pt-0 pb-2"
+          color="#2D52A8"
+        >
+          <h6 class="ml-2 mb-1">Anexar Documentos</h6>
+          <small class="ml-2">Documentos a anexar</small>
+        </v-stepper-step>
+
+        <v-stepper-content step="5" class="pt-0 pb-0 pr-5">
+          <step-5
+            v-if="step >= 5"
+            :employee="employee.step5"
+            :validation="$v.employee.step5"
+            @update-alert="
+              updateAlert($event.show, $event.message, $event.type)
+            "
+            @valid-step="saveData($event)"
+            @get-back="step -= 1"
+          />
+        </v-stepper-content>
+        <!-- Anexar Documentos -->
       </v-app>
     </v-stepper>
     <v-card v-else class="card-rounded">

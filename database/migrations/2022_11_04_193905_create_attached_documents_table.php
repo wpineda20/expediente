@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('academic_data', function (Blueprint $table) {
+        Schema::create('attached_documents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->references('id')->on('employee')->comment('Empleado');
-            $table->foreignId('academic_level_id')->references('id')->on('academic_level')->comment('Nivel Academico');
-            $table->string('education_center');
-            $table->integer('year');
-            $table->string('obtained_title');
-            $table->integer('subjects_approved');
-            // $table->string('url_file', 500);
+            $table->string('dui_file', 500);
+            $table->string('title_file', 500);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('academic_data');
+        Schema::dropIfExists('attached_documents');
     }
 };

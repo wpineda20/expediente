@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             MunicipalitiesSeeder::class,
             UserSeeder::class,
+            FamilyStatusSeeder::class,
+            AcademicLevelSeeder::class,
         ]);
     }
 }

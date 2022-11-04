@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfessionController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\SubdirectionController;
 use App\Http\Controllers\FamilyStatusController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExcelController;
 
@@ -100,6 +101,9 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
             return view('form.employee');
         });
     });
+
+    //Employee
+    Route::post('api/employee', [EmployeeController::class, 'store']);
 
     //Reports
     Route::get('generate-pdf', [PDFController::class, 'generatePDF']);

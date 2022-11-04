@@ -126,6 +126,20 @@ const validations = {
                 required,
                 minLength: minLength(1),
             },
+            subjects_approved: {
+                required,
+                minLength: minLength(1),
+            },
+        },
+        step5: {
+            dui_file: {
+                required,
+                minLength: minLength(1),
+            },
+            title_file: {
+                required,
+                minLength: minLength(1),
+            },
         },
     },
 };

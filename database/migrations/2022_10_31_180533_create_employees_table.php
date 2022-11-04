@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('personal_email');
             $table->string('phone');
             $table->string('cell_phone');
-            $table->string('dui_file', 500);
+            // $table->string('dui_file', 500);
+            $table->foreignId('user_id')->references('id')->on('users')->comment('Usuarios');
             $table->softDeletes();
             $table->timestamps();
         });
