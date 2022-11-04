@@ -134,6 +134,7 @@
           <step-4
             v-if="step >= 4"
             :employee="employee.step4"
+            :academicLevels="academicLevels"
             :validation="$v.employee.step4"
             @update-alert="
               updateAlert($event.show, $event.message, $event.type)

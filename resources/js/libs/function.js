@@ -18,21 +18,64 @@ export const getData = async (step) => {
     switch (step) {
         case 1:
             requests = [
-                axios.get("/api/familyStatus"),
-                axios.get("/api/professions"),
-                axios.get("/api/departments"),
+                axios.get("/api/familyStatus", {
+                    params: {
+                        itemsPerPage: -1,
+                    },
+                }),
+                axios.get("/api/professions", {
+                    params: {
+                        itemsPerPage: -1,
+                    },
+                }),
+                axios.get("/api/departments", {
+                    params: {
+                        itemsPerPage: -1,
+                    },
+                }),
             ];
             break;
         case 2:
             requests = [
-                axios.get("/api/departments"),
-                axios.get("/api/directions"),
-                axios.get("/api/subdirections"),
-                axios.get("/api/units"),
+                axios.get("/api/departments", {
+                    params: {
+                        itemsPerPage: -1,
+                    },
+                }),
+                axios.get("/api/directions", {
+                    params: {
+                        itemsPerPage: -1,
+                    },
+                }),
+                axios.get("/api/subdirections", {
+                    params: {
+                        itemsPerPage: -1,
+                    },
+                }),
+                axios.get("/api/units", {
+                    params: {
+                        itemsPerPage: -1,
+                    },
+                }),
             ];
             break;
         case 3:
-            requests = [axios.get("/api/kinships")];
+            requests = [
+                axios.get("/api/kinships", {
+                    params: {
+                        itemsPerPage: -1,
+                    },
+                }),
+            ];
+            break;
+        case 4:
+            requests = [
+                axios.get("/api/academicLevels", {
+                    params: {
+                        itemsPerPage: -1,
+                    },
+                }),
+            ];
             break;
     }
 

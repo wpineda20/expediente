@@ -9,29 +9,29 @@ export default {
 
     async getDataForm() {
         let responses = [];
-        // this.loading = true;
+        this.loading = true;
 
         responses = await getData(this.step);
         console.log(this.step);
 
         switch (this.step) {
             case 1:
-                this.familyStatus = responses[0].data.familyStatus;
-                this.professions = responses[1].data.professions;
+                this.familyStatus = responses[0].data.records;
+                this.professions = responses[1].data.records;
                 this.departments = responses[2].data.departments;
                 this.vulnerableArea = [{ name: "Sí" }, { name: "No" }];
-                // console.log(this.departments);
                 break;
             case 2:
-                this.directions = responses[0].data.directions;
-                this.subdirections = responses[1].data.subdirections;
-                this.units = responses[2].data.units;
-                this.departments = responses[3].data.departments;
+                this.departments = responses[0].data.departments;
+                this.directions = responses[1].data.records;
+                this.subdirections = responses[2].data.records;
+                this.units = responses[3].data.records;
                 break;
             case 3:
-                this.kinships = responses[0].data.kinships;
+                this.kinships = responses[0].data.records;
                 break;
             case 4:
+                this.academicLevels = responses[0].data.records;
                 break;
         }
 

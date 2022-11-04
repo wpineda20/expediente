@@ -1,6 +1,6 @@
 export default {
     loading: false,
-    step: 0,
+    step: 4,
     familyStatus: [],
     professions: [],
     departments: [],
@@ -10,6 +10,7 @@ export default {
     subdirections: [],
     units: [],
     kinships: [],
+    academicLevels: [],
 
     employee: {
         idSection: 1,
@@ -23,6 +24,7 @@ export default {
             municipality_name: "",
             personal_email: "",
             phone: "",
+            vulnerableArea: "",
             cell_phone: "",
         },
 
@@ -45,14 +47,16 @@ export default {
             cell_phone: "",
         },
 
-        step4: {},
+        step4: {
+            level_name: "",
+        },
     },
 
     // searchProfession: "",
     textAlert: "",
     showAlert: false,
     alertEvent: "success",
-    // sectionDelete: "",
+    sectionDelete: "",
     redirectSessionFinished: false,
     counterAlert: 0,
     alertTimeOut: 0,

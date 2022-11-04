@@ -86,4 +86,5 @@ class DepartmentController extends Controller
             "message"=>"Registro eliminado correctamente."
         ]);
     }
+
 }

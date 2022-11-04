@@ -112,10 +112,16 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
 
 // Auth::routes(['verify' => true, 'login' => true, 'reset' => true, 'register' => true]);
 
+//Api's for selects data
 Route::get('api/familyStatus', [FamilyStatusController::class, 'index']);
 Route::get('api/departments', [DepartmentController::class, 'index']);
 Route::get('api/municipality', [MunicipalityController::class, 'index']);
 Route::get('api/professions', [ProfessionController::class, 'index']);
+Route::get('api/directions', [DirectionController::class, 'index']);
+Route::get('api/subdirections', [SubdirectionController::class, 'index']);
+Route::get('api/units', [UnitController::class, 'index']);
+Route::get('api/kinships', [KinshipController::class, 'index']);
+Route::get('api/academicLevels', [AcademicLevelController::class, 'index']);
 Route::get('api/municipality/byDepartmentName/{department}', [MunicipalityController::class, 'byDepartmentName']);
 
 Route::post('import', [ExcelController::class, 'import']);

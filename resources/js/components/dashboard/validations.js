@@ -7,7 +7,6 @@ import {
     minValue,
     maxValue,
     requiredIf,
-    url,
 } from "vuelidate/lib/validators";
 
 const httpsValid = helpers.regex("https", /^https:\/\//);
@@ -122,7 +121,12 @@ const validations = {
                 ),
             },
         },
-        step4: {},
+        step4: {
+            level_name: {
+                required,
+                minLength: minLength(1),
+            },
+        },
     },
 };
 

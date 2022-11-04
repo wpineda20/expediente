@@ -89,9 +89,8 @@ class MunicipalityController extends Controller
 
      public function byDepartmentName(Request $request)
     {
-        // dd($request->department);
         $municipalities = Municipality::select('*')
-        ->join('department', 'municipality.department_id', '=', 'department.id')
+        ->join('department', 'municipalities.department_id', '=', 'department.id')
         ->where('department.department_name', $request->department)
         ->get();
 
