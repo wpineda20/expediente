@@ -3,7 +3,7 @@
     <v-row>
       <!-- DUI File -->
       <v-col cols="12" xs="12" sm="12" md="6">
-        <h6 class="mb-0">Copia de su Documento Único de Identidad</h6>
+        <h6 class="mb-0">Copia de su Documento Único de Identidad.</h6>
         <input-image
           v-model="validation.dui_file.$model"
           :validation="validation.dui_file"
