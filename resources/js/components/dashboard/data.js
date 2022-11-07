@@ -45,11 +45,13 @@ export default {
             kinship_name: "",
             phone: "",
             cell_phone: "",
+            families: [],
         },
 
         step4: {
             level_name: "",
             subjects_approved: "",
+            academics: [],
         },
         step5: {
             dui_file: "",

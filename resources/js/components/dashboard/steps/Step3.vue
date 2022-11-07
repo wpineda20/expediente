@@ -18,24 +18,26 @@
             <th class="text-center">Acciones</th>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="(familyObject, index) in families" :key="index">
               <td>
-                <p></p>
+                <p>{{ familyObject.full_name }}</p>
               </td>
               <td>
-                <p></p>
+                <p>{{ familyObject.kinship_name }}</p>
               </td>
               <td>
-                <p></p>
+                <p>{{ familyObject.date_birth }}</p>
               </td>
               <td class="text-center">
-                <a class="p-1 mr-1 text-center"
+                <a
+                  @click="deleteFamily(familyObject.id)"
+                  class="p-1 mr-1 text-center"
                   ><span class="material-icons text-blue"> delete </span></a
                 >
               </td>
             </tr>
-            <tr>
-              <td colspan="5" class="text-center">
+            <tr v-if="families.length == 0">
+              <td colspan="5" class="text-center pt-4">
                 <p>No se encontró ningún registro.</p>
               </td>
             </tr>
@@ -84,7 +86,11 @@
               </v-row>
               <v-row>
                 <v-col align="center">
-                  <v-btn class="btn btn-normal mb-3 mt-1">Agregar</v-btn>
+                  <v-btn
+                    class="btn btn-normal mb-3 mt-1"
+                    @click="addNewFamily()"
+                    >Agregar</v-btn
+                  >
                   <v-btn
                     color="btn-normal-close mb-3 mt-1"
                     rounded
@@ -142,7 +148,7 @@
       </v-col>
     </v-row>
 
-    <v-btn class="btn btn-normal mt-3 mb-3" @click="validateData()">
+    <v-btn class="btn btn-normal mt-3 mb-3" @click="saveFamilies()">
       Continuar y guardar
     </v-btn>
     <v-btn class="btn btn-normal-close mt-3 mb-3" @click="$emit('get-back')"
@@ -209,9 +215,6 @@ export default {
 
         return;
       }
-      //   this.$emit("valid-step", {
-      //     validStep: true,
-      //   });
     },
 
     addFamily() {
@@ -224,10 +227,54 @@ export default {
       this.$v.family.$reset();
     },
 
+    async addNewFamily() {
+      this.$v.family.$touch();
+
+      if (this.$v.family.$invalid) {
+        this.$emit("update-alert", {
+          show: true,
+          message: "Campos obligatorios",
+          type: "fail",
+        });
+
+        return;
+      }
+      this.families.push(this.family);
+      this.families = [...new Set(this.families)];
+
+      this.$nextTick(() => {
+        this.close();
+      });
+    },
+
     close() {
       this.family = this.familyDefault;
       this.$v.family.$reset();
       this.dialog = false;
+    },
+
+    saveFamilies() {
+      this.validation.$touch();
+
+      if (this.validation.$invalid) {
+        this.$emit("update-alert", {
+          show: true,
+          message: "Campos obligatorios",
+          type: "fail",
+        });
+
+        return;
+      }
+
+      this.employee.families = this.families;
+
+      this.$emit("valid-step", {
+        validStep: true,
+      });
+    },
+
+    deleteFamily() {
+      this.families.splice(this.families.indexOf(this.family), 1);
     },
   },
 
@@ -259,3 +306,4 @@ export default {
   },
 };
 </script>
+<style></style>

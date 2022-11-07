@@ -20,18 +20,23 @@ class FamilyStatusSeeder extends Seeder
             [
                 "id" => 1,
                 "family_status_name" => "S",
+                "created_at" => now(),
+
             ],
             [
                 "id" => 2,
                 "family_status_name" => "C",
+                "created_at" => now(),
             ],
             [
                 "id" => 3,
                 "family_status_name" => "A",
+                "created_at" => now(),
             ],
             [
                 "id" => 4,
                 "family_status_name" => "V",
+                "created_at" => now(),
             ],
         ]);
     }

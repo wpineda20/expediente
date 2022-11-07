@@ -15,17 +15,24 @@ return new class extends Migration
     {
         Schema::create('employee', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
-            $table->foreignId('family_status_id')->references('id')->on('family_status')->comment('Estado Familiar');
-            $table->foreignId('profession_id')->references('id')->on('profession')->comment('Profesiones');
-            $table->string('current_address', 500);
-            $table->integer('municipality_id');
-            $table->tinyInteger('vulnerable_area');
-            $table->string('personal_email');
-            $table->string('phone');
-            $table->string('cell_phone');
-            // $table->string('dui_file', 500);
-            $table->foreignId('user_id')->references('id')->on('users')->comment('Usuarios');
+            $table->foreignId('user_id')->nullable()->constrained()->references('id')->on('users')->comment('Usuarios');
+            $table->string('full_name')->nullable();
+            $table->foreignId('family_status_id')->nullable()->constrained()->references('id')->on('family_status')->comment('Estado Familiar');
+            $table->foreignId('profession_id')->nullable()->constrained()->references('id')->on('profession')->comment('Profesiones');
+            $table->string('current_address', 500)->nullable();
+            $table->foreignId('municipality_id')->nullable()->constrained()->references('id')->on('municipalities')->comment('Municipio');
+            $table->tinyInteger('vulnerable_area')->nullable();
+            $table->string('personal_email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('cell_phone')->nullable();
+            $table->foreignId('direction_id')->nullable()->constrained()->references('id')->on('direction')->comment('Dirección');
+            $table->foreignId('subdirection_id')->nullable()->constrained()->references('id')->on('subdirection')->comment('Subdirección');
+            $table->foreignId('unit_id')->nullable()->constrained()->references('id')->on('unit')->comment('Unidad');
+            $table->string('nominal_fee')->nullable();
+            $table->string('functional_position')->nullable();
+            $table->string('immediate_superior')->nullable();
+            $table->string('email_institutional')->nullable();
+            $table->integer('municipality_assigned_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

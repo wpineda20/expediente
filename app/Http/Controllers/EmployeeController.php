@@ -8,6 +8,7 @@ use App\Models\Municipality;
 use App\Models\Direction;
 use App\Models\Subdirection;
 use App\Models\Unit;
+use App\Models\WorkData;
 use App\Models\Kinship;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,13 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        $employee = Employee::where('user_id', auth()->user()->id)->first();
+
+        return response()->json([
+            'message' => 'Registros obtenidos correctamente',
+            'success' => true,
+            'employee' => $employee
+        ]);
     }
 
     /**
@@ -31,8 +38,8 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
         $employee = Employee::where(['user_id' => auth()->user()->id])->first();
+
         $request->employee_id = $employee?->id;
 
         $notificationEmployee = "Registros almacenados correctamente.";
@@ -43,7 +50,7 @@ class EmployeeController extends Controller
                 $employee->profession_id = Profession::where('profession_name', $request->profession_name)->first()?->id;
                 $employee->current_address = $request->current_address;
                 $employee->municipality_id = Municipality::where('municipality_name', $request->municipality_name)->first()?->id;
-                $employee->vulnerableArea = ($request->vulnerableArea == 'Sí') ? 1 : (($request->vulnerableArea == 'No') ? 2 : null);
+                $employee->vulnerable_area = ($request->vulnerableArea == 'Sí') ? 1 : (($request->vulnerableArea == 'No') ? 2 : null);
                 $employee->personal_email = $request->personal_email;
                 $employee->phone = $request->phone;
                 $employee->cell_phone = $request->cell_phone;
@@ -51,22 +58,24 @@ class EmployeeController extends Controller
                 $employee->save();
                 break;
             case 2:
-                $work_data = WorkDataController::insert([
-                    'employee_id' => $request->employee_id,
-                    'direction_id' => Direction::where('direction_name', $request->direction_name)->first()?->id,
-                    'subdirection_id' => Subdirection::where('subdirection_name', $request->subdirection_name)->first()?->id,
-                    'unit_id' => Unit::where('unit_name', $request->unit_name)->first()?->id,
-                    'nominal_fee' => $request->nominal_fee,
-                    'functional_position' => $request->functional_position,
-                    'immediate_superior' => $request->immediate_superior,
-                    'email_institutional' => $request->email_institutional,
-                    'municipality_id' => Municipality::where('municipality_name', $request->municipality_name)->first()?->id,
-                ]);
+                $employee->direction_id = Direction::where('direction_name', $request->direction_name)->first()?->id;
+                $employee->subdirection_id = Subdirection::where('subdirection_name', $request->subdirection_name)->first()?->id;
+                $employee->unit_id = Unit::where('unit_name', $request->unit_name)->first()?->id;
+                $employee->nominal_fee = $request->nominal_fee;
+                $employee->functional_position = $request->functional_position;
+                $employee->immediate_superior = $request->immediate_superior;
+                $employee->email_institutional = $request->email_institutional;
+                $employee->municipality_assigned_id = Municipality::where('municipality_name', $request->municipality_name)->first()?->id;
 
-                // $employee->save();
+                $employee->save();
                 break;
             case 3:
-                FamilyGroupController::store($request->familyGroups, $employee->id);
+                // dd($request);
+
+
+                // $request->families[0]['kinship_name'] = Kinship::where('kinship_name', $request->kinship_name)->first()?->id;
+
+                FamilyGroupController::store($request->families, $employee->id);
 
                 $family_group_emergency_data = FamilyGroupEmergencyController::insert([
                     'employee_id' => $request->employee_id,

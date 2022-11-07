@@ -19,27 +19,29 @@
             <th class="text-center">Acciones</th>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="(academicObject, index) in academics" :key="index">
               <td>
-                <p></p>
+                <p>{{ academicObject.level_name }}</p>
               </td>
               <td>
-                <p></p>
+                <p>{{ academicObject.education_center }}</p>
               </td>
               <td>
-                <p></p>
+                <p>{{ academicObject.year }}</p>
               </td>
               <td>
-                <p></p>
+                <p>{{ academicObject.obtained_title }}</p>
               </td>
               <td class="text-center">
-                <a class="p-1 mr-1 text-center"
+                <a
+                  @click="deleteAcademic(academicObject.id)"
+                  class="p-1 mr-1 text-center"
                   ><span class="material-icons text-blue"> delete </span></a
                 >
               </td>
             </tr>
-            <tr>
-              <td colspan="5" class="text-center">
+            <tr v-if="academics.length == 0">
+              <td colspan="5" class="text-center pt-3">
                 <p>No se encontró ningún registro.</p>
               </td>
             </tr>
@@ -98,7 +100,11 @@
               </v-row>
               <v-row>
                 <v-col align="center">
-                  <v-btn class="btn btn-normal mb-3 mt-1">Agregar</v-btn>
+                  <v-btn
+                    class="btn btn-normal mb-3 mt-1"
+                    @click="addNewAcademic()"
+                    >Agregar</v-btn
+                  >
                   <v-btn
                     color="btn-normal-close mb-3 mt-1"
                     rounded
@@ -135,7 +141,7 @@
       </v-col>
     </v-row>
 
-    <v-btn class="btn btn-normal mt-3 mb-3" @click="validateData()">
+    <v-btn class="btn btn-normal mt-3 mb-3" @click="saveAcademics()">
       Continuar y guardar
     </v-btn>
     <v-btn class="btn btn-normal-close mt-3 mb-3" @click="$emit('get-back')"
@@ -220,10 +226,54 @@ export default {
       this.$v.academic.$reset();
     },
 
+    async addNewAcademic() {
+      this.$v.academic.$touch();
+
+      if (this.$v.academic.$invalid) {
+        this.$emit("update-alert", {
+          show: true,
+          message: "Campos obligatorios",
+          type: "fail",
+        });
+
+        return;
+      }
+      this.academics.push(this.academic);
+      this.academics = [...new Set(this.academics)];
+
+      this.$nextTick(() => {
+        this.close();
+      });
+    },
+
     close() {
       this.academic = this.academicDefault;
       this.$v.academic.$reset();
       this.dialog = false;
+    },
+
+    saveAcademics() {
+      this.validation.$touch();
+
+      if (this.validation.$invalid) {
+        this.$emit("update-alert", {
+          show: true,
+          message: "Campos obligatorios",
+          type: "fail",
+        });
+
+        return;
+      }
+
+      this.employee.academics = this.academics;
+
+      this.$emit("valid-step", {
+        validStep: true,
+      });
+    },
+
+    deleteAcademic() {
+      this.academics.splice(this.academics.indexOf(this.academic), 1);
     },
   },
 

@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use DB;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -54,7 +56,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'dui' => ['required', 'string', 'regex:([0-9]{8}-[0-9])', 'unique:users'],
+            // 'dui' => ['required', 'string', 'regex:([0-9]{8}-[0-9])', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -74,10 +76,19 @@ class RegisterController extends Controller
             'id' => $latest->id+1,
             'name' => $data['name'],
             'last_name' => $data['last_name'],
-            'dui' => $data['dui'],
+            // 'dui' => $data['dui'],
+            'email_verified_at' => now(),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $employee = new Employee();
+
+        $user_id = $user->id;
+
+        $employee->user_id = $user_id;
+
+        $employee->save();
 
         $role = Role::findOrFail(2);
 

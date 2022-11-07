@@ -17,13 +17,14 @@ class UserSeeder extends Seeder
     public function run()
     {
         $roleAdmin = Role::findOrFail(1);
-        $roleUser = Role::findOrFail(2);
+        $roleRRHH = Role::findOrFail(2);
+        $roleEditor = Role::findOrFail(3);
 
         $admin = User::create([
             'id' => 1,
             'name' => 'Leonel',
             'last_name' => 'Lopez',
-            'dui' => '12345678-1',
+            // 'dui' => '12345678-1',
             'email' => 'leonellopez647@gmail.com',
             'password' => Hash::make('Leonel23'),
             'name' => 'Leonel',
@@ -35,19 +36,19 @@ class UserSeeder extends Seeder
             'id' => 2,
             'name' => 'Leonel',
             'last_name' => 'Lopez',
-            'dui' => '12345678-2',
+            // 'dui' => '12345678-2',
             'email' => 'lopezleonel191@gmail.com',
             'password' => Hash::make('Leonel23'),
             'name' => 'Leonel',
             'email_verified_at' => now(),
         ]);
-        $user->assignRole($roleUser);
+        $user->assignRole($roleRRHH);
 
         $user = User::create([
             'id' => 3,
             'name' => 'admin',
             'last_name' => 'admin',
-            'dui' => '02475605-7',
+            // 'dui' => '02475605-7',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('12345678'),
             'name' => 'William',

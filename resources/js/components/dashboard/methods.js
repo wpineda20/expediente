@@ -60,7 +60,7 @@ export default {
 
         if (data.success) {
             // Final message for employee
-            if (this.step == 4) {
+            if (this.step == 5) {
                 this.sendToHome = true;
                 this.timeAlert = 20000;
             }

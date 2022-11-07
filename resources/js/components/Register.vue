@@ -193,7 +193,7 @@
                   <!-- Show password -->
 
                   <!-- DUI -->
-                  <v-col cols="12" xs="12" sm="12" md="12">
+                  <!-- <v-col cols="12" xs="12" sm="12" md="12">
                     <base-input
                       label="DUI"
                       v-model="$v.user.dui.$model"
@@ -207,7 +207,7 @@
                         maxLength: false,
                       }"
                     />
-                  </v-col>
+                  </v-col> -->
                   <!-- DUI -->
                 </v-row>
                 <!-- Form -->

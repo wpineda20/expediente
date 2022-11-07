@@ -97,13 +97,16 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
             return view('family_status.index');
         });
 
-        Route::get('/record', function () {
-            return view('form.employee');
-        });
+    });
+
+    //Record View
+    Route::get('/record', function () {
+        return view('form.employee');
     });
 
     //Employee
     Route::post('api/employee', [EmployeeController::class, 'store']);
+    Route::get('api/employee', [EmployeeController::class, 'index']);
 
     //Reports
     Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
@@ -114,7 +117,7 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
-// Auth::routes(['verify' => true, 'login' => true, 'reset' => true, 'register' => true]);
+Auth::routes(['verify' => true, 'login' => true, 'reset' => true, 'register' => true]);
 
 //Api's for selects data
 Route::get('api/familyStatus', [FamilyStatusController::class, 'index']);
