@@ -21,6 +21,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             FamilyStatusSeeder::class,
             AcademicLevelSeeder::class,
+            ProfessionSeeder::class,
+            UnitSeeder::class,
+            DirectionSeeder::class,
+            SubdirectionSeeder::class,
+            KinshipSeeder::class,
         ]);
     }
 }

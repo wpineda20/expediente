@@ -19,6 +19,7 @@ class Employee extends Model
 
     protected $fillable = [
         'id',
+        'user_id',
         'full_name',
         'family_status_id',
         'profession_id',
@@ -28,8 +29,14 @@ class Employee extends Model
         'personal_email',
         'phone',
         'cell_phone',
-        'dui_file',
-        'user_id',
+        'direction_id',
+        'subdirection_id',
+        'unit_id',
+        'nominal_fee',
+        'functional_position',
+        'immediate_superior',
+        'email_institutional',
+        'municipality_assigned_id',
     ];
 
     public $timestamps = false;
@@ -42,6 +49,10 @@ class Employee extends Model
             'profession_id',
             'municipality_id',
             'user_id',
+            'direction_id',
+            'subdirection_id',
+            'unit_id',
+            'municipality_assigned_id',
         ]);
     }
 }

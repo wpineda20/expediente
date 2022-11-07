@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FamilyGroup;
+use App\Models\Kinship;
 use Illuminate\Http\Request;
 
 class FamilyGroupController extends Controller
@@ -23,9 +24,19 @@ class FamilyGroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public static function store(array $families, int $employee_id)
     {
-        //
+        FamilyGroup::where(['employee_id' => $employee_id])->delete();
+        // dd($request->families);
+        foreach ($families as $key => $family) {
+
+            FamilyGroup::insert([
+                'full_name' => $family['full_name'],
+                'kinship_id' => $family['kinship_name'],
+                'date_birth' => $family['date_birth'],
+                'employee_id' => $employee_id,
+            ]);
+        }
     }
 
     /**
