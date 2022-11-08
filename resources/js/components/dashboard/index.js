@@ -20,11 +20,11 @@ export default {
             // console.log(this.step);
             if (val != oldVal) {
                 this.getDataForm();
-                // this.culturalAgent.idSection = val;
+                // this.employee.idSection = val;
                 // this.setLocalStorage();
             }
 
-            // if (val == 10) {
+            // if (val == 6) {
             //     this.sendToHome = true;
             // }
         },

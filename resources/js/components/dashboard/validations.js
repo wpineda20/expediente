@@ -122,13 +122,9 @@ const validations = {
             },
         },
         step4: {
-            level_name: {
-                required,
-                minLength: minLength(1),
-            },
             subjects_approved: {
-                required,
                 minLength: minLength(1),
+                maxLength: maxLength(2),
             },
         },
         step5: {

@@ -49,7 +49,6 @@ export default {
         },
 
         step4: {
-            level_name: "",
             subjects_approved: "",
             academics: [],
         },

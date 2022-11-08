@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+//Models
 use App\Models\Employee;
 use App\Models\Profession;
+use App\Models\FamilyStatus;
 use App\Models\Municipality;
 use App\Models\Direction;
 use App\Models\Subdirection;
 use App\Models\Unit;
 use App\Models\WorkData;
 use App\Models\Kinship;
+use App\Models\FamilyGroupEmergency;
+
 use Illuminate\Http\Request;
+
+//Libraries
+use DB;
 
 class EmployeeController extends Controller
 {
@@ -47,6 +54,7 @@ class EmployeeController extends Controller
         switch ($request->idSection) {
             case 1:
                 $employee->full_name = $request->full_name;
+                $employee->family_status_id = FamilyStatus::where('family_status_name', $request->family_status_name)->first()?->id;
                 $employee->profession_id = Profession::where('profession_name', $request->profession_name)->first()?->id;
                 $employee->current_address = $request->current_address;
                 $employee->municipality_id = Municipality::where('municipality_name', $request->municipality_name)->first()?->id;
@@ -70,30 +78,32 @@ class EmployeeController extends Controller
                 $employee->save();
                 break;
             case 3:
-                // dd($request);
-
-
-                // $request->families[0]['kinship_name'] = Kinship::where('kinship_name', $request->kinship_name)->first()?->id;
-
                 FamilyGroupController::store($request->families, $employee->id);
 
-                $family_group_emergency_data = FamilyGroupEmergencyController::insert([
-                    'employee_id' => $request->employee_id,
-                    'kinship_id' => Kinship::where('kinship_name', $request->kinship_name)->first()?->id,
-                    'full_name' => $request->full_name,
-                    'phone' => $request->phone,
-                    'cell_phone' => $request->cell_phone,
-                ]);
+                $family_group_emergency_data = FamilyGroupEmergency::where('employee_id', $request->employee_id)->first();
+
+                if($family_group_emergency_data == null){
+                    $family_group_emergency_data = new FamilyGroupEmergency();
+                }
+
+                $family_group_emergency_data->full_name = $request->full_name;
+                $family_group_emergency_data->phone = $request->phone;
+                $family_group_emergency_data->cell_phone = $request->cell_phone;
+                $family_group_emergency_data->kinship_id = Kinship::where('kinship_name', $request->kinship_name)->first()?->id;
+                $family_group_emergency_data->employee_id = $employee->id;
+
+                $family_group_emergency_data->save();
                 break;
             case 4:
-                AcademicDataController::store($request->academicLevels, $employee->id);
-
-                // // $academic_data = AcademicDataController::insert([
-                // //     'subjects_approved' => $request->subjects_approved,
-                // // ]);
-                // $employee->save();
+                AcademicDataController::store($request, $employee->id);
                 break;
             case 5:
+                dd($request);
+                if(FileController::verifyTypeFile($request->dui_file && $request->title_file)){
+                    $fileName = $employee->id;
+
+
+                 }
 
                 break;
             default:
@@ -108,6 +118,61 @@ class EmployeeController extends Controller
         ]);
 
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Employee  $employee
+     * @return \Illuminate\Http\Response
+     */
+    public function infoEmployeeLoggedIn(Request $request){
+
+        $employee = Employee::select('*')
+        ->where('employee.user_id', auth()->user()->id)
+        ->first();
+
+        //Family Status
+        $familyStatus = DB::table('employee as e')
+            ->select('fs.family_status_name')
+            ->join('family_status as fs', 'e.family_status_id', '=', 'fs.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->first();
+        $employee->family_status_name = $familyStatus?->family_status_name;
+
+         //Profession
+        $profession = DB::table('employee as e')
+            ->select('p.profession_name')
+            ->join('profession as p', 'e.profession_id', '=', 'p.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->first();
+        $employee->profession_name = $profession?->profession_name;
+
+        //Department and municipality
+        $municipality = DB::table('employee as e')
+            // ->select('mun.municipality_name', 'dep.department_name')
+            ->join('municipalities as mun', 'e.municipality_id', '=', 'mun.id')
+            ->join('department as dep', 'mun.department_id', '=', 'dep.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->first();
+        $employee->municipality_name = $municipality?->municipality_name;
+        $employee->department_name = $municipality?->department_name;
+
+        //Direction
+        $direction = DB::table('employee as e')
+            ->select('d.direction_name')
+            ->join('direction as d', 'e.direction_id', '=', 'd.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->first();
+        $employee->direction_name = $direction?->direction_name;
+
+
+        return response()->json([
+            'message' => 'success',
+            // 'userAccess' => auth()->user()->idRol,
+            'employee' => $employee,
+        ]);
+    }
+
 
     /**
      * Display the specified resource.

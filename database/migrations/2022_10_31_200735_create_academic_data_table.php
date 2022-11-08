@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('education_center');
             $table->integer('year');
             $table->string('obtained_title');
-            $table->integer('subjects_approved');
+            $table->integer('subjects_approved')->nullable();
             // $table->string('url_file', 500);
             $table->softDeletes();
             $table->timestamps();

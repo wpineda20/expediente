@@ -3,9 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class FamilyGroupEmergency extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'family_group_emergency';
+
+    protected $data = ['deleted_at'];
+
+    protected $fillable = [
+        'id',
+        'full_name',
+        'phone',
+        'cell_phone',
+        'kinship_id',
+        'employee_id',
+    ];
+
+     public $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    public $timestamps = true;
 }

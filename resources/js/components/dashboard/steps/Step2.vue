@@ -77,7 +77,7 @@
       <!-- Departments -->
       <v-col cols="12" xs="12" sm="12" md="6">
         <base-select
-          label="Departamento"
+          label="Asignado en el departamento de"
           v-model.trim="validation.department_name.$model"
           :items="departments"
           item="department_name"

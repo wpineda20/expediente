@@ -1,8 +1,11 @@
 import axios from "axios";
-import { getData } from "../../libs/function";
+import { getData, getInfoEmployee, setInfoEmployee } from "../../libs/function";
 
 export default {
     async initialize() {
+        const dataEmployee = await getInfoEmployee();
+
+        this.employee = setInfoEmployee(dataEmployee);
         // Getting info of the selects by steps
         this.getDataForm();
     },
