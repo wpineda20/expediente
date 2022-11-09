@@ -41,10 +41,10 @@ export default {
         },
 
         step3: {
-            full_name: "",
+            emergency_full_name: "",
             kinship_name: "",
-            phone: "",
-            cell_phone: "",
+            emergency_phone: "",
+            emergency_cell_phone: "",
             families: [],
         },
 
@@ -64,6 +64,7 @@ export default {
     alertEvent: "success",
     sectionDelete: "",
     redirectSessionFinished: false,
+    sendToHome: false,
     counterAlert: 0,
     alertTimeOut: 0,
     timeAlert: 5000,

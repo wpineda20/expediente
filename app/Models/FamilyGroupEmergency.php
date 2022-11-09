@@ -16,9 +16,9 @@ class FamilyGroupEmergency extends Model
 
     protected $fillable = [
         'id',
-        'full_name',
-        'phone',
-        'cell_phone',
+        'emergency_full_name',
+        'emergency_phone',
+        'emergency_cell_phone',
         'kinship_id',
         'employee_id',
     ];

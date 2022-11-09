@@ -86,9 +86,9 @@ class EmployeeController extends Controller
                     $family_group_emergency_data = new FamilyGroupEmergency();
                 }
 
-                $family_group_emergency_data->full_name = $request->full_name;
-                $family_group_emergency_data->phone = $request->phone;
-                $family_group_emergency_data->cell_phone = $request->cell_phone;
+                $family_group_emergency_data->emergency_full_name = $request->emergency_full_name;
+                $family_group_emergency_data->emergency_phone = $request->emergency_phone;
+                $family_group_emergency_data->emergency_cell_phone = $request->emergency_cell_phone;
                 $family_group_emergency_data->kinship_id = Kinship::where('kinship_name', $request->kinship_name)->first()?->id;
                 $family_group_emergency_data->employee_id = $employee->id;
 
@@ -96,6 +96,10 @@ class EmployeeController extends Controller
                 break;
             case 4:
                 AcademicDataController::store($request, $employee->id);
+
+                $employee->subjects_approved = $request->subjects_approved;
+
+                $employee->save();
                 break;
             case 5:
                 dd($request);
@@ -181,6 +185,74 @@ class EmployeeController extends Controller
             ->first();
         $employee->unit_name = $unit?->unit_name;
 
+        //Department and municipality assigned
+        $municipality_assigned_id = DB::table('employee as e')
+            // ->select('mun.municipality_name', 'dep.department_name')
+            ->join('municipalities as mun', 'e.municipality_assigned_id', '=', 'mun.id')
+            ->join('department as dep', 'mun.department_id', '=', 'dep.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->first();
+
+            // dd($municipality_assigned_id);
+        $employee->municipality_assigned_id = $municipality?->municipality_name;
+        $employee->department_name = $municipality?->department_name;
+
+        //Family Group
+        $families = DB::table('family_group as fg')->select(
+            'fg.id',
+            'fg.full_name',
+            'fg.date_birth',
+            'k.kinship_name',
+        )
+        ->join('employee as e', 'fg.employee_id', '=', 'e.id')
+        ->join('kinship as k', 'fg.kinship_id', '=', 'k.id')
+        ->where('e.user_id', auth()->user()->id)
+        ->get();
+
+        $employee->families = $families;
+
+        //Family Group Emergency
+        $family_group_emergency = DB::table('family_group_emergency as fge')
+        ->select(
+            'fge.id',
+            'fge.emergency_full_name',
+            'fge.emergency_phone',
+            'fge.emergency_cell_phone',
+            'k.kinship_name',
+        )
+        ->join('employee as e', 'fge.employee_id', '=', 'e.id')
+        ->join('kinship as k', 'fge.kinship_id', '=', 'k.id')
+        ->where('e.user_id', auth()->user()->id)
+        ->first();
+
+        $employee->emergency_full_name = $family_group_emergency?->emergency_full_name;
+        $employee->emergency_phone = $family_group_emergency?->emergency_phone;
+        $employee->emergency_cell_phone = $family_group_emergency?->emergency_cell_phone;
+        $employee->kinship_name = $family_group_emergency?->kinship_name;
+
+        //Academic Data
+        $academics = DB::table('academic_data as ad')->select(
+            'ad.id',
+            'ad.education_center',
+            'ad.year',
+            'ad.obtained_title',
+            // 'ad.subjects_approved',
+            'al.level_name',
+            )
+        ->join('employee as e', 'ad.employee_id', '=', 'e.id')
+        ->join('academic_level as al', 'ad.academic_level_id', '=', 'al.id')
+        ->where('e.user_id', auth()->user()->id)
+        ->get();
+
+        $employee->academics = $academics;
+
+        $subjects_approved = DB::table('employee as e')
+        ->select('e.subjects_approved')
+        ->where('e.user_id', auth()->user()->id)
+        ->first();
+
+        // dd($subjects_approved);
+        $employee->subjects_approved = $subjects_approved?->subjects_approved;
 
         return response()->json([
             'message' => 'success',

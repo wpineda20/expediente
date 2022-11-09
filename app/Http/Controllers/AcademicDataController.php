@@ -36,7 +36,7 @@ class AcademicDataController extends Controller
                 'education_center' => $level['education_center'],
                 'year' => $level['year'],
                 'obtained_title' => $level['obtained_title'],
-                'subjects_approved' => $request->subjects_approved,
+                // 'subjects_approved' => $request->subjects_approved,
             ]);
         }
     }

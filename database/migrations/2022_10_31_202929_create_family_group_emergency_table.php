@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('family_group_emergency', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('cell_phone')->nullable();
+            $table->string('emergency_full_name')->nullable();
+            $table->string('emergency_phone')->nullable();
+            $table->string('emergency_cell_phone')->nullable();
             $table->foreignId('kinship_id')->nullable()->constrained()->references('id')->on('kinship')->comment('Parentesco');
             $table->foreignId('employee_id')->nullable()->constrained()->references('id')->on('employee')->comment('Empleado');
             $table->softDeletes();

@@ -34,6 +34,7 @@ class Employee extends Model
         'immediate_superior',
         'email_institutional',
         'municipality_assigned_id',
+        'subjects_approved',
     ];
 
      public $hidden = [

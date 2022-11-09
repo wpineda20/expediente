@@ -20,17 +20,21 @@ export default {
             // console.log(this.step);
             if (val != oldVal) {
                 this.getDataForm();
-                // this.employee.idSection = val;
-                // this.setLocalStorage();
+                this.employee.idSection = val;
+                this.setLocalStorage();
             }
 
-            // if (val == 6) {
-            //     this.sendToHome = true;
-            // }
+            if (val == 5) {
+                this.sendToHome = true;
+            }
         },
     },
 
-    created() {},
+    created() {
+        // if (this.userAccess > 1) {
+        //     window.location = "/";
+        // }
+    },
 
     mounted() {
         this.initialize();

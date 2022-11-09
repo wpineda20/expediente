@@ -24,7 +24,6 @@ class AcademicData extends Model
         'education_center',
         'year',
         'obtained_title',
-        'subjects_approved',
     ];
 
     public $timestamps = true;
