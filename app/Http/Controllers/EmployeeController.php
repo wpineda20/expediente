@@ -165,6 +165,22 @@ class EmployeeController extends Controller
             ->first();
         $employee->direction_name = $direction?->direction_name;
 
+        //Subdirection
+        $subdirection = DB::table('employee as e')
+            ->select('s.subdirection_name')
+            ->join('subdirection as s', 'e.subdirection_id', '=', 's.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->first();
+        $employee->subdirection_name = $subdirection?->subdirection_name;
+
+        //Unit
+        $unit = DB::table('employee as e')
+            ->select('u.unit_name')
+            ->join('unit as u', 'e.unit_id', '=', 'u.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->first();
+        $employee->unit_name = $unit?->unit_name;
+
 
         return response()->json([
             'message' => 'success',
