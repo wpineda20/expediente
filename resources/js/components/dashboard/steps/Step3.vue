@@ -111,8 +111,8 @@
       <v-col cols="12" xs="12" sm="12" md="6">
         <base-input
           label="En caso de emergencia llamar"
-          v-model.trim="validation.full_name.$model"
-          :validation="validation.full_name"
+          v-model.trim="validation.emergency_full_name.$model"
+          :validation="validation.emergency_full_name"
           validationTextType="none"
         />
       </v-col>
@@ -130,8 +130,8 @@
       <v-col cols="12" xs="12" sm="12" md="6">
         <base-input
           label="Celular"
-          v-model.trim="validation.cell_phone.$model"
-          :validation="validation.cell_phone"
+          v-model.trim="validation.emergency_cell_phone.$model"
+          :validation="validation.emergency_cell_phone"
           validationTextType="only-numbers"
           v-mask="'####-####'"
         />
@@ -140,8 +140,8 @@
       <v-col cols="12" xs="12" sm="12" md="6">
         <base-input
           label="Teléfono"
-          v-model.trim="validation.phone.$model"
-          :validation="validation.phone"
+          v-model.trim="validation.emergency_phone.$model"
+          :validation="validation.emergency_phone"
           v-mask="'####-####'"
           validationTextType="only-numbers"
         />

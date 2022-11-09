@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('immediate_superior')->nullable();
             $table->string('email_institutional')->nullable();
             $table->integer('municipality_assigned_id')->nullable();
+            $table->integer('subjects_approved')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

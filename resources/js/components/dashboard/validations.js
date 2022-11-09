@@ -97,7 +97,7 @@ const validations = {
             },
         },
         step3: {
-            full_name: {
+            emergency_full_name: {
                 required,
                 minLength: minLength(1),
                 maxLength: maxLength(150),
@@ -107,13 +107,13 @@ const validations = {
                 minLength: minLength(1),
                 maxLength: maxLength(150),
             },
-            phone: {
+            emergency_phone: {
                 isValidNumber: helpers.regex(
                     "isValidNumber",
                     /([0-9]{4}-[0-9]{4})/
                 ),
             },
-            cell_phone: {
+            emergency_cell_phone: {
                 required,
                 isValidNumber: helpers.regex(
                     "isValidNumber",

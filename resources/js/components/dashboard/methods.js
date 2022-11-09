@@ -4,8 +4,8 @@ import { getData, getInfoEmployee, setInfoEmployee } from "../../libs/function";
 export default {
     async initialize() {
         const dataEmployee = await getInfoEmployee();
-
         this.employee = setInfoEmployee(dataEmployee);
+        this.verifyStepStorage();
         // Getting info of the selects by steps
         this.getDataForm();
     },
@@ -70,7 +70,7 @@ export default {
             this.updateAlert(true, data.message, "success");
 
             this.step++;
-            // this.setLocalStorage();
+            this.setLocalStorage();
         }
     },
 
@@ -88,6 +88,16 @@ export default {
             }
             this.alertTimeOut++;
         }
+    },
+
+    setLocalStorage() {
+        window.localStorage.setItem("step", this.step);
+    },
+
+    verifyStepStorage() {
+        const step = window.localStorage.getItem("step");
+
+        this.step = step ? parseInt(step) : 1;
     },
 
     updateAlert(show = false, text = "", event = "success", timeAlert = 5000) {

@@ -102,7 +102,7 @@ export const setInfoEmployee = (employee) => {
             current_address: employee.current_address,
             department_name: employee.department_name,
             municipality_name: employee.municipality_name,
-            vulnerableArea: employee.vulnerableArea == 1 ? "Sí" : "No",
+            vulnerableArea: employee.vulnerable_area == 1 ? "Sí" : "No",
             personal_email: employee.personal_email,
             phone: employee.phone,
             cell_phone: employee.cell_phone,
@@ -116,10 +116,19 @@ export const setInfoEmployee = (employee) => {
             immediate_superior: employee.immediate_superior,
             email_institutional: employee.email_institutional,
             department_name: employee.department_name,
-            municipality_assigned_id: employee.municipality_name,
+            municipality_name: employee.municipality_assigned_id,
         },
-        step3: {},
-        step4: {},
+        step3: {
+            emergency_full_name: employee.emergency_full_name,
+            emergency_phone: employee.emergency_phone,
+            emergency_cell_phone: employee.emergency_cell_phone,
+            kinship_name: employee.kinship_name,
+            families: employee.families,
+        },
+        step4: {
+            academics: employee.academics,
+            subjects_approved: employee.subjects_approved,
+        },
         step5: {},
     };
 };
