@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('family_group', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
-            $table->foreignId('kinship_id')->references('id')->on('kinship')->comment('Parentesco');
-            $table->date('date_birth');
-            $table->foreignId('employee_id')->references('id')->on('employee')->comment('Empleado');
+            $table->string('full_name')->nullable();
+            $table->foreignId('kinship_id')->nullable()->constrained()->references('id')->on('kinship')->comment('Parentesco');
+            $table->date('date_birth')->nullable();
+            $table->foreignId('employee_id')->nullable()->constrained()->references('id')->on('employee')->comment('Empleado');
             $table->softDeletes();
             $table->timestamps();
         });

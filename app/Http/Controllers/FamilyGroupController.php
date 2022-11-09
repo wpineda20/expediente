@@ -27,13 +27,13 @@ class FamilyGroupController extends Controller
     public static function store(array $families, int $employee_id)
     {
         FamilyGroup::where(['employee_id' => $employee_id])->delete();
-        // dd($request->families);
-        foreach ($families as $key => $family) {
+
+        foreach ($families as $key => $fam) {
 
             FamilyGroup::insert([
-                'full_name' => $family['full_name'],
-                'kinship_id' => $family['kinship_name'],
-                'date_birth' => $family['date_birth'],
+                'full_name' => $fam['full_name'],
+                'kinship_id' => Kinship::where('kinship_name', $fam['kinship_name'])->first()?->id,
+                'date_birth' => $fam['date_birth'],
                 'employee_id' => $employee_id,
             ]);
         }

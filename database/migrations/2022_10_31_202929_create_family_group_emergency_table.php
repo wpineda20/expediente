@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('family_group_emergency', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
-            $table->string('phone');
-            $table->string('cell_phone');
-            $table->foreignId('kinship_id')->references('id')->on('kinship')->comment('Parentesco');
-            $table->foreignId('employee_id')->references('id')->on('employee')->comment('Empleado');
+            $table->string('full_name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('cell_phone')->nullable();
+            $table->foreignId('kinship_id')->nullable()->constrained()->references('id')->on('kinship')->comment('Parentesco');
+            $table->foreignId('employee_id')->nullable()->constrained()->references('id')->on('employee')->comment('Empleado');
             $table->softDeletes();
             $table->timestamps();
         });

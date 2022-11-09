@@ -12,6 +12,16 @@ export default {
     },
 };
 
+export const getInfoEmployee = async () => {
+    const { data } = await axios
+        .get("/api/employee/infoUserLoggedIn")
+        .catch((error) => {
+            console.log(error);
+        });
+
+    return data.employee;
+};
+
 export const getData = async (step) => {
     let requests = [];
 
@@ -80,6 +90,38 @@ export const getData = async (step) => {
     }
 
     return await Promise.all(requests);
+};
+
+export const setInfoEmployee = (employee) => {
+    return {
+        idSection: employee.idSection,
+        step1: {
+            full_name: employee.full_name,
+            family_status_name: employee.family_status_name,
+            profession_name: employee.profession_name,
+            current_address: employee.current_address,
+            department_name: employee.department_name,
+            municipality_name: employee.municipality_name,
+            vulnerableArea: employee.vulnerableArea == 1 ? "Sí" : "No",
+            personal_email: employee.personal_email,
+            phone: employee.phone,
+            cell_phone: employee.cell_phone,
+        },
+        step2: {
+            direction_name: employee.direction_name,
+            subdirection_name: employee.subdirection_name,
+            unit_name: employee.unit_name,
+            nominal_fee: employee.nominal_fee,
+            functional_position: employee.functional_position,
+            immediate_superior: employee.immediate_superior,
+            email_institutional: employee.email_institutional,
+            department_name: employee.department_name,
+            municipality_assigned_id: employee.municipality_name,
+        },
+        step3: {},
+        step4: {},
+        step5: {},
+    };
 };
 
 export const httpsValid = helpers.regex("https", /^https:\/\//);

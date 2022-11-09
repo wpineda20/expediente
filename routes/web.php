@@ -105,6 +105,7 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
     });
 
     //Employee
+    Route::get('/api/employee/infoUserLoggedIn', [EmployeeController::class, 'infoEmployeeLoggedIn']);
     Route::post('api/employee', [EmployeeController::class, 'store']);
     Route::get('api/employee', [EmployeeController::class, 'index']);
 
