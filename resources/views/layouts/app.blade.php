@@ -55,10 +55,22 @@
                             </i>
                         </a>
                         <a href="{{ url('/record') }}">
-                            <p class="link mx-auto">Expediente</p>
+                            <p class="link mx-auto">Hoja de datos</p>
                         </a>
                     </li>
                     <!-- Record -->
+                    <!-- Registered Records -->
+                    @if (auth()->user()->hasRole('Administrador') == 'Administrador')
+                    <li class="text-center pb-1">
+                        <a href="{{ url('/registeredRecords') }}" class="text-center">
+                            <i class="material-icons md-18 mx-auto">folder_open</i>
+                        </a>
+                        <a href="{{ url('/registeredRecords') }}">
+                            <p class="link mx-auto">Expedientes</p>
+                        </a>
+                    </li>
+                    @endif
+                    <!-- Registered Records -->
 
                     <!-- Settings -->
                     <!-- Administrative routes -->

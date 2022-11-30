@@ -133,4 +133,14 @@ export const setInfoEmployee = (employee) => {
     };
 };
 
+export const getAllRecords = async () => {
+    const { data } = await axios
+        .get("/api/employee/registeredRecords")
+        .catch((error) => {
+            console.log(error);
+        });
+
+    return data.employee;
+};
+
 export const httpsValid = helpers.regex("https", /^https:\/\//);

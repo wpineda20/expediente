@@ -4,24 +4,38 @@
       <!-- DUI File -->
       <v-col cols="12" xs="12" sm="12" md="6">
         <h6 class="mb-0">Copia de su Documento Único de Identidad.</h6>
-        <input-image
+        <input-file
+          accept="application/pdf"
+          v-model="validation.dui_file.$model"
+          :validation="validation.dui_file"
+          @update-file="validation.dui_file = $event"
+          @file-size-exceeded="$emit('file-size-exceeded', true)"
+        />
+        <!-- <input-image
           v-model="validation.dui_file.$model"
           :validation="validation.dui_file"
           :image="employee.dui_file"
           @update-image="employee.dui_file = $event"
         />
-        <span class="text-left">(Máximo 5MB)</span>
+        <span class="text-left">(Máximo 5MB)</span> -->
       </v-col>
       <!-- Title File -->
       <v-col cols="12" xs="12" sm="12" md="6">
         <h6 class="mb-0">Copia de Título o Diploma si adquirió alguno.</h6>
-        <input-image
+        <input-file
+          accept="application/pdf"
+          v-model="validation.title_file.$model"
+          :validation="validation.title_file"
+          @update-file="validation.title_file = $event"
+          @file-size-exceeded="$emit('file-size-exceeded', true)"
+        />
+        <!-- <input-image
           v-model="validation.title_file.$model"
           :validation="validation.title_file"
           :image="employee.title_file"
           @update-image="employee.title_file = $event"
         />
-        <span class="text-left">(Máximo 5MB)</span>
+        <span class="text-left">(Máximo 5MB)</span> -->
       </v-col>
     </v-row>
     <v-row>

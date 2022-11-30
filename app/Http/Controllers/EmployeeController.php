@@ -103,12 +103,16 @@ class EmployeeController extends Controller
                 break;
             case 5:
                 dd($request);
-                if(FileController::verifyTypeFile($request->dui_file && $request->title_file)){
-                    $fileName = $employee->id;
 
+                if ($request->dui_file) {
+                $employee->dui_file = FileController::base64ToFile($request->dui_file, $request->personal_email . '-'. $request->id, 'dui');
+                }
 
-                 }
+                if ($request->title_file) {
+                $employee->title_file = FileController::base64ToFile($request->title_file, $request->personal_email . '-'. $request->id, 'titles');
+                }
 
+                $employee->save();
                 break;
             default:
                 return response()->json(['message', 'fail']);
@@ -236,7 +240,6 @@ class EmployeeController extends Controller
             'ad.education_center',
             'ad.year',
             'ad.obtained_title',
-            // 'ad.subjects_approved',
             'al.level_name',
             )
         ->join('employee as e', 'ad.employee_id', '=', 'e.id')
@@ -251,7 +254,6 @@ class EmployeeController extends Controller
         ->where('e.user_id', auth()->user()->id)
         ->first();
 
-        // dd($subjects_approved);
         $employee->subjects_approved = $subjects_approved?->subjects_approved;
 
         return response()->json([
@@ -294,5 +296,14 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
         //
+    }
+
+    public function getRegisteredRecords(){
+
+        $registeredRecords = Employee::all();
+
+        dd($registeredRecords);
+
+        return response()->json(['message' => 'success', 'registeredRecords' => $registeredRecords]);
     }
 }

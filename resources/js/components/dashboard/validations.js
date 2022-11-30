@@ -130,11 +130,11 @@ const validations = {
         step5: {
             dui_file: {
                 required,
-                minLength: minLength(1),
+                minLength: minLength(0),
             },
             title_file: {
                 required,
-                minLength: minLength(1),
+                minLength: minLength(0),
             },
         },
     },
