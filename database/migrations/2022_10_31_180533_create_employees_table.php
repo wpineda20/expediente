@@ -34,6 +34,8 @@ return new class extends Migration
             $table->string('email_institutional')->nullable();
             $table->integer('municipality_assigned_id')->nullable();
             $table->integer('subjects_approved')->nullable();
+            $table->string('dui_file', 500)->nullable();
+            $table->string('title_file', 500)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -71,6 +71,18 @@
                     </li>
                     @endif
                     <!-- Registered Records -->
+                    <!-- Profile -->
+                    @if (auth()->user()->hasRole('Administrador') == 'Administrador' || 'Usuario')
+                    <li class="text-center pb-1">
+                        <a href="{{ url('/myRecord') }}" class="text-center">
+                            <i class="material-icons md-18 mx-auto">badge</i>
+                        </a>
+                        <a href="{{ url('/myRecord') }}">
+                            <p class="link mx-auto">Mi Expendiente</p>
+                        </a>
+                    </li>
+                    @endif
+                    <!-- Profile -->
 
                     <!-- Settings -->
                     <!-- Administrative routes -->
@@ -162,25 +174,25 @@
                             @endguest
 
                             <!-- Institution Name -->
-                            {{-- <div class=" col-sm-4 col-md-6 d-none d-md-block d-lg-block d-xl-block">
+                            <div class=" col-sm-4 col-md-6 d-none d-md-block d-lg-block d-xl-block">
                                 <div class="col-4 col-sm-12">
-                                    <a class="navbar-brand" href="{{ url('/') }}">
-                                        <h3 class="text-uppercase pt-4 fw-bold color-secondary mb-0">Name/Logo Brand
+                                    <a class="navbar-brand" href="{{ url('/home') }}">
+                                        <h3 class="text-uppercase pt-4 fw-bold color-secondary mb-0">Expediente
                                         </h3>
                                     </a>
                                 </div>
-                            </div> --}}
+                            </div>
                             <!-- Institution Name -->
 
                             <!-- Logo Brand -->
-                            <div class=" col-sm-4 col-md-6 d-none d-md-block d-lg-block d-xl-block">
+                            {{-- <div class=" col-sm-4 col-md-6 d-none d-md-block d-lg-block d-xl-block">
                                 <div class="col-4 col-sm-12 mb-2">
                                     <a class="navbar-brand" href="{{ url('/home') }}">
                                         <img class="" src="/logos/Logo_GOES_horizontal_D.svg"
                                             style="max-width: 60%" />
                                     </a>
                                 </div>
-                            </div>
+                            </div> --}}
                             <!-- Logo Brand -->
 
                             @guest

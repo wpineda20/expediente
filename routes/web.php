@@ -110,6 +110,11 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
         return view('form.employee');
     });
 
+    //My Record View
+     Route::get('/myRecord', function () {
+        return view('my_record.index');
+    });
+
 
     //Employee
     Route::get('/api/employee/infoUserLoggedIn', [EmployeeController::class, 'infoEmployeeLoggedIn']);

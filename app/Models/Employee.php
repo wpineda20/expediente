@@ -35,6 +35,8 @@ class Employee extends Model
         'email_institutional',
         'municipality_assigned_id',
         'subjects_approved',
+        'dui_file',
+        'title_file',
     ];
 
      public $hidden = [

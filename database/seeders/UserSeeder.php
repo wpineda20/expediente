@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $roleAdmin = Role::findOrFail(1);
-        $roleRRHH = Role::findOrFail(2);
+        $roleUsuario = Role::findOrFail(2);
         $roleEditor = Role::findOrFail(3);
 
         $admin = User::create([
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             'name' => 'Leonel',
             'email_verified_at' => now(),
         ]);
-        $admin->assignRole($roleAdmin);
+        $admin->assignRole($roleEditor);
 
         $user = User::create([
             'id' => 2,
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
             'name' => 'Leonel',
             'email_verified_at' => now(),
         ]);
-        $user->assignRole($roleRRHH);
+        $user->assignRole($roleUsuario);
 
         $user = User::create([
             'id' => 3,

@@ -87,6 +87,8 @@ export const getData = async (step) => {
                 }),
             ];
             break;
+        case 5:
+            break;
     }
 
     return await Promise.all(requests);
@@ -129,18 +131,21 @@ export const setInfoEmployee = (employee) => {
             academics: employee.academics,
             subjects_approved: employee.subjects_approved,
         },
-        step5: {},
+        step5: {
+            dui_file: employee.dui_file,
+            title_file: employee.title_file,
+        },
     };
 };
 
-export const getAllRecords = async () => {
-    const { data } = await axios
-        .get("/api/employee/registeredRecords")
-        .catch((error) => {
-            console.log(error);
-        });
+// export const getAllRecords = async () => {
+//     const { data } = await axios
+//         .get("/api/employee/registeredRecords")
+//         .catch((error) => {
+//             console.log(error);
+//         });
 
-    return data.employee;
-};
+//     return data.employee;
+// };
 
 export const httpsValid = helpers.regex("https", /^https:\/\//);

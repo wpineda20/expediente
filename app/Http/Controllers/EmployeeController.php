@@ -102,14 +102,14 @@ class EmployeeController extends Controller
                 $employee->save();
                 break;
             case 5:
-                dd($request);
+                // dd($request);
 
                 if ($request->dui_file) {
-                $employee->dui_file = FileController::base64ToFile($request->dui_file, $request->personal_email . '-'. $request->id, 'dui');
+                $employee->dui_file = FileController::base64ToFile($request->dui_file, date("Y-m-dHH"), 'dui');
                 }
 
                 if ($request->title_file) {
-                $employee->title_file = FileController::base64ToFile($request->title_file, $request->personal_email . '-'. $request->id, 'titles');
+                $employee->title_file = FileController::base64ToFile($request->title_file, date("Y-m-dHH"), 'titles');
                 }
 
                 $employee->save();

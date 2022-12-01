@@ -64,8 +64,12 @@ export default {
         if (data.success) {
             // Final message for employee
             if (this.step == 5) {
-                this.sendToHome = true;
-                this.timeAlert = 20000;
+                setTimeout(() => {
+                    window.location = "/home";
+                }, 5000);
+
+                // this.sendToHome = true;
+                // this.timeAlert = 20000;
             }
             this.updateAlert(true, data.message, "success");
 

@@ -360,7 +360,7 @@ class MunicipalitiesSeeder extends Seeder
             ],
             [
                 "id" => 225,
-                "municipality_name" => "#N/D",
+                "municipality_name" => "Santo Domingo de Guzman",
                 "mun_min" => "Santo Domingo de Guzman",
                 "mun_may" => "SANTO DOMINGO DE GUZMAN",
                 "dm_cod" => "0314",

@@ -8,7 +8,7 @@
           accept="application/pdf"
           v-model="validation.dui_file.$model"
           :validation="validation.dui_file"
-          @update-file="validation.dui_file = $event"
+          @update-file="employee.dui_file = $event"
           @file-size-exceeded="$emit('file-size-exceeded', true)"
         />
         <!-- <input-image
@@ -26,7 +26,7 @@
           accept="application/pdf"
           v-model="validation.title_file.$model"
           :validation="validation.title_file"
-          @update-file="validation.title_file = $event"
+          @update-file="employee.title_file = $event"
           @file-size-exceeded="$emit('file-size-exceeded', true)"
         />
         <!-- <input-image
