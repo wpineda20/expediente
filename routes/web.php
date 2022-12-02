@@ -117,9 +117,12 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
 
 
     //Employee
-    Route::get('/api/employee/infoUserLoggedIn', [EmployeeController::class, 'infoEmployeeLoggedIn']);
+    Route::get('api/employee/infoUserLoggedIn', [EmployeeController::class, 'infoEmployeeLoggedIn']);
     Route::post('api/employee', [EmployeeController::class, 'store']);
     Route::get('api/employee', [EmployeeController::class, 'index']);
+
+    //MyRecord
+    Route::get('api/employee/myRecord', [EmployeeController::class, 'recordInfoEmployee']);
 
 
     //Reports

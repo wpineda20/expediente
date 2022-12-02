@@ -65,7 +65,7 @@ export default {
             // Final message for employee
             if (this.step == 5) {
                 setTimeout(() => {
-                    window.location = "/home";
+                    window.location = "/myRecord";
                 }, 5000);
 
                 // this.sendToHome = true;

@@ -13,6 +13,7 @@ use App\Models\Unit;
 use App\Models\WorkData;
 use App\Models\Kinship;
 use App\Models\FamilyGroupEmergency;
+use Storage;
 
 use Illuminate\Http\Request;
 
@@ -105,11 +106,11 @@ class EmployeeController extends Controller
                 // dd($request);
 
                 if ($request->dui_file) {
-                $employee->dui_file = FileController::base64ToFile($request->dui_file, date("Y-m-dHH"), 'dui');
+                $employee->dui_file = FileController::base64ToFile($request->dui_file, date("Y-m-d") . '-dui', 'dui');
                 }
 
                 if ($request->title_file) {
-                $employee->title_file = FileController::base64ToFile($request->title_file, date("Y-m-dHH"), 'titles');
+                $employee->title_file = FileController::base64ToFile($request->title_file, date("Y-m-d") . '-title', 'titles');
                 }
 
                 $employee->save();
@@ -306,4 +307,86 @@ class EmployeeController extends Controller
 
         return response()->json(['message' => 'success', 'registeredRecords' => $registeredRecords]);
     }
+
+    /**
+     * Get All Information For Employee Record
+     *
+     * @param  \App\Models\Employee  $employee
+     * @return \Illuminate\Http\Response
+     */
+    public function recordInfoEmployee()
+    {
+        $recordInfoEmployee = DB::table('employee as e')
+        ->select(
+            'e.*',
+            'fs.family_status_name as family_status_id',
+            'p.profession_name as profession_id',
+            'm.municipality_name as municipality_id',
+            'd.department_name',
+            'di.direction_name as direction_id',
+            'sub.subdirection_name as subdirection_id',
+            'u.unit_name as unit_id',
+            'mu.municipality_name as municipality_assigned_id',
+            'de.department_name as department_assigned_id',
+            'fge.emergency_full_name',
+            'fge.emergency_phone',
+            'fge.emergency_cell_phone',
+            'k.kinship_name as emergency_kinship_id',
+        )
+
+        ->join('family_status as fs', 'e.family_status_id', '=', 'fs.id')
+        ->join('profession as p', 'e.profession_id', '=', 'p.id')
+        ->join('municipalities as m', 'e.municipality_id', '=', 'm.id')
+        ->join('department as d', 'm.department_id', '=', 'd.id')
+        ->join('direction as di', 'e.direction_id', '=', 'di.id')
+        ->join('subdirection as sub', 'e.subdirection_id', '=', 'sub.id')
+        ->join('unit as u', 'e.unit_id', '=', 'u.id')
+        ->join('municipalities as mu', 'e.municipality_assigned_id', '=', 'mu.id')
+        ->join('department as de', 'mu.department_id', '=', 'de.id')
+        ->join('family_group_emergency as fge', 'e.id', '=', 'fge.kinship_id')
+        ->join('kinship as k', 'fge.kinship_id', '=', 'k.id')
+        ->where('e.user_id', auth()->user()->id)
+        ->first();
+
+        dd($recordInfoEmployee);
+
+
+        if(isset($recordInfoEmployee->dui_file)){
+
+            $fullUrlDuiFile = asset($recordInfoEmployee->dui_file);
+
+            $recordInfoEmployee->dui_file = $fullUrlDuiFile;
+        }
+
+        if(isset($recordInfoEmployee->title_file)){
+
+            $fullUrlTitleFile = asset($recordInfoEmployee->title_file);
+
+            $recordInfoEmployee->title_file = $fullUrlTitleFile;
+        }
+
+        //Family Group
+        $familyGroup = DB::table('family_group as fg')
+            ->select('fg.*', 'k.kinship_name as kinship_id')
+            ->join('employee as e', 'fg.employee_id', '=', 'e.id')
+            ->join('kinship as k', 'fg.kinship_id', '=', 'k.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->get();
+            $recordInfoEmployee->familyGroup = $familyGroup;
+
+        //Academic Data
+        $academicData = DB::table('academic_data as ad')
+        ->select('ad.*', 'al.level_name as academic_level_id')
+        ->join('employee as e', 'ad.employee_id', '=', 'e.id')
+        ->join('academic_level as al', 'ad.academic_level_id', '=', 'al.id')
+        ->where('e.user_id', auth()->user()->id)
+        ->get();
+
+        $recordInfoEmployee->academics = $academicData;
+
+            // dd($recordInfoEmployee);
+
+        return response()->json(['message' => 'success', 'recordInfoEmployee' => $recordInfoEmployee]);
+    }
+
 }
