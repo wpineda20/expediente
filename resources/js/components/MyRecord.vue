@@ -18,13 +18,13 @@
           <v-row>
             <v-col cols="12" md="12" sm="12">
               <div class="record-header">
-                <!-- <div class="record-logo">
-                        <img
-                          class="mx-auto"
-                          src="/logos/cultura_logo.jpg"
-                          style="width: 280px"
-                        />
-                      </div> -->
+                <div class="record-logo">
+                  <img
+                    class="mx-auto"
+                    src="/logos/cultura_logo.jpg"
+                    style="width: 260px"
+                  />
+                </div>
                 <div class="record-titles">
                   <p class="mb-0 fw-bold">MINISTERIO DE CULTURA</p>
                   <p class="fw-bold">UNIDAD DE TALENTO HUMANO</p>
@@ -320,7 +320,6 @@
                         </td>
                       </tr>
                       <tr
-                        style="border-bottom-color: #fff !important"
                         v-for="(academic, index) in employeeRecord.academics"
                         :key="index"
                       >
