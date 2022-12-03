@@ -59,14 +59,12 @@ export default {
         },
     },
 
-    // searchProfession: "",
     textAlert: "",
     showAlert: false,
     alertEvent: "success",
-    sectionDelete: "",
     redirectSessionFinished: false,
-    sendToHome: false,
     counterAlert: 0,
+    sendToHome: false,
     alertTimeOut: 0,
     timeAlert: 5000,
 };

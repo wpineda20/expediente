@@ -348,8 +348,6 @@ class EmployeeController extends Controller
         ->where('e.user_id', auth()->user()->id)
         ->first();
 
-        dd($recordInfoEmployee);
-
 
         if(isset($recordInfoEmployee->dui_file)){
 

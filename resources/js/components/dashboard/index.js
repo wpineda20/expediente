@@ -23,7 +23,6 @@ export default {
                 this.employee.idSection = val;
                 this.setLocalStorage();
             }
-
             if (val == 5) {
                 this.sendToHome = true;
             }

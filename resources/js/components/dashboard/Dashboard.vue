@@ -169,6 +169,19 @@
           />
         </v-stepper-content>
         <!-- Anexar Documentos -->
+        <v-container v-if="sendToHome">
+          <v-row>
+            <v-col cols="12" sm="12" md="12" align="center">
+              <a
+                class="btn btn-normal-close mb-3 pl-5 pr-5"
+                href="/myRecord"
+                @click="setInitForm()"
+              >
+                Ir al expediente
+              </a>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-app>
     </v-stepper>
     <v-card v-else class="card-rounded">
