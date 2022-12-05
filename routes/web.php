@@ -56,6 +56,8 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
         Route::resource('/api/web/familyStatus', FamilyStatusController::class);
         Route::delete('/api/web/familyStatus', [FamilyStatusController::class, 'destroy']);
 
+
+
         // Views
         Route::get('/departments', function () {
             return view('department.index');
@@ -99,15 +101,36 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
 
     });
 
+    Route::get('/registeredRecords', function () {
+        return view('registered_records.index');
+    });
+
+    //All Records
+    Route::get('api/employee/registeredRecords', [EmployeeController::class, 'getRegisteredRecords']);
+    //Registered Record By Id
+    Route::get('api/registeredRecordById', [EmployeeController::class, 'registeredRecordById']);
+    //Search Registered Records
+    Route::post('api/employee/registeredRecords/search', [EmployeeController::class, 'searchRegisteredRecords']);
+
     //Record View
     Route::get('/record', function () {
         return view('form.employee');
     });
 
+    //My Record View
+     Route::get('/myRecord', function () {
+        return view('my_record.index');
+    });
+
+
     //Employee
-    Route::get('/api/employee/infoUserLoggedIn', [EmployeeController::class, 'infoEmployeeLoggedIn']);
+    Route::get('api/employee/infoUserLoggedIn', [EmployeeController::class, 'infoEmployeeLoggedIn']);
     Route::post('api/employee', [EmployeeController::class, 'store']);
     Route::get('api/employee', [EmployeeController::class, 'index']);
+
+    //MyRecord
+    Route::get('api/employee/myRecord', [EmployeeController::class, 'recordInfoEmployee']);
+
 
     //Reports
     Route::get('generate-pdf', [PDFController::class, 'generatePDF']);

@@ -52,20 +52,19 @@ export default {
             subjects_approved: "",
             academics: [],
         },
+
         step5: {
             dui_file: "",
             title_file: "",
         },
     },
 
-    // searchProfession: "",
     textAlert: "",
     showAlert: false,
     alertEvent: "success",
-    sectionDelete: "",
     redirectSessionFinished: false,
-    sendToHome: false,
     counterAlert: 0,
+    sendToHome: false,
     alertTimeOut: 0,
     timeAlert: 5000,
 };

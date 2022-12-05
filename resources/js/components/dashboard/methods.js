@@ -6,6 +6,7 @@ export default {
         const dataEmployee = await getInfoEmployee();
         this.employee = setInfoEmployee(dataEmployee);
         this.verifyStepStorage();
+
         // Getting info of the selects by steps
         this.getDataForm();
     },
@@ -43,10 +44,6 @@ export default {
         this.loading = false;
     },
 
-    changeStepSection(step = 1) {
-        this.step = step;
-    },
-
     async saveData() {
         this.employee["step" + this.step].idSection = this.step;
 
@@ -65,7 +62,7 @@ export default {
             // Final message for employee
             if (this.step == 5) {
                 this.sendToHome = true;
-                this.timeAlert = 20000;
+                this.timeAlert = 5000;
             }
             this.updateAlert(true, data.message, "success");
 
@@ -73,13 +70,6 @@ export default {
             this.setLocalStorage();
         }
     },
-
-    // calculateDate() {
-    //     let today = new Date();
-    //     let year = today.getFullYear() - 18;
-    //     let date = today.setFullYear(year);
-    //     return new Date(date).toISOString();
-    // },
 
     verifySessionFinished(status, code) {
         if (status == code) {
@@ -98,6 +88,17 @@ export default {
         const step = window.localStorage.getItem("step");
 
         this.step = step ? parseInt(step) : 1;
+    },
+
+    changeStepSection(step = 1) {
+        // console.log(this.employee);
+        // if (this.employee.dui_file != "" || this.employee.title_file != "") {
+        this.step = step;
+        // }
+    },
+
+    setInitForm() {
+        localStorage.clear();
     },
 
     updateAlert(show = false, text = "", event = "success", timeAlert = 5000) {
