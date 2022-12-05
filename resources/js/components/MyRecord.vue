@@ -367,11 +367,11 @@
                 ><li>Copia de Título o Diploma si adquirió alguno.</li>
               </a>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
+            <!-- <v-col cols="12" md="12" sm="12">
               <v-btn color="btn-normal no-uppercase mt-3" rounded>
                 Imprimir expediente
               </v-btn>
-            </v-col>
+            </v-col> -->
           </v-row>
         </div>
       </v-col>
@@ -404,6 +404,7 @@ export default {
       this.loading = true;
       const res = await axios.get("/api/employee/myRecord").catch((error) => {
         this.verifySessionFinished(error, 401);
+        window.location = "/record";
       });
 
       if (res.data.recordInfoEmployee === null) {

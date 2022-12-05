@@ -1,213 +1,208 @@
 <template>
-  <div data-app>
-    <alert-time-out
-      :redirect="redirectSessionFinished"
-      @redirect="updateTimeOut($event)"
-    />
-    <alert
-      :text="textAlert"
-      :event="alertEvent"
-      :show="showAlert"
-      @show-alert="updateAlert($event)"
-      class="mb-2"
-    />
-    <v-data-table
-      :headers="headers"
-      :items="recordsFiltered"
-      sort-by="name"
-      class="elevation-3 shadow p-3 mt-3"
-    >
-      <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title>Expedientes</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <!-- Modal -->
-          <template v-slot:activator="{}">
-            <v-row>
-              <v-col align="end"> </v-col>
-              <v-col xs="6" sm="12" md="6" class="d-none d-md-block d-lg-block">
-                <v-text-field
-                  dense
-                  label="Buscar"
-                  outlined
-                  type="text"
-                  class=""
-                  v-model="search"
-                  @keyup="searchValue()"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-          </template>
-        </v-toolbar>
-      </template>
-      <template v-slot:[`item.actions`]="{ item }">
-        <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(item)"
-              v-bind="attrs"
-              v-on="on"
+  <v-container fluid>
+    <alert-time-out :key="alertTimeOut" :redirect="redirectSessionFinished" />
+    <div data-app>
+      <v-container fluid>
+        <div v-if="!loading">
+          <v-card>
+            <v-card-title>
+              <v-row>
+                <v-col align="start" cols="12" xs="12" sm="6" md="6">
+                  {{ title }}
+                </v-col>
+                <v-spacer></v-spacer>
+                <v-col
+                  xs="6"
+                  sm="6"
+                  md="6"
+                  class="d-none d-md-block d-lg-block"
+                >
+                  <v-text-field
+                    dense
+                    label="Buscar"
+                    outlined
+                    type="text"
+                    class=""
+                    v-model="search"
+                    @keyup="searchUser()"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-card-title>
+            <v-data-table
+              :headers="headers"
+              :items="registeredRecords"
+              :options.sync="options"
+              :server-items-length="total"
+              :footer-props="{ itemsPerPageOptions: [50] }"
+              :items-per-page="take"
+              @update:options="updatePagination"
+              :page.sync="actualPage"
+              :single-expand="singleExpand"
+              :expanded.sync="expanded"
+              item-key="employee_id"
+              show-expand
+              class="elevation-1"
             >
-              mdi-eye
-            </v-icon>
-          </template>
-          <span>Ver detalles</span>
-        </v-tooltip>
-        <!-- <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-            <a target="_blank">
-              <v-icon
-                small
-                class="mr-2"
-                v-bind="attrs"
-                v-on="on"
-                @click="downloadProcedures()"
-              >
-                mdi-download
-              </v-icon>
-            </a>
-          </template>
-          <span>Descargar resolución</span>
-        </v-tooltip> -->
-      </template>
-
-      <template v-slot:no-data>
-        <a
-          href="#"
-          class="btn btn-normal-secondary no-decoration"
-          @click="initialize"
-        >
-          Reiniciar
-        </a>
-      </template>
-    </v-data-table>
-  </div>
+              <template v-slot:expanded-item="{ headers, item }">
+                <td :colspan="headers.length" class="w-100">
+                  <record-registered
+                    :registeredRecordSelected="item.employee_id"
+                    :key="item.employee_id"
+                  />
+                </td>
+              </template>
+            </v-data-table>
+          </v-card>
+        </div>
+        <v-row v-else class="mt-3">
+          <v-col cols="12" xs="12" sm="12" md="12" align="center">
+            <loader />
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+  </v-container>
 </template>
 
 <script>
-// import activityApi from "../apis/activityApi";
-
-import lib from "../libs/function";
+import axios from "axios";
 
 export default {
-  data: () => ({
-    search: "",
-    dialog: false,
-    dialogDelete: false,
-    headers: [
-      { text: "NOMBRE", value: "full_name" },
-      { text: "CORREO PERSONAL", value: "personal_email" },
-      { text: "CELULAR", value: "cell_phone" },
-      { text: "CARGO", value: "nominal_fee" },
-      { text: "PROFESIÓN", value: "profession_name" },
-      { text: "ACCIÓN", value: "actions", sortable: false },
-    ],
-    records: [],
-    recordsFiltered: [],
-    editedIndex: -1,
-    editedItem: {
-      full_name: "",
-      personal_email: "",
-      cell_phone: "",
-      nominal_fee: "",
-      profession_name: "",
-    },
-    defaultItem: {
-      full_name: "",
-      personal_email: "",
-      cell_phone: "",
-      nominal_fee: "",
-      profession_name: "",
-    },
-    resetForm: false,
-    failedForm: false,
-    saveForm: false,
-    closeForm: false,
-    dialogActions: false,
-    role: "",
-    textAlert: "",
-    alertEvent: "success",
-    showAlert: false,
-    redirectSessionFinished: false,
-  }),
-
-  computed: {},
-
-  watch: {
-    dialog(val) {
-      val || this.close();
-    },
+  data() {
+    return {
+      search: "",
+      singleExpand: true,
+      headers: [
+        // {
+        //   text: "NOMBRE COMPLETO",
+        //   align: "start",
+        //   sortable: true,
+        //   value: "full_name",
+        // },
+        { text: "NOMBRE", value: "full_name" },
+        { text: "CORREO PERSONAL", value: "personal_email" },
+        { text: "CELULAR", value: "cell_phone" },
+        { text: "CARGO", value: "nominal_fee" },
+        //   { text: "PROFESIÓN", value: "profession_name" },
+        //   { text: "ACCIÓN", value: "actions", sortable: false },
+      ],
+      registeredRecords: [],
+      registeredRecordSelected: "",
+      counter: 0,
+      loading: false,
+      dialog: false,
+      skip: 0,
+      take: 50,
+      title: "Expedientes",
+      numberItemsToAdd: 50,
+      total: 0,
+      loadMoreItems: false,
+      options: {},
+      actualPage: 1,
+      expanded: [],
+      redirectSessionFinished: false,
+      alertTimeOut: 0,
+    };
   },
 
-  created() {
-    this.initialize();
+  watch: {
+    options: {
+      handler() {
+        this.loadMore();
+      },
+      deep: false,
+    },
   },
 
   methods: {
-    async initialize() {
-      this.records = [];
-      this.recordsFiltered = [];
-
-      let requests = [activityApi.get(`/theaterUserRequets`)];
-      let responses = await Promise.all(requests).catch((error) => {
-        this.updateAlert(true, "No fue posible obtener los registros.", "fail");
-        this.redirectSessionFinished = lib.verifySessionFinished(
-          error.response.status,
-          401
-        );
-      });
-      this.records = responses[0].data.theaterUserRequets;
-      //   this.rooms = responses[1].data.rooms;
-
-      this.recordsFiltered = this.records;
+    initializeVerification() {
+      this.dialog = true;
     },
 
-    editItem(item) {
-      this.dialogActions = true;
-      this.editedIndex = this.recordsFiltered.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+    async getRegisteredRecord(id) {
+      this.registeredRecordSelected = id;
+      this.counter++;
     },
 
-    searchValue() {
-      this.recordsFiltered = [];
-
-      if (this.search != "") {
-        this.records.forEach((record) => {
-          let searchConcat = "";
-          for (let i = 0; i < record.activity_name.length; i++) {
-            searchConcat += record.activity_name[i].toUpperCase();
-            if (
-              searchConcat === this.search.toUpperCase() &&
-              !this.recordsFiltered.some((rec) => rec == record)
-            ) {
-              this.recordsFiltered.push(record);
-            }
-          }
-        });
-        return;
+    async loadMore() {
+      if (this.actualPage == 1) {
+        this.actualPage = 1;
+        this.skip = 0;
+        this.take = this.numberItemsToAdd;
       }
+      const res = await axios
+        .get("api/employee/registeredRecords", {
+          params: { skip: this.skip, take: this.take },
+        })
+        .catch((error) => {
+          this.verifySessionFinished(error.response.status, 401);
+          this.alertTimeOut++;
+        });
 
-      this.recordsFiltered = this.records;
+      this.verifySessionFinished(res.status, 200);
+      this.alertTimeOut++;
+
+      this.registeredRecords = res.data.registeredRecords;
+      this.total = res.data.total;
     },
 
-    close() {
-      this.dialogActions = false;
-      this.$nextTick(() => {
-        this.editedItem = this.defaultItem;
-        this.editedIndex = -1;
-      });
+    updatePagination(pagination) {
+      if (pagination.page != 1) {
+        // Si la página es distinta de 1, verifica los datos a tomar y quitar
+        if (pagination.page <= this.actualPage) {
+          //Si la página es menor que la actual, se está retrocediendo
+          this.take = this.skip;
+          this.skip = this.take - this.numberItemsToAdd;
+        } else {
+          //Sino, se está aumentando en la cantidad de usuarios por ver
+          this.skip = this.take;
+          this.take += this.numberItemsToAdd;
+        }
+      } else {
+        //Si es igual a cero, es la vista inicial
+        this.skip = 0;
+        this.take = this.numberItemsToAdd;
+      }
+      this.actualPage = pagination.page;
+      //   console.log(this.skip, this.take);
     },
 
-    updateAlert(show = false, text = "Alerta", event = "success") {
-      this.textAlert = text;
-      this.alertEvent = event;
-      this.showAlert = show;
+    async searchUser() {
+      clearTimeout(this.timeOut);
+      this.timeOut = setTimeout(async () => {
+        this.skip = 0;
+        this.take = this.numberItemsToAdd;
+
+        if (this.search == "") {
+          this.loadMore();
+          return;
+        }
+
+        const res = await axios
+          .post("api/employee/registeredRecords/search", {
+            skip: this.skip,
+            take: this.take,
+            search: this.search,
+          })
+          .catch((error) => {
+            this.verifySessionFinished(error.response.status, 419);
+          });
+
+        this.verifySessionFinished(res.status, 200);
+        this.registeredRecords = res.data.registeredRecords;
+        this.total = res.data.total;
+        this.alertTimeOut++;
+      }, 750);
     },
 
-    updateTimeOut(event) {
-      this.redirectSessionFinished = event;
+    verifySessionFinished(status, code) {
+      if (status == code) {
+        if (status == 419 || status == 401) {
+          this.redirectSessionFinished = true;
+        }
+        this.alertTimeOut++;
+      }
     },
   },
 };

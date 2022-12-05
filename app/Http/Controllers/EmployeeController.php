@@ -13,6 +13,8 @@ use App\Models\Unit;
 use App\Models\WorkData;
 use App\Models\Kinship;
 use App\Models\FamilyGroupEmergency;
+use App\Models\FamilyGroup;
+use App\Models\AcademicData;
 use Storage;
 
 use Illuminate\Http\Request;
@@ -299,13 +301,30 @@ class EmployeeController extends Controller
         //
     }
 
-    public function getRegisteredRecords(){
+      /**
+     * Gets All Registered Records
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getRegisteredRecords(Request $request){
 
-        $registeredRecords = Employee::all();
+        $skip = $request->skip;
+        $limit = $request->take - $skip; // the limit
 
-        dd($registeredRecords);
+        $registeredRecords = Employee::select('*', 'employee.id as employee_id')
+        ->skip($skip)
+        ->take($limit)
+        ->get();
 
-        return response()->json(['message' => 'success', 'registeredRecords' => $registeredRecords]);
+        $total = Employee::count();
+        // dd($total);
+
+        return response()->json([
+            'message' => 'success',
+            'registeredRecords' => $registeredRecords,
+            'total' => $total
+        ]);
     }
 
     /**
@@ -386,5 +405,127 @@ class EmployeeController extends Controller
 
         return response()->json(['message' => 'success', 'recordInfoEmployee' => $recordInfoEmployee]);
     }
+
+     /**
+     * Search Registered Records
+     *
+     * @param  \App\Models\Employee  $employee
+     * @return \Illuminate\Http\Response
+     */
+    public function searchRegisteredRecords(Request $request){
+
+        //  dd($request->search);
+        $registeredRecords = Employee::select(
+            'employee.full_name',
+            'employee.personal_email',
+            'employee.cell_phone',
+            'employee.nominal_fee',
+            'employee.id as employee_id'
+        )
+            ->where('employee.full_name', 'like', '%' . $request->search . '%')
+            ->orWhere('employee.personal_email', 'like', '%' . $request->search . '%')
+            ->orWhere('employee.nominal_fee', 'like', '%' . $request->search . '%')
+            ->get();
+
+
+        return response()->json([
+            'message' => 'success',
+            'registeredRecords' => $registeredRecords,
+        ]);
+    }
+
+    /**
+     * Gets all the information of the registered record which be found by the ID
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+     public function registeredRecordById(Request $request){
+
+
+         $record = Employee::where('id', $request->id)->first();
+
+         $registeredRecords = DB::table('employee as e')
+         ->select(
+            'e.*',
+            'fs.family_status_name',
+            'p.profession_name',
+            'm.municipality_name',
+            'd.department_name',
+            'mu.municipality_name as municipality_assigned_id',
+            'de.department_name as department_assigned_id',
+            'di.direction_name',
+            'sub.subdirection_name',
+            'u.unit_name',
+            'fge.emergency_full_name',
+            'fge.emergency_phone',
+            'fge.emergency_cell_phone',
+            'k.kinship_name as emergency_kinship_id',
+            )
+         ->join('family_status as fs', 'e.family_status_id', '=', 'fs.id')
+         ->join('profession as p', 'e.profession_id', '=', 'p.id')
+         ->join('municipalities as m', 'e.municipality_id', '=', 'm.id')
+         ->join('department as d', 'm.department_id', '=', 'd.id')
+         // Department & Municipality Assigned
+         ->join('municipalities as mu', 'e.municipality_assigned_id', '=', 'mu.id')
+         ->join('department as de', 'mu.department_id', '=', 'de.id')
+         ->join('direction as di', 'e.direction_id', '=', 'di.id')
+         ->join('subdirection as sub', 'e.subdirection_id', '=', 'sub.id')
+         ->join('unit as u', 'e.unit_id', '=', 'u.id')
+         ->join('family_group_emergency as fge', 'e.id', '=', 'fge.kinship_id')
+         ->join('kinship as k', 'fge.kinship_id', '=', 'k.id')
+         ->where('e.id', $request->id)
+         ->first();
+
+        if(isset($registeredRecords->dui_file)){
+
+            $fullUrlDuiFile = asset($registeredRecords->dui_file);
+
+            $registeredRecords->dui_file = $fullUrlDuiFile;
+        }
+
+        if(isset($registeredRecords->title_file)){
+
+            $fullUrlTitleFile = asset($registeredRecords->title_file);
+
+            $registeredRecords->title_file = $fullUrlTitleFile;
+        }
+
+        // Getting all the family group of the employee
+        $familyGroup = FamilyGroup::select(
+            'family_group.id',
+            'family_group.full_name',
+            'family_group.date_birth',
+            'k.kinship_name as kinship_id',
+        )
+        ->join('employee as e', 'family_group.employee_id', '=', 'e.id')
+        ->join('kinship as k', 'family_group.kinship_id', '=', 'k.id')
+        ->where('e.id', $request->id)
+        ->get();
+
+        $academicData = AcademicData::select(
+            'academic_data.id',
+            'academic_data.academic_level_id',
+            'academic_data.education_center',
+            'academic_data.year',
+            'academic_data.obtained_title',
+            'al.level_name as academic_level_id',
+            )
+        ->join('employee as e', 'academic_data.employee_id', '=', 'e.id')
+        ->join('academic_level as al', 'academic_data.academic_level_id', '=', 'al.id')
+        ->where('e.id', $request->id)
+        ->get();
+        // dd($academicData);
+
+
+         return response()->json([
+            'message' => 'success',
+            'registeredRecords' => $registeredRecords,
+            'families' => $familyGroup,
+            'academics' => $academicData,
+        ]);
+
+     }
 
 }
