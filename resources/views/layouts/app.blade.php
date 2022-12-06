@@ -60,7 +60,7 @@
                     </li>
                     <!-- Record -->
                     <!-- My Record -->
-                    @if (auth()->user()->hasRole('Administrador') == 'Administrador' || 'Usuario')
+                    {{-- @if (auth()->user()->hasRole('Administrador') == 'Administrador' || 'Usuario' || 'Editor') --}}
                     <li class="text-center pb-1">
                         <a href="{{ url('/myRecord') }}" class="text-center">
                             <i class="material-icons md-18 mx-auto">badge</i>
@@ -69,10 +69,10 @@
                             <p class="link mx-auto">Mi Expendiente</p>
                         </a>
                     </li>
-                    @endif
+                    {{-- @endif --}}
                     <!-- My Record -->
                     <!-- Registered Records -->
-                    @if (auth()->user()->hasRole('Administrador') == 'Administrador' || 'Editor')
+                    @if (auth()->user()->hasRole('Administrador') == 'Administrador' || auth()->user()->hasRole('Editor') == 'Editor')
                     <li class="text-center pb-1">
                         <a href="{{ url('/registeredRecords') }}" class="text-center">
                             <i class="material-icons md-18 mx-auto">folder_open</i>
