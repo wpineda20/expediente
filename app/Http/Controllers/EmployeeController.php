@@ -315,6 +315,7 @@ class EmployeeController extends Controller
         $registeredRecords = Employee::select('*', 'employee.id as employee_id')
         ->skip($skip)
         ->take($limit)
+        ->whereNotNull ('employee.full_name')
         ->get();
 
         $total = Employee::count();
