@@ -35,6 +35,7 @@ Route::get('/', function () {
 Auth::routes(['verify' => true, 'remember_me' => false]);
 
 Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], function () {
+    //Administrador
     Route::group(['middleware' => ['has.role:Administrador']], function () {
         // Apis
         Route::resource('/api/web/department', DepartmentController::class);
@@ -99,18 +100,25 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
             return view('family_status.index');
         });
 
+
+
     });
 
-    Route::get('/registeredRecords', function () {
-        return view('registered_records.index');
+    //Administrador & Editor
+    Route::group(['middleware' => ['has.role:Administrador,Editor']], function () {
+
+        Route::get('/registeredRecords', function () {
+            return view('registered_records.index');
+        });
+
+        //All Records
+        Route::get('api/employee/registeredRecords', [EmployeeController::class, 'getRegisteredRecords']);
+        //Registered Record By Id
+        Route::get('api/registeredRecordById', [EmployeeController::class, 'registeredRecordById']);
+        //Search Registered Records
+        Route::post('api/employee/registeredRecords/search', [EmployeeController::class, 'searchRegisteredRecords']);
     });
 
-    //All Records
-    Route::get('api/employee/registeredRecords', [EmployeeController::class, 'getRegisteredRecords']);
-    //Registered Record By Id
-    Route::get('api/registeredRecordById', [EmployeeController::class, 'registeredRecordById']);
-    //Search Registered Records
-    Route::post('api/employee/registeredRecords/search', [EmployeeController::class, 'searchRegisteredRecords']);
 
     //Record View
     Route::get('/record', function () {
