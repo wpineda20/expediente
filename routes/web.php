@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
     //Administrador & Editor
     Route::group(['middleware' => ['has.role:Administrador,Editor']], function () {
 
+        //Registered Records View
         Route::get('/registeredRecords', function () {
             return view('registered_records.index');
         });
