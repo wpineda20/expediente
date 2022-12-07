@@ -336,6 +336,8 @@ class EmployeeController extends Controller
      */
     public function recordInfoEmployee()
     {
+
+        // dd(auth()->user()->id);
         $recordInfoEmployee = DB::table('employee as e')
         ->select(
             'e.*',
@@ -368,6 +370,7 @@ class EmployeeController extends Controller
         ->where('e.user_id', auth()->user()->id)
         ->first();
 
+        // dd($recordInfoEmployee);
 
         if(isset($recordInfoEmployee->dui_file)){
 

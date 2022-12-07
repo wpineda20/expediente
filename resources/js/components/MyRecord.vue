@@ -297,7 +297,13 @@
               </v-row>
             </v-col>
             <v-col cols="12" md="12" sm="12">
-              <v-row style="border: solid 2px #000; margin-bottom: 5px">
+              <v-row
+                style="
+                  border: solid 2px #000;
+                  margin-bottom: 5px;
+                  border-bottom: none;
+                "
+              >
                 <h5 class="text-center fw-bold bg-black mb-0">
                   IV. FORMACIÓN ACADÉMICA ( NIVEL EDUCATIVO OBTENIDO )
                 </h5>
@@ -404,21 +410,16 @@ export default {
       this.loading = true;
       const res = await axios.get("/api/employee/myRecord").catch((error) => {
         this.verifySessionFinished(error, 401);
-        window.location = "/record";
       });
 
-      if (res.data.recordInfoEmployee === null) {
-        window.location = "/record";
-      } else {
-        this.employeeRecord = res.data.recordInfoEmployee;
+      this.employeeRecord = res.data.recordInfoEmployee;
 
-        if (this.employeeRecord.vulnerable_area === 1) {
-          this.employeeRecord.vulnerable_area = "SÍ";
-        } else {
-          this.employeeRecord.vulnerable_area = "NO";
-        }
-        this.loading = false;
+      if (this.employeeRecord.vulnerable_area === 1) {
+        this.employeeRecord.vulnerable_area = "SÍ";
+      } else {
+        this.employeeRecord.vulnerable_area = "NO";
       }
+      this.loading = false;
     },
     verifySessionFinished(error, code) {
       if (error.response.status == code) {
