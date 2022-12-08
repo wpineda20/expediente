@@ -84,6 +84,7 @@ export default {
         { text: "CORREO PERSONAL", value: "personal_email" },
         { text: "CELULAR", value: "cell_phone" },
         { text: "CARGO", value: "nominal_fee" },
+        { text: "ESTADO", value: "status_name" },
         //   { text: "PROFESIÓN", value: "profession_name" },
         //   { text: "ACCIÓN", value: "actions", sortable: false },
       ],

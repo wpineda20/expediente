@@ -19,6 +19,7 @@ class FamilyGroupEmergency extends Model
         'emergency_full_name',
         'emergency_phone',
         'emergency_cell_phone',
+        'emergency_address',
         'kinship_id',
         'employee_id',
     ];

@@ -120,6 +120,11 @@ const validations = {
                     /([0-9]{4}-[0-9]{4})/
                 ),
             },
+            emergency_address: {
+                required,
+                minLength: minLength(1),
+                maxLength: maxLength(150),
+            },
         },
         step4: {
             subjects_approved: {

@@ -91,10 +91,12 @@ export default {
     },
 
     changeStepSection(step = 1) {
-        // console.log(this.employee);
-        // if (this.employee.dui_file != "" || this.employee.title_file != "") {
-        this.step = step;
-        // }
+        if (
+            this.employee.employee_status_id == 2 ||
+            this.employee.employee_status_id == 3
+        ) {
+            this.step = step;
+        }
     },
 
     setInitForm() {

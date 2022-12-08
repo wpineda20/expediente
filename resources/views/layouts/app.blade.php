@@ -105,6 +105,7 @@
                                 <li><a href="{{ url('/units') }}">Unidad</a></li>
                                 <li><a href="{{ url('/subdirections') }}">Subdirección</a></li>
                                 <li><a href="{{ url('/familyStatus') }}">Estado familiar</a></li>
+                                <li><a href="{{ url('/employeeStatus') }}">Estados</a></li>
                             </ul>
                         </li>
                     @endif

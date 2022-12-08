@@ -34,7 +34,7 @@
             </v-col>
             <v-col cols="12" md="12" sm="12">
               <h4 class="text-center fw-bold text-decoration-underline">
-                HOJA DE ACTUALIZACIÓN DE DATOS PERSONALES 2022
+                HOJA DE ACTUALIZACIÓN DE DATOS PERSONALES {{ currentYear }}
               </h4>
             </v-col>
             <v-col cols="12" md="12" sm="12">
@@ -294,6 +294,14 @@
                   }}</span>
                 </v-col>
                 <!-- Phone -->
+                <!-- Emergency Address -->
+                <v-col cols="12" md="12" sm="12">
+                  <span class="fw-bold text-uppercase">DIRECCIÓN: </span>
+                  <span class="text-uppercase">{{
+                    employeeRecord.emergency_address
+                  }}</span>
+                </v-col>
+                <!-- Emergency Address -->
               </v-row>
             </v-col>
             <v-col cols="12" md="12" sm="12">
@@ -398,14 +406,29 @@ export default {
       redirectSessionFinished: false,
       alertTimeOut: 0,
       status: 1,
+      currentYear: new Date().getFullYear(), // 2022
     };
   },
 
   mounted() {
-    this.initialize();
+    this.verifryStatus();
   },
 
   methods: {
+    async verifryStatus() {
+      const res = await axios.get("api/verifyStatus").catch((error) => {
+        this.verifySessionFinished(error, 401);
+      });
+
+      if (res.data.message == "success") {
+        this.status = res.data.status;
+        if (this.status == 1) {
+          window.location = "/record";
+        } else {
+          this.initialize();
+        }
+      }
+    },
     async initialize() {
       this.loading = true;
       const res = await axios.get("/api/employee/myRecord").catch((error) => {

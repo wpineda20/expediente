@@ -37,6 +37,7 @@ class Employee extends Model
         'subjects_approved',
         'dui_file',
         'title_file',
+        'employee_status_id'
     ];
 
      public $hidden = [

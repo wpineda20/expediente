@@ -45,6 +45,7 @@ export default {
             kinship_name: "",
             emergency_phone: "",
             emergency_cell_phone: "",
+            emergency_address: "",
             families: [],
         },
 

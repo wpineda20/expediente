@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('emergency_full_name')->nullable();
             $table->string('emergency_phone')->nullable();
             $table->string('emergency_cell_phone')->nullable();
+            $table->string('emergency_address')->nullable();
             $table->foreignId('kinship_id')->nullable()->constrained()->references('id')->on('kinship')->comment('Parentesco');
             $table->foreignId('employee_id')->nullable()->constrained()->references('id')->on('employee')->comment('Empleado');
             $table->softDeletes();

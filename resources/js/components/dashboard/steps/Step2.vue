@@ -2,7 +2,7 @@
   <div class="mb-1 mt-4 h-100">
     <v-row>
       <!-- Direction -->
-      <v-col cols="12" xs="12" sm="12" md="6">
+      <v-col cols="12" xs="12" sm="12" md="12">
         <base-select-search
           label="Dirección"
           v-model.trim="validation.direction_name.$model"
@@ -13,7 +13,7 @@
       </v-col>
 
       <!-- Sub Direction -->
-      <v-col cols="12" xs="12" sm="12" md="6">
+      <!-- <v-col cols="12" xs="12" sm="12" md="6">
         <base-select-search
           label="Sub Dirección"
           v-model.trim="validation.subdirection_name.$model"
@@ -21,7 +21,7 @@
           item="subdirection_name"
           :validation="validation.subdirection_name"
         />
-      </v-col>
+      </v-col> -->
 
       <!-- Unit -->
       <v-col cols="12" xs="12" sm="12" md="12">

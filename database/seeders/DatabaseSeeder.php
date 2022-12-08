@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             DirectionSeeder::class,
             SubdirectionSeeder::class,
             KinshipSeeder::class,
-            // EmployeeSeeder::class,
+            EmployeeStatusSeeder::class,
         ]);
     }
 }

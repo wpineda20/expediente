@@ -36,6 +36,7 @@ return new class extends Migration
             $table->integer('subjects_approved')->nullable();
             $table->string('dui_file', 500)->nullable();
             $table->string('title_file', 500)->nullable();
+            $table->foreignId('employee_status_id')->nullable()->constrained()->references('id')->on('employee_status')->comment('1=Registrado 2=Digitado 3=Finalizado');
             $table->softDeletes();
             $table->timestamps();
         });

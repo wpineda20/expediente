@@ -14,6 +14,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\SubdirectionController;
 use App\Http\Controllers\FamilyStatusController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeeStatusController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExcelController;
 
@@ -56,6 +57,8 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
         Route::delete('/api/web/subdirection', [SubdirectionController::class, 'destroy']);
         Route::resource('/api/web/familyStatus', FamilyStatusController::class);
         Route::delete('/api/web/familyStatus', [FamilyStatusController::class, 'destroy']);
+        Route::resource('/api/web/employeeStatus', EmployeeStatusController::class);
+        Route::delete('/api/web/employeeStatus', [EmployeeStatusController::class, 'destroy']);
 
 
 
@@ -100,6 +103,10 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
             return view('family_status.index');
         });
 
+        Route::get('/employeeStatus', function () {
+            return view('employee_status.index');
+        });
+
 
 
     });
@@ -131,6 +138,8 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
         return view('my_record.index');
     });
 
+    //My Record View Verify Status
+    Route::get('/api/verifyStatus', [EmployeeController::class, 'verifyStatusEmployee']);
 
     //Employee
     Route::get('api/employee/infoUserLoggedIn', [EmployeeController::class, 'infoEmployeeLoggedIn']);
