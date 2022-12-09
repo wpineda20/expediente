@@ -16,7 +16,7 @@
       />
     </v-container>
 
-    <disclaimer-register />
+    <disclaimer-register v-if="step == 1" />
 
     <v-stepper
       v-model="step"
@@ -80,8 +80,6 @@
             :employee="employee.step2"
             :departments="departments"
             :directions="directions"
-            :subdirections="subdirections"
-            :units="units"
             :validation="$v.employee.step2"
             @update-alert="
               updateAlert($event.show, $event.message, $event.type)

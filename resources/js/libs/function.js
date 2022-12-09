@@ -56,16 +56,21 @@ export const getData = async (step) => {
                         itemsPerPage: -1,
                     },
                 }),
-                axios.get("/api/subdirections", {
-                    params: {
-                        itemsPerPage: -1,
-                    },
-                }),
-                axios.get("/api/units", {
-                    params: {
-                        itemsPerPage: -1,
-                    },
-                }),
+                // axios.get("/api/subdirections", {
+                //     params: {
+                //         itemsPerPage: -1,
+                //     },
+                // }),
+                // axios.get("/api/dependencies", {
+                //     params: {
+                //         itemsPerPage: -1,
+                //     },
+                // }),
+                // axios.get("/api/units", {
+                //     params: {
+                //         itemsPerPage: -1,
+                //     },
+                // }),
             ];
             break;
         case 3:
@@ -111,7 +116,6 @@ export const setInfoEmployee = (employee) => {
         },
         step2: {
             direction_name: employee.direction_name,
-            subdirection_name: employee.subdirection_name,
             unit_name: employee.unit_name,
             nominal_fee: employee.nominal_fee,
             functional_position: employee.functional_position,

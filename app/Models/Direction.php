@@ -48,4 +48,9 @@ class Direction extends Model
 
             ->count();
     }
+
+    public function dependence()
+    {
+        return $this->hasMany(Direction::class);
+    }
 }

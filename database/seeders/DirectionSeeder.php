@@ -106,31 +106,6 @@ class DirectionSeeder extends Seeder
                 "direction_name" => "Dirección Nacional de Patrimonio Cultural",
                 "created_at" => now(),
             ],
-            // [
-            //     "id" => 19,
-            //     "direction_name" => "Compañía Nacional de Danza",
-            //     "created_at" => now(),
-            // ],
-            // [
-            //     "id" => 20,
-            //     "direction_name" => "Ballet Folklórico Nacional",
-            //     "created_at" => now(),
-            // ],
-            // [
-            //     "id" => 21,
-            //     "direction_name" => "Ballet Nacional de El Salvador",
-            //     "created_at" => now(),
-            // ],
-            // [
-            //     "id" => 22,
-            //     "direction_name" => "Orquesta Sinfónica de El Salvador",
-            //     "created_at" => now(),
-            // ],
-            // [
-            //     "id" => 23,
-            //     "direction_name" => "Coro Nacional de El Salvador",
-            //     "created_at" => now(),
-            // ],
             [
                 "id" => 19,
                 "direction_name" => "Dirección de Teatros Nacionales",
@@ -158,36 +133,31 @@ class DirectionSeeder extends Seeder
             ],
             [
                 "id" => 24,
-                "direction_name" => "Dirección de Casas de la Cultura",
-                "created_at" => now(),
-            ],
-            [
-                "id" => 25,
                 "direction_name" => "Dirección de Publicaciones e Impresos",
                 "created_at" => now(),
             ],
             [
-                "id" => 26,
+                "id" => 25,
                 "direction_name" => "Dirección de Arqueología",
                 "created_at" => now(),
             ],
             [
-                "id" => 27,
+                "id" => 26,
                 "direction_name" => "Dirección de Bienes Culturales Inmuebles y Gestión Urbana",
                 "created_at" => now(),
             ],
             [
-                "id" => 28,
+                "id" => 27,
                 "direction_name" => "Dirección de Antropología Cultural",
                 "created_at" => now(),
             ],
             [
-                "id" => 29,
+                "id" => 28,
                 "direction_name" => "Dirección de Registro de Bienes Culturales",
                 "created_at" => now(),
             ],
             [
-                "id" => 30,
+                "id" => 29,
                 "direction_name" => "Dirección de Conservación de Bienes Culturales Inmuebles",
                 "created_at" => now(),
             ],

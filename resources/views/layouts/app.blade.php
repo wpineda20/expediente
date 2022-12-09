@@ -102,8 +102,7 @@
                                 <li><a href="{{ url('/kinships') }}">Parentesco</a></li>
                                 <li><a href="{{ url('/academicLevels') }}">Nivel Académico</a></li>
                                 <li><a href="{{ url('/professions') }}">Profesión</a></li>
-                                <li><a href="{{ url('/units') }}">Unidad</a></li>
-                                <li><a href="{{ url('/subdirections') }}">Subdirección</a></li>
+                                <li><a href="{{ url('/dependencies') }}">Dependencias</a></li>
                                 <li><a href="{{ url('/familyStatus') }}">Estado familiar</a></li>
                                 <li><a href="{{ url('/employeeStatus') }}">Estados</a></li>
                             </ul>

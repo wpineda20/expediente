@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-btn class="btn btn-normal mb-3 mt-3" @click="addAcademicLevel()">
-          Agregar
+          Agregar Nivel Educativo
         </v-btn>
       </v-col>
     </v-row>
@@ -14,7 +14,7 @@
           <thead>
             <th>Nivel educativo</th>
             <th>Centro educativo</th>
-            <th>Año</th>
+            <th>Año de finalización</th>
             <th>Título recibido</th>
             <th class="text-center">Acciones</th>
           </thead>
@@ -42,7 +42,7 @@
             </tr>
             <tr v-if="academics.length == 0">
               <td colspan="5" class="text-center pt-3">
-                <p>No se encontró ningún registro.</p>
+                <p>No se registró ningún nivel educativo.</p>
               </td>
             </tr>
           </tbody>
@@ -64,12 +64,13 @@
                     :items="academicLevels"
                     item="level_name"
                     :validation="$v.academic.level_name"
+                    @change="finishedCareer()"
                   />
                 </v-col>
                 <!-- Year -->
                 <v-col cols="12" xs="12" sm="12" md="6">
                   <base-input
-                    label="Año"
+                    label="Año de finalización"
                     v-model.trim="$v.academic.year.$model"
                     :validation="$v.academic.year"
                     v-mask="'####'"
@@ -97,6 +98,50 @@
                     :min="1"
                   />
                 </v-col>
+                <!-- Career Status -->
+                <v-col cols="12" xs="12" sm="12" md="12" v-show="showCheckbox">
+                  <v-checkbox
+                    class="mt-0"
+                    label="Marcar en caso de no haber finalizado la carrera universitaria"
+                    color="primary"
+                    v-model.trim="$v.academic.career_status.$model"
+                  >
+                  </v-checkbox>
+                </v-col>
+                <!-- Career Name -->
+                <v-col
+                  cols="12"
+                  xs="12"
+                  sm="12"
+                  md="6"
+                  v-show="academic.career_status"
+                >
+                  <base-input
+                    label="Carrera"
+                    v-model.trim="$v.academic.career.$model"
+                    :validation="$v.academic.career"
+                    validationTextType="default"
+                    :min="1"
+                  />
+                </v-col>
+                <!-- Subjects Approved -->
+                <v-col
+                  cols="12"
+                  xs="12"
+                  sm="12"
+                  md="6"
+                  v-show="academic.career_status"
+                >
+                  <base-input
+                    label="Materias aprobadas"
+                    v-model.trim="$v.academic.subjects_approved.$model"
+                    :validation="$v.academic.subjects_approved"
+                    validationTextType="only-numbers"
+                    v-mask="'##'"
+                    type="number"
+                    :min="1"
+                  />
+                </v-col>
               </v-row>
               <v-row>
                 <v-col align="center">
@@ -120,9 +165,8 @@
         <!-- New Academic Level -->
       </v-col>
     </v-row>
-    <v-row>
+    <!-- <v-row>
       <v-col cols="12" xs="12" md="12" lg="12">
-        <!-- Subjects Approved -->
         <h6 class="mb-5">
           En caso de haber estudiado una carrera universitaria y no fue
           finalizada, establezca cuantas materias aprobó:
@@ -139,7 +183,7 @@
           />
         </v-col>
       </v-col>
-    </v-row>
+    </v-row> -->
 
     <v-btn class="btn btn-normal mt-3 mb-3" @click="saveAcademics()">
       Continuar y guardar
@@ -162,17 +206,26 @@ import {
 export default {
   data: () => ({
     dialog: false,
+    showCheckbox: false,
+    showCareer: false,
+    showSubjectsApproved: false,
     academic: {
       level_name: "",
       education_center: "",
       year: "",
       obtained_title: "",
+      career_status: false,
+      career: "",
+      subjects_approved: "",
     },
     academicDefault: {
       level_name: "",
       education_center: "",
       year: "",
       obtained_title: "",
+      career_status: false,
+      career: "",
+      subjects_approved: "",
     },
     academics: [],
   }),
@@ -222,6 +275,9 @@ export default {
       this.$v.academic.education_center.$model = "";
       this.$v.academic.year.$model = "";
       this.$v.academic.obtained_title.$model = "";
+      this.$v.academic.career_status.$model = false;
+      this.$v.academic.career.$model = "";
+      this.$v.academic.subjects_approved.$model = "";
 
       this.$v.academic.$reset();
     },
@@ -275,6 +331,14 @@ export default {
     deleteAcademic() {
       this.academics.splice(this.academics.indexOf(this.academic), 1);
     },
+
+    finishedCareer() {
+      if (this.academic.level_name == "Universitario") {
+        this.showCheckbox = true;
+      } else {
+        this.showCheckbox = false;
+      }
+    },
   },
 
   validations: {
@@ -295,6 +359,17 @@ export default {
         required,
         minLength: minLength(1),
         maxLength: maxLength(150),
+      },
+      career_status: {
+        // required,
+      },
+      career: {
+        minLength: minLength(1),
+        maxLength: maxLength(150),
+      },
+      subjects_approved: {
+        minLength: minLength(1),
+        maxLength: maxLength(2),
       },
     },
   },

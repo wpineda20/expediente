@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('education_center');
             $table->integer('year');
             $table->string('obtained_title');
-            // $table->integer('subjects_approved')->nullable();
-            // $table->string('url_file', 500);
+            $table->tinyInteger('career_status')->nullable()->comment('1=Finalizada 2=No Finalizada');
+            $table->string('career')->nullable();
+            $table->integer('subjects_approved')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

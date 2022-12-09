@@ -8,8 +8,7 @@ use App\Models\Profession;
 use App\Models\FamilyStatus;
 use App\Models\Municipality;
 use App\Models\Direction;
-use App\Models\Subdirection;
-use App\Models\Unit;
+use App\Models\Dependence;
 use App\Models\WorkData;
 use App\Models\Kinship;
 use App\Models\FamilyGroupEmergency;
@@ -71,8 +70,7 @@ class EmployeeController extends Controller
                 break;
             case 2:
                 $employee->direction_id = Direction::where('direction_name', $request->direction_name)->first()?->id;
-                $employee->subdirection_id = Subdirection::where('subdirection_name', $request->subdirection_name)->first()?->id;
-                $employee->unit_id = Unit::where('unit_name', $request->unit_name)->first()?->id;
+                $employee->unit_id = Dependence::where('unit_name', $request->unit_name)->first()?->id;
                 $employee->nominal_fee = $request->nominal_fee;
                 $employee->functional_position = $request->functional_position;
                 $employee->immediate_superior = $request->immediate_superior;
@@ -100,11 +98,20 @@ class EmployeeController extends Controller
                 $family_group_emergency_data->save();
                 break;
             case 4:
+
+                foreach ($request->academics as $item) {
+
+                    if($item['career_status'] == true){
+                        $item['career_status'] = 2;
+                    }
+
+                    // ($item['career_status'] == true) ? 2 : (($item['career_status'] == false) ? 1 : null);
+
+                }
+                dd($request->academics);
+
                 AcademicDataController::store($request, $employee->id);
 
-                $employee->subjects_approved = $request->subjects_approved;
-
-                $employee->save();
                 break;
             case 5:
                 // dd($request);
@@ -180,21 +187,13 @@ class EmployeeController extends Controller
             ->first();
         $employee->direction_name = $direction?->direction_name;
 
-        //Subdirection
-        $subdirection = DB::table('employee as e')
-            ->select('s.subdirection_name')
-            ->join('subdirection as s', 'e.subdirection_id', '=', 's.id')
+        //Dependencies
+        $dependence = DB::table('employee as e')
+            ->select('d.unit_name')
+            ->join('dependence as d', 'e.unit_id', '=', 'd.id')
             ->where('e.user_id', auth()->user()->id)
             ->first();
-        $employee->subdirection_name = $subdirection?->subdirection_name;
-
-        //Unit
-        $unit = DB::table('employee as e')
-            ->select('u.unit_name')
-            ->join('unit as u', 'e.unit_id', '=', 'u.id')
-            ->where('e.user_id', auth()->user()->id)
-            ->first();
-        $employee->unit_name = $unit?->unit_name;
+        $employee->unit_name = $dependence?->unit_name;
 
         //Department and municipality assigned
         $municipality_assigned_id = DB::table('employee as e')
@@ -257,13 +256,6 @@ class EmployeeController extends Controller
         ->get();
 
         $employee->academics = $academics;
-
-        $subjects_approved = DB::table('employee as e')
-        ->select('e.subjects_approved')
-        ->where('e.user_id', auth()->user()->id)
-        ->first();
-
-        $employee->subjects_approved = $subjects_approved?->subjects_approved;
 
         return response()->json([
             'message' => 'success',
@@ -354,8 +346,8 @@ class EmployeeController extends Controller
             'm.municipality_name as municipality_id',
             'd.department_name',
             'di.direction_name as direction_id',
-            'sub.subdirection_name as subdirection_id',
-            'u.unit_name as unit_id',
+            // 'sub.subdirection_name as subdirection_id',
+            // 'u.unit_name as unit_id',
             'mu.municipality_name as municipality_assigned_id',
             'de.department_name as department_assigned_id',
             'fge.emergency_full_name',
@@ -370,8 +362,8 @@ class EmployeeController extends Controller
         ->join('municipalities as m', 'e.municipality_id', '=', 'm.id', 'left outer')
         ->join('department as d', 'm.department_id', '=', 'd.id', 'left outer')
         ->join('direction as di', 'e.direction_id', '=', 'di.id', 'left outer')
-        ->join('subdirection as sub', 'e.subdirection_id', '=', 'sub.id', 'left outer')
-        ->join('unit as u', 'e.unit_id', '=', 'u.id', 'left outer')
+        // ->join('subdirection as sub', 'e.subdirection_id', '=', 'sub.id', 'left outer')
+        // ->join('unit as u', 'e.unit_id', '=', 'u.id', 'left outer')
         ->join('municipalities as mu', 'e.municipality_assigned_id', '=', 'mu.id', 'left outer')
         ->join('department as de', 'mu.department_id', '=', 'de.id', 'left outer')
         ->join('family_group_emergency as fge', 'e.id', '=', 'fge.employee_id', 'left outer')
@@ -469,8 +461,8 @@ class EmployeeController extends Controller
             'mu.municipality_name as municipality_assigned_id',
             'de.department_name as department_assigned_id',
             'di.direction_name',
-            'sub.subdirection_name',
-            'u.unit_name',
+            // 'sub.subdirection_name',
+            // 'u.unit_name',
             'fge.emergency_full_name',
             'fge.emergency_phone',
             'fge.emergency_cell_phone',
@@ -485,8 +477,8 @@ class EmployeeController extends Controller
          ->join('municipalities as mu', 'e.municipality_assigned_id', '=', 'mu.id', 'left outer')
          ->join('department as de', 'mu.department_id', '=', 'de.id', 'left outer')
          ->join('direction as di', 'e.direction_id', '=', 'di.id', 'left outer')
-         ->join('subdirection as sub', 'e.subdirection_id', '=', 'sub.id', 'left outer')
-         ->join('unit as u', 'e.unit_id', '=', 'u.id', 'left outer')
+        //  ->join('subdirection as sub', 'e.subdirection_id', '=', 'sub.id', 'left outer')
+        //  ->join('unit as u', 'e.unit_id', '=', 'u.id', 'left outer')
          ->join('family_group_emergency as fge', 'e.id', '=', 'fge.employee_id', 'left outer')
          ->join('kinship as k', 'fge.kinship_id', '=', 'k.id', 'left outer')
          ->where('e.id', $request->id)

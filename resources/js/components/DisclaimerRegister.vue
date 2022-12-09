@@ -10,7 +10,9 @@
           Favor llenar la información solicitada para la actualización del
           expediente.
         </span>
-        <br />
+        <p style="text-align: justify" class="mt-2 h-100">
+          <strong>Tiempo estimado de registro: </strong> 8 min.
+        </p>
       </div>
     </div>
   </div>

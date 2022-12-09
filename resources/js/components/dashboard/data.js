@@ -7,8 +7,7 @@ export default {
     municipalities: [],
     vulnerableArea: [],
     directions: [],
-    subdirections: [],
-    units: [],
+    dependencies: [],
     kinships: [],
     academicLevels: [],
 
@@ -30,7 +29,6 @@ export default {
 
         step2: {
             direction_name: "",
-            subdirection_name: "",
             unit_name: "",
             nominal_fee: "",
             functional_position: "",
@@ -50,7 +48,6 @@ export default {
         },
 
         step4: {
-            subjects_approved: "",
             academics: [],
         },
 

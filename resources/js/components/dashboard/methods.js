@@ -28,8 +28,6 @@ export default {
             case 2:
                 this.departments = responses[0].data.departments;
                 this.directions = responses[1].data.records;
-                this.subdirections = responses[2].data.records;
-                this.units = responses[3].data.records;
                 break;
             case 3:
                 this.kinships = responses[0].data.records;

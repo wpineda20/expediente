@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subdirection;
+use App\Models\Dependence;
+use App\Models\Direction;
 
 use Illuminate\Http\Request;
 use Encrypt;
 
-class SubdirectionController extends Controller
+class DependenceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +22,7 @@ class SubdirectionController extends Controller
 
         // Getting all the records
         if (($request->itemsPerPage == -1)) {
-            $itemsPerPage =  Subdirection::count();
+            $itemsPerPage =  Dependence::count();
             $skip = 0;
         }
 
@@ -30,15 +31,15 @@ class SubdirectionController extends Controller
 
         $search = (isset($request->search)) ? "%$request->search%" : '%%';
 
-        $subdirection = Subdirection::allDataSearched($search, $sortBy, $sort, $skip, $itemsPerPage);
-        $subdirection = Encrypt::encryptObject($subdirection, "id");
+        $dependence = Dependence::allDataSearched($search, $sortBy, $sort, $skip, $itemsPerPage);
+        $dependence = Encrypt::encryptObject($dependence, "id");
 
-        $total = Subdirection::counterPagination($search);
+        $total = Dependence::counterPagination($search);
 
         return response()->json([
             "status" => 200,
             "message"=>"Registros obtenidos correctamente.",
-            "records" => $subdirection,
+            "records" => $dependence,
             "total" => $total,
             "success"=>true,
         ]);
@@ -52,12 +53,13 @@ class SubdirectionController extends Controller
      */
     public function store(Request $request)
     {
-        $subdirection = new Subdirection;
+        $dependence = new Dependence;
 
-		$subdirection->subdirection_name = $request->subdirection_name;
-		$subdirection->deleted_at = $request->deleted_at;
+		$dependence->unit_name = $request->unit_name;
+		$dependence->direction_id = Direction::where('direction_name', $request->direction_name)->first()->id;
+		$dependence->deleted_at = $request->deleted_at;
 
-        $subdirection->save();
+        $dependence->save();
 
         return response()->json([
             "status"=>200,
@@ -69,10 +71,10 @@ class SubdirectionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Subdirection  subdirection
+     * @param  \App\Models\Dependence  dependence
      * @return \Illuminate\Http\Response
      */
-    public function show(Subdirection $subdirection)
+    public function show(Dependence $dependence)
     {
         //
     }
@@ -81,18 +83,19 @@ class SubdirectionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Subdirection  $subdirection
+     * @param  \App\Models\Dependence  $dependence
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $data = Encrypt::decryptArray($request->all(), 'id');
 
-        $subdirection = Subdirection::where('id', $data['id'])->first();
-		$subdirection->subdirection_name = $request->subdirection_name;
-		$subdirection->deleted_at = $request->deleted_at;
+        $dependence = Dependence::where('id', $data['id'])->first();
+		$dependence->unit_name = $request->unit_name;
+		$dependence->direction_id = Direction::where('direction_name', $request->direction_name)->first()->id;
+		$dependence->deleted_at = $request->deleted_at;
 
-        $subdirection->save();
+        $dependence->save();
 
         return response()->json([
             "status"=>200,
@@ -104,7 +107,7 @@ class SubdirectionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Subdirection  $subdirection
+     * @param  \App\Models\Dependence  $dependence
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
@@ -115,7 +118,7 @@ class SubdirectionController extends Controller
             foreach ($data as $item) {
                 $item = json_decode($item);
 
-                Subdirection::where('id', $id)->delete();
+                Dependence::where('id', $id)->delete();
             }
 
             return response()->json([
@@ -123,16 +126,32 @@ class SubdirectionController extends Controller
                 "message"=>"Registro eliminado correctamente.",
                 "success"=>true,
             ]);
-        } 
+        }
 
         $id = Encrypt::decryptValue($request->id);
 
-        Subdirection::where('id', $id)->delete();
+        Dependence::where('id', $id)->delete();
 
         return response()->json([
             "status"=>200,
             "message"=>"Registro eliminado correctamente.",
             "success"=>true,
         ]);
+    }
+
+    /**
+     * Search All Dependencies By Direction Name
+     *
+     * @param  \App\Models\Dependence  $dependence
+     * @return \Illuminate\Http\Response
+     */
+     public function byDirectionName(Request $request)
+    {
+        $dependencies = Dependence::select('*')
+        ->join('direction', 'dependence.direction_id', '=', 'direction.id')
+        ->where('direction.direction_name', $request->direction)
+        ->get();
+
+        return response()->json(['message' => 'success', 'dependencies'=>$dependencies]);
     }
 }

@@ -14,16 +14,15 @@
     <v-card class="p-3">
       <v-row>
         <v-col cols="12" sm="12" md="4" lg="4" xl="4">
-          <v-toolbar-title>Subdirecciones</v-toolbar-title>
+          <v-toolbar-title>Dependencias</v-toolbar-title>
         </v-col>
         <v-col cols="4" sm="12" md="4" lg="4" xl="4" align="end">
           <v-btn
             rounded
             @click="addRecord()"
-            title="Agregar"
             class="mb-2 btn-normal no-uppercase"
+            title="Agregar"
           >
-            <!-- <v-icon> mdi-plus </v-icon>  -->
             Agregar
           </v-btn>
           <v-icon
@@ -34,7 +33,7 @@
             mdi-delete
           </v-icon>
         </v-col>
-        <v-col cols="12" sm="12" md="12" lg="4" xl="4" class="pl-0 pb-0 pr-0">
+        <v-col cols="12" sm="12" md="4" lg="4" xl="4" class="pl-0 pb-0 pr-0">
           <v-text-field
             class=""
             dense
@@ -45,6 +44,29 @@
           ></v-text-field>
         </v-col>
       </v-row>
+      <!-- <v-container>
+        <h2>Dependencia</h2>
+        <div class="options-table">
+          <v-btn rounded @click="addRecord()" title="Agregar" color="">
+          </v-btn>
+          <v-icon
+            @click="deleteItem()"
+            title="Eliminar"
+            v-if="selected.length > 0"
+          >
+            mdi-delete
+          </v-icon>
+        </div>
+        <v-col cols="12" sm="12" md="12" lg="4" xl="4" class="pl-0 pb-0 pr-0">
+          <v-text-field
+            class="mt-3"
+            dense
+            label="Buscar"
+            type="text"
+            v-model="options.search"
+          ></v-text-field>
+        </v-col>
+      </v-container> -->
       <v-data-table
         v-model="selected"
         :single-select="false"
@@ -84,12 +106,12 @@
           <v-container>
             <!-- Form -->
             <v-row class="pt-3">
-              <!-- subdirection_name -->
+              <!-- unit_name -->
               <v-col cols="12" sm="12" md="12">
                 <base-input
-                  label="Subdirecciones"
-                  v-model="$v.editedItem.subdirection_name.$model"
-                  :validation="$v.editedItem.subdirection_name"
+                  label="Dependencia"
+                  v-model="$v.editedItem.unit_name.$model"
+                  :validation="$v.editedItem.unit_name"
                   validationTextType="none"
                   :validationsInput="{
                     required: true,
@@ -97,7 +119,23 @@
                   }"
                 />
               </v-col>
-              <!-- subdirection_name -->
+              <!-- unit_name -->
+
+              <!-- direction_name -->
+              <v-col cols="12" sm="12" md="12">
+                <base-select-search
+                  label="Dirección"
+                  v-model.trim="$v.editedItem.direction_name.$model"
+                  :items="direction"
+                  item="direction_name"
+                  :validation="$v.editedItem.direction_name"
+                  :validationsInput="{
+                    required: true,
+                    minLength: true,
+                  }"
+                />
+              </v-col>
+              <!-- direction_name -->
             </v-row>
             <!-- Form -->
             <v-row>
@@ -155,8 +193,8 @@
 </template>
 
 <script>
-import subdirectionApi from "../apis/subdirectionApi";
-
+import dependenceApi from "../apis/dependenceApi";
+import directionApi from "../apis/directionApi";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
 export default {
@@ -167,20 +205,23 @@ export default {
       dialog: false,
       dialogDelete: false,
       headers: [
-        { text: "Subdirección", value: "subdirection_name" },
+        { text: "DEPENDENCIA", value: "unit_name" },
+        { text: "DIRECCIÓN", value: "direction_name" },
         { text: "ACCIONES", value: "actions", sortable: false },
       ],
       records: [],
       recordsFiltered: [],
       editedIndex: -1,
-      title: "Subdirection",
+      title: "Dependencia",
       totalItems: 0,
       options: {},
       editedItem: {
-        subdirection_name: "",
+        unit_name: "",
+        direction_name: "",
       },
       defaultItem: {
-        subdirection_name: "",
+        unit_name: "",
+        direction_name: "",
       },
       selectedTab: 0,
       loading: false,
@@ -190,6 +231,7 @@ export default {
       showAlert: false,
       redirectSessionFinished: false,
       alertTimeOut: 0,
+      direction: [],
     };
   },
 
@@ -208,7 +250,11 @@ export default {
   // Validations
   validations: {
     editedItem: {
-      subdirection_name: {
+      unit_name: {
+        required,
+        minLength: minLength(1),
+      },
+      direction_name: {
         required,
         minLength: minLength(1),
       },
@@ -248,7 +294,12 @@ export default {
       this.records = [];
       this.recordsFiltered = [];
 
-      let requests = [this.getDataFromApi()];
+      let requests = [
+        this.getDataFromApi(),
+        directionApi.get(null, {
+          params: { itemsPerPage: -1 },
+        }),
+      ];
 
       const responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener el registro.", "fail");
@@ -258,8 +309,9 @@ export default {
           419
         );
       });
-
+    //   console.log(responses);
       if (responses) {
+        this.direction = responses[1].data.records;
       }
 
       this.loading = false;
@@ -293,7 +345,7 @@ export default {
           this.editedItem
         );
 
-        const { data } = await subdirectionApi
+        const { data } = await dependenceApi
           .put(`/${edited.id}`, edited)
           .catch((error) => {
             this.updateAlert(
@@ -313,7 +365,7 @@ export default {
         }
       } else {
         //Creating user
-        const { data } = await subdirectionApi
+        const { data } = await dependenceApi
           .post(null, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
@@ -354,7 +406,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      const { data } = await subdirectionApi
+      const { data } = await dependenceApi
         .delete(null, {
           params: {
             selected: this.selected,
@@ -391,7 +443,7 @@ export default {
       //debounce
       clearTimeout(this.debounce);
       this.debounce = setTimeout(async () => {
-        const { data } = await subdirectionApi
+        const { data } = await dependenceApi
           .get(null, {
             params: this.options,
           })

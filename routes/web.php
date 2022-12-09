@@ -10,11 +10,12 @@ use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\KinshipController;
 use App\Http\Controllers\AcademicLevelController;
 use App\Http\Controllers\ProfessionController;
-use App\Http\Controllers\UnitController;
+// use App\Http\Controllers\UnitController;
 use App\Http\Controllers\SubdirectionController;
 use App\Http\Controllers\FamilyStatusController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeStatusController;
+use App\Http\Controllers\DependenceController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExcelController;
 
@@ -51,14 +52,14 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
         Route::delete('/api/web/academicLevel', [AcademicLevelController::class, 'destroy']);
         Route::resource('/api/web/profession', ProfessionController::class);
         Route::delete('/api/web/profession', [ProfessionController::class, 'destroy']);
-        Route::resource('/api/web/unit', UnitController::class);
-        Route::delete('/api/web/unit', [UnitController::class, 'destroy']);
-        Route::resource('/api/web/subdirection', SubdirectionController::class);
-        Route::delete('/api/web/subdirection', [SubdirectionController::class, 'destroy']);
+        // Route::resource('/api/web/unit', UnitController::class);
+        // Route::delete('/api/web/unit', [UnitController::class, 'destroy']);
         Route::resource('/api/web/familyStatus', FamilyStatusController::class);
         Route::delete('/api/web/familyStatus', [FamilyStatusController::class, 'destroy']);
         Route::resource('/api/web/employeeStatus', EmployeeStatusController::class);
         Route::delete('/api/web/employeeStatus', [EmployeeStatusController::class, 'destroy']);
+        Route::resource('/api/web/dependence', DependenceController::class);
+        Route::delete('/api/web/dependence', [DependenceController::class, 'destroy']);
 
 
 
@@ -91,12 +92,12 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
             return view('profession.index');
         });
 
-        Route::get('/units', function () {
-            return view('unit.index');
-        });
+        // Route::get('/units', function () {
+        //     return view('unit.index');
+        // });
 
-        Route::get('/subdirections', function () {
-            return view('subdirection.index');
+        Route::get('/dependencies', function () {
+            return view('dependence.index');
         });
 
         Route::get('/familyStatus', function () {
@@ -167,10 +168,10 @@ Route::get('api/departments', [DepartmentController::class, 'index']);
 Route::get('api/municipality', [MunicipalityController::class, 'index']);
 Route::get('api/professions', [ProfessionController::class, 'index']);
 Route::get('api/directions', [DirectionController::class, 'index']);
-Route::get('api/subdirections', [SubdirectionController::class, 'index']);
-Route::get('api/units', [UnitController::class, 'index']);
+Route::get('api/dependencies', [DependenceController::class, 'index']);
 Route::get('api/kinships', [KinshipController::class, 'index']);
 Route::get('api/academicLevels', [AcademicLevelController::class, 'index']);
 Route::get('api/municipality/byDepartmentName/{department}', [MunicipalityController::class, 'byDepartmentName']);
+Route::get('api/dependence/byDirectionName/{direction}', [DependenceController::class, 'byDirectionName']);
 
 Route::post('import', [ExcelController::class, 'import']);

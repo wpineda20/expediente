@@ -9,26 +9,16 @@
           :items="directions"
           item="direction_name"
           :validation="validation.direction_name"
+          @change="changeDirection()"
         />
       </v-col>
 
-      <!-- Sub Direction -->
-      <!-- <v-col cols="12" xs="12" sm="12" md="6">
-        <base-select-search
-          label="Sub Dirección"
-          v-model.trim="validation.subdirection_name.$model"
-          :items="subdirections"
-          item="subdirection_name"
-          :validation="validation.subdirection_name"
-        />
-      </v-col> -->
-
-      <!-- Unit -->
+      <!-- Dependence -->
       <v-col cols="12" xs="12" sm="12" md="12">
         <base-select-search
-          label="Unidad"
+          label="Dependencia"
           v-model.trim="validation.unit_name.$model"
-          :items="units"
+          :items="dependencies"
           item="unit_name"
           :validation="validation.unit_name"
         />
@@ -111,6 +101,7 @@ import axios from "axios";
 export default {
   data: () => ({
     municipalities: [],
+    dependencies: [],
   }),
 
   props: {
@@ -128,16 +119,6 @@ export default {
       required: true,
       default: () => [],
     },
-    subdirections: {
-      type: Array,
-      required: true,
-      default: () => [],
-    },
-    units: {
-      type: Array,
-      required: true,
-      default: () => [],
-    },
     validation: {
       type: Object,
       required: true,
@@ -148,8 +129,11 @@ export default {
     initialize() {
       this.employee.department_name =
         this.employee.department_name ?? this.departments[0].department_name;
+      this.employee.direction_name =
+        this.employee.direction_name ?? this.directions[0].direction_name;
 
       this.changeDepartment();
+      this.changeDirection();
     },
 
     async changeDepartment() {
@@ -167,6 +151,20 @@ export default {
         });
 
       this.municipalities = data.municipalities;
+    },
+
+    async changeDirection() {
+      let { data } = await axios
+        .get("api/dependence/byDirectionName/" + this.employee.direction_name)
+        .catch((error) => {
+          this.$emit("update-alert", {
+            show: true,
+            message:
+              "No fue posible obtener la información de las dependencias. ",
+            type: "fail",
+          });
+        });
+      this.dependencies = data.dependencies;
     },
 
     validateData() {
