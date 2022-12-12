@@ -56,11 +56,6 @@ export const getData = async (step) => {
                         itemsPerPage: -1,
                     },
                 }),
-                // axios.get("/api/dependencies", {
-                //     params: {
-                //         itemsPerPage: -1,
-                //     },
-                // }),
             ];
             break;
         case 3:

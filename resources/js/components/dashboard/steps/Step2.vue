@@ -164,6 +164,7 @@ export default {
             type: "fail",
           });
         });
+
       this.dependencies = data.dependencies;
     },
 
