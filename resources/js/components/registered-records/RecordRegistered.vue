@@ -183,7 +183,6 @@
           <v-btn class="btn btn-normal mt-3 mb-3" @click="step++"
             >Continuar</v-btn
           >
-          <!-- <v-btn text>Cancel</v-btn> -->
         </v-stepper-content>
         <!-- Datos personales -->
         <!-- Datos laborales-->
@@ -322,7 +321,9 @@
           <v-btn class="btn btn-normal mt-3 mb-3" @click="step++"
             >Continuar</v-btn
           >
-          <!-- <v-btn text>Cancel</v-btn> -->
+          <v-btn class="btn btn-normal-close mt-3 mb-3" @click="step--"
+            >Volver</v-btn
+          >
         </v-stepper-content>
         <!-- Datos laborales -->
 
@@ -451,7 +452,9 @@
           <v-btn class="btn btn-normal mt-3 mb-3" @click="step++"
             >Continuar</v-btn
           >
-          <!-- <v-btn text>Cancel</v-btn> -->
+           <v-btn class="btn btn-normal-close mt-3 mb-3" @click="step--"
+            >Volver</v-btn
+          >
         </v-stepper-content>
         <!-- Grupo familiar -->
 
@@ -557,7 +560,9 @@
           <v-btn class="btn btn-normal mt-3 mb-3" @click="step++"
             >Continuar</v-btn
           >
-          <!-- <v-btn text>Cancel</v-btn> -->
+           <v-btn class="btn btn-normal-close mt-3 mb-3" @click="step--"
+            >Volver</v-btn
+          >
         </v-stepper-content>
         <!-- Grupo familiar -->
 
@@ -601,7 +606,9 @@
               </v-col>
             </v-row>
           </div>
-          <!-- <v-btn text>Cancel -->
+           <v-btn class="btn btn-normal-close mt-3 mb-3" @click="step--"
+            >Volver</v-btn
+          >
         </v-stepper-content>
         <!-- Anexar documentos -->
       </v-app>

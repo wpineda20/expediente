@@ -191,7 +191,6 @@ class EmployeeController extends Controller
             ->where('e.user_id', auth()->user()->id)
             ->first();
 
-            // dd($municipality_assigned_id);
         $employee->municipality_assigned_id = $municipality?->municipality_name;
         $employee->department_name = $municipality?->department_name;
 
@@ -354,7 +353,6 @@ class EmployeeController extends Controller
         ->where('e.user_id', auth()->user()->id)
         ->first();
 
-        // dd($recordInfoEmployee);
 
         if(isset($recordInfoEmployee->dui_file)){
 
@@ -408,7 +406,6 @@ class EmployeeController extends Controller
      */
     public function searchRegisteredRecords(Request $request){
 
-        //  dd($request->search);
         $registeredRecords = Employee::select(
             'employee.full_name',
             'employee.personal_email',
@@ -467,7 +464,6 @@ class EmployeeController extends Controller
          ->join('municipalities as mu', 'e.municipality_assigned_id', '=', 'mu.id', 'left outer')
          ->join('department as de', 'mu.department_id', '=', 'de.id', 'left outer')
          ->join('direction as di', 'e.direction_id', '=', 'di.id', 'left outer')
-        //  ->join('subdirection as sub', 'e.subdirection_id', '=', 'sub.id', 'left outer')
          ->join('dependence as dep', 'e.unit_id', '=', 'dep.id', 'left outer')
          ->join('family_group_emergency as fge', 'e.id', '=', 'fge.employee_id', 'left outer')
          ->join('kinship as k', 'fge.kinship_id', '=', 'k.id', 'left outer')
@@ -545,7 +541,6 @@ class EmployeeController extends Controller
 
         $employee = Employee::select('employee_status_id')->where('user_id', auth()->user()->id)->first();
 
-        // dd($employee->employee_status_id);
         return response()->json(['message' => 'success', 'status' => $employee->employee_status_id]);
 
      }
