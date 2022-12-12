@@ -304,7 +304,7 @@ export default {
         sameAsPassword: sameAs("password"),
       },
       dui: {
-        required,
+        // required,
         isValidDui: helpers.regex("isValidDui", /[0-9]{8}-[0-9]/),
       },
     },
