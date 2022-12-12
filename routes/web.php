@@ -92,10 +92,6 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
             return view('profession.index');
         });
 
-        // Route::get('/units', function () {
-        //     return view('unit.index');
-        // });
-
         Route::get('/dependencies', function () {
             return view('dependence.index');
         });

@@ -56,17 +56,7 @@ export const getData = async (step) => {
                         itemsPerPage: -1,
                     },
                 }),
-                // axios.get("/api/subdirections", {
-                //     params: {
-                //         itemsPerPage: -1,
-                //     },
-                // }),
                 // axios.get("/api/dependencies", {
-                //     params: {
-                //         itemsPerPage: -1,
-                //     },
-                // }),
-                // axios.get("/api/units", {
                 //     params: {
                 //         itemsPerPage: -1,
                 //     },
