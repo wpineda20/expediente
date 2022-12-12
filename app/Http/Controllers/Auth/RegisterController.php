@@ -87,6 +87,7 @@ class RegisterController extends Controller
         $user_id = $user->id;
 
         $employee->user_id = $user_id;
+        $employee->employee_status_id = 1;
 
         $employee->save();
 

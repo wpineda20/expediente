@@ -26,16 +26,15 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('cell_phone')->nullable();
             $table->foreignId('direction_id')->nullable()->constrained()->references('id')->on('direction')->comment('Dirección');
-            $table->foreignId('subdirection_id')->nullable()->constrained()->references('id')->on('subdirection')->comment('Subdirección');
-            $table->foreignId('unit_id')->nullable()->constrained()->references('id')->on('unit')->comment('Unidad');
+            $table->foreignId('unit_id')->nullable()->constrained()->references('id')->on('dependence')->comment('Dependencia');
             $table->string('nominal_fee')->nullable();
             $table->string('functional_position')->nullable();
             $table->string('immediate_superior')->nullable();
             $table->string('email_institutional')->nullable();
             $table->integer('municipality_assigned_id')->nullable();
-            $table->integer('subjects_approved')->nullable();
             $table->string('dui_file', 500)->nullable();
             $table->string('title_file', 500)->nullable();
+            $table->foreignId('employee_status_id')->nullable()->constrained()->references('id')->on('employee_status')->comment('1=Registrado 2=Digitado 3=Finalizado');
             $table->softDeletes();
             $table->timestamps();
         });

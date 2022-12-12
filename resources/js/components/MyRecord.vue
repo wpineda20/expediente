@@ -34,7 +34,7 @@
             </v-col>
             <v-col cols="12" md="12" sm="12">
               <h4 class="text-center fw-bold text-decoration-underline">
-                HOJA DE ACTUALIZACIÓN DE DATOS PERSONALES 2022
+                HOJA DE ACTUALIZACIÓN DE DATOS PERSONALES {{ currentYear }}
               </h4>
             </v-col>
             <v-col cols="12" md="12" sm="12">
@@ -145,7 +145,7 @@
                   </span>
                 </v-col>
                 <!-- Direction -->
-                <v-col cols="12" md="6" sm="6">
+                <v-col cols="12" md="12" sm="12">
                   <span class="text-uppercase fw-bold">DIRECCIÓN: </span>
                   <span class="text-uppercase">{{
                     employeeRecord.direction_id
@@ -153,23 +153,15 @@
                 </v-col>
 
                 <!-- Direction -->
-                <!-- Sub Direction -->
-                <v-col cols="12" md="6" sm="6">
-                  <span class="text-uppercase fw-bold">SUB DIRECCIÓN: </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.subdirection_id
-                  }}</span>
-                </v-col>
 
-                <!-- Sub Direction -->
-                <!-- Unit -->
+                <!-- Dependence -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="text-uppercase fw-bold">UNIDAD: </span>
+                  <span class="text-uppercase fw-bold">DEPENDENCIA: </span>
                   <span class="text-uppercase">{{
                     employeeRecord.unit_id
                   }}</span>
                 </v-col>
-                <!-- Unit -->
+                <!-- Dependence -->
                 <!-- Nominal Fee -->
                 <v-col cols="12" md="6" sm="6">
                   <span class="fw-bold text-uppercase">CARGO NOMINAL: </span>
@@ -294,10 +286,24 @@
                   }}</span>
                 </v-col>
                 <!-- Phone -->
+                <!-- Emergency Address -->
+                <v-col cols="12" md="12" sm="12">
+                  <span class="fw-bold text-uppercase">DIRECCIÓN: </span>
+                  <span class="text-uppercase">{{
+                    employeeRecord.emergency_address
+                  }}</span>
+                </v-col>
+                <!-- Emergency Address -->
               </v-row>
             </v-col>
             <v-col cols="12" md="12" sm="12">
-              <v-row style="border: solid 2px #000; margin-bottom: 5px">
+              <v-row
+                style="
+                  border: solid 2px #000;
+                  margin-bottom: 5px;
+                  border-bottom: none;
+                "
+              >
                 <h5 class="text-center fw-bold bg-black mb-0">
                   IV. FORMACIÓN ACADÉMICA ( NIVEL EDUCATIVO OBTENIDO )
                 </h5>
@@ -314,10 +320,14 @@
                       <tr class="text-center fw-bold hide">
                         <td>NIVEL EDUCATIVO</td>
                         <td>CENTRO EDUCATIVO</td>
-                        <td>AÑO</td>
+                        <td>AÑO DE FINALIZACIÓN</td>
                         <td style="border-right-color: #fff !important">
                           TITULO RECIBIDO
                         </td>
+                        <!-- <td>ESTADO</td> -->
+                        <!-- <td style="border-right-color: #fff !important">
+                          MATERIAS APROBADAS
+                        </td> -->
                       </tr>
                       <tr
                         v-for="(academic, index) in employeeRecord.academics"
@@ -335,24 +345,75 @@
                         <td style="border-right-color: #fff !important">
                           <p>{{ academic.obtained_title }}</p>
                         </td>
+                        <!-- <td v-if="academic.career_status == 'No Finalizada'">
+                          <p class="text-center">
+                            {{ academic.career_status }}
+                          </p>
+                        </td> -->
+                        <!-- <td
+                          style="border-right-color: #fff !important"
+                          v-if="academic.subjects_approved"
+                        >
+                          <p class="text-center">
+                            {{ academic.subjects_approved }}
+                          </p>
+                        </td> -->
                       </tr>
                     </tbody>
                   </table>
                 </v-col>
               </v-row>
             </v-col>
-            <!-- Subjects Approved -->
-            <v-col cols="12" md="12" sm="12">
-              <span class="fw-bold"
-                >En caso de haber estudiado una carrera universitaria y no fue
-                finalizada, establezca cuantas materias aprobó:
-              </span>
-              <span class="text-uppercase">{{
-                employeeRecord.subjects_approved
-              }}</span>
-            </v-col>
-            <!-- Subjects Approved -->
-            <v-col cols="12" md="12" sm="12">
+            <v-row
+              v-for="(academic, index) in employeeRecord.academics"
+              :key="index"
+            >
+              <v-col
+                cols="12"
+                md="12"
+                sm="12"
+                v-if="academic.career_status == 'No Finalizada'"
+              >
+                <span class="fw-bold">NOTA:</span
+                ><span class="text-uppercase">
+                  En caso de haber estudiado una carrera universitaria y no fue
+                  finalizada:
+                </span>
+              </v-col>
+              <!-- Career Status -->
+              <v-col
+                cols="12"
+                md="4"
+                sm="4"
+                v-if="academic.career_status == 'No Finalizada'"
+              >
+                <span class="fw-bold text-uppercase">ESTADO: </span>
+                <span class="text-uppercase">{{ academic.career_status }}</span>
+              </v-col>
+              <!-- Career -->
+              <v-col
+                cols="12"
+                md="4"
+                sm="4"
+                v-if="academic.career_status == 'No Finalizada'"
+              >
+                <span class="fw-bold text-uppercase">Carrera: </span>
+                <span class="text-uppercase">{{ academic.career }}</span>
+              </v-col>
+              <!-- Subjects Approved -->
+              <v-col
+                cols="12"
+                md="4"
+                sm="4"
+                v-if="academic.career_status == 'No Finalizada'"
+              >
+                <span class="fw-bold text-uppercase">Materias aprobadas: </span>
+                <span class="text-uppercase">{{
+                  academic.subjects_approved
+                }}</span>
+              </v-col>
+            </v-row>
+            <v-col cols="12" md="12" sm="12" class="pt-5">
               <span class="fw-bold text-uppercase">Documentos a anexar: </span>
               <a
                 :href="employeeRecord.dui_file"
@@ -392,33 +453,43 @@ export default {
       redirectSessionFinished: false,
       alertTimeOut: 0,
       status: 1,
+      currentYear: new Date().getFullYear(), // 2022
     };
   },
 
   mounted() {
-    this.initialize();
+    this.verifryStatus();
   },
 
   methods: {
+    async verifryStatus() {
+      const res = await axios.get("api/verifyStatus").catch((error) => {
+        this.verifySessionFinished(error, 401);
+      });
+
+      if (res.data.message == "success") {
+        this.status = res.data.status;
+        if (this.status == 1) {
+          window.location = "/record";
+        } else {
+          this.initialize();
+        }
+      }
+    },
     async initialize() {
       this.loading = true;
       const res = await axios.get("/api/employee/myRecord").catch((error) => {
         this.verifySessionFinished(error, 401);
-        window.location = "/record";
       });
 
-      if (res.data.recordInfoEmployee === null) {
-        window.location = "/record";
-      } else {
-        this.employeeRecord = res.data.recordInfoEmployee;
+      this.employeeRecord = res.data.recordInfoEmployee;
 
-        if (this.employeeRecord.vulnerable_area === 1) {
-          this.employeeRecord.vulnerable_area = "SÍ";
-        } else {
-          this.employeeRecord.vulnerable_area = "NO";
-        }
-        this.loading = false;
+      if (this.employeeRecord.vulnerable_area === 1) {
+        this.employeeRecord.vulnerable_area = "SÍ";
+      } else {
+        this.employeeRecord.vulnerable_area = "NO";
       }
+      this.loading = false;
     },
     verifySessionFinished(error, code) {
       if (error.response.status == code) {

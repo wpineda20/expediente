@@ -1,5 +1,4 @@
 import axios from "axios";
-import { helpers } from "vuelidate/lib/validators";
 
 export default {
     verifySessionFinished: (status, code = 200) => {
@@ -57,16 +56,21 @@ export const getData = async (step) => {
                         itemsPerPage: -1,
                     },
                 }),
-                axios.get("/api/subdirections", {
-                    params: {
-                        itemsPerPage: -1,
-                    },
-                }),
-                axios.get("/api/units", {
-                    params: {
-                        itemsPerPage: -1,
-                    },
-                }),
+                // axios.get("/api/subdirections", {
+                //     params: {
+                //         itemsPerPage: -1,
+                //     },
+                // }),
+                // axios.get("/api/dependencies", {
+                //     params: {
+                //         itemsPerPage: -1,
+                //     },
+                // }),
+                // axios.get("/api/units", {
+                //     params: {
+                //         itemsPerPage: -1,
+                //     },
+                // }),
             ];
             break;
         case 3:
@@ -97,6 +101,7 @@ export const getData = async (step) => {
 export const setInfoEmployee = (employee) => {
     return {
         idSection: employee.idSection,
+        employee_status_id: employee.employee_status_id,
         step1: {
             full_name: employee.full_name,
             family_status_name: employee.family_status_name,
@@ -111,7 +116,6 @@ export const setInfoEmployee = (employee) => {
         },
         step2: {
             direction_name: employee.direction_name,
-            subdirection_name: employee.subdirection_name,
             unit_name: employee.unit_name,
             nominal_fee: employee.nominal_fee,
             functional_position: employee.functional_position,
@@ -125,6 +129,7 @@ export const setInfoEmployee = (employee) => {
             emergency_phone: employee.emergency_phone,
             emergency_cell_phone: employee.emergency_cell_phone,
             kinship_name: employee.kinship_name,
+            emergency_address: employee.emergency_address,
             families: employee.families,
         },
         step4: {
@@ -137,15 +142,3 @@ export const setInfoEmployee = (employee) => {
         },
     };
 };
-
-// export const getAllRecords = async () => {
-//     const { data } = await axios
-//         .get("/api/employee/registeredRecords")
-//         .catch((error) => {
-//             console.log(error);
-//         });
-
-//     return data.employee;
-// };
-
-export const httpsValid = helpers.regex("https", /^https:\/\//);

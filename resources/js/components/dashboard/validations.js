@@ -61,12 +61,10 @@ const validations = {
         step2: {
             direction_name: {
                 required,
-            },
-            subdirection_name: {
-                required,
+                minLength: minLength(1),
             },
             unit_name: {
-                required,
+                minLength: minLength(1),
             },
             nominal_fee: {
                 required,
@@ -120,12 +118,14 @@ const validations = {
                     /([0-9]{4}-[0-9]{4})/
                 ),
             },
+            emergency_address: {
+                required,
+                minLength: minLength(1),
+                maxLength: maxLength(150),
+            },
         },
         step4: {
-            subjects_approved: {
-                minLength: minLength(1),
-                maxLength: maxLength(2),
-            },
+            //
         },
         step5: {
             dui_file: {

@@ -28,8 +28,6 @@ export default {
             case 2:
                 this.departments = responses[0].data.departments;
                 this.directions = responses[1].data.records;
-                this.subdirections = responses[2].data.records;
-                this.units = responses[3].data.records;
                 break;
             case 3:
                 this.kinships = responses[0].data.records;
@@ -91,10 +89,12 @@ export default {
     },
 
     changeStepSection(step = 1) {
-        // console.log(this.employee);
-        // if (this.employee.dui_file != "" || this.employee.title_file != "") {
-        this.step = step;
-        // }
+        if (
+            this.employee.employee_status_id == 2 ||
+            this.employee.employee_status_id == 3
+        ) {
+            this.step = step;
+        }
     },
 
     setInitForm() {

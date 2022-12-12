@@ -27,16 +27,15 @@ class Employee extends Model
         'phone',
         'cell_phone',
         'direction_id',
-        'subdirection_id',
         'unit_id',
         'nominal_fee',
         'functional_position',
         'immediate_superior',
         'email_institutional',
         'municipality_assigned_id',
-        'subjects_approved',
         'dui_file',
         'title_file',
+        'employee_status_id'
     ];
 
      public $hidden = [

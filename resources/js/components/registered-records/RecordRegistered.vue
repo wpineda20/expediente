@@ -52,40 +52,6 @@
               </v-col>
               <!-- Full name -->
 
-              <!-- Cellphone -->
-              <v-col
-                cols="12"
-                xs="12"
-                sm="12"
-                md="6"
-                v-if="employee.cell_phone"
-              >
-                <v-text-field
-                  dense
-                  readonly
-                  outlined
-                  label=""
-                  type="text"
-                  placeholder=""
-                  v-model="employee.cell_phone"
-                  class="p-0 mt-0 pl-2"
-                ></v-text-field>
-              </v-col>
-              <!-- Cellphone -->
-              <!-- Phone -->
-              <v-col cols="12" xs="12" sm="12" md="6" v-if="employee.phone">
-                <v-text-field
-                  dense
-                  readonly
-                  outlined
-                  label="Télefono"
-                  type="text"
-                  placeholder="Télefono"
-                  v-model="employee.phone"
-                  class="p-0 mt-0 pl-2"
-                ></v-text-field>
-              </v-col>
-
               <!-- Family Status Name -->
               <v-col cols="12" xs="12" sm="12" md="6">
                 <v-text-field
@@ -115,13 +81,7 @@
               <!-- Profession Name -->
 
               <!-- Current Address -->
-              <v-col
-                cols="12"
-                xs="12"
-                sm="12"
-                md="12"
-                v-if="employee.current_address"
-              >
+              <v-col cols="12" xs="12" sm="12" md="12">
                 <v-textarea
                   name="input-7-4"
                   readonly
@@ -169,7 +129,7 @@
                   dense
                   readonly
                   outlined
-                  label="Municipio"
+                  label="Especifique si el lugar de su domicilio es zona vulnerable"
                   type="text"
                   placeholder=""
                   v-model="employee.vulnerableArea"
@@ -190,6 +150,34 @@
                 ></v-text-field>
               </v-col>
               <!-- Personal Email -->
+              <!-- Cellphone -->
+              <v-col cols="12" xs="12" sm="12" md="6">
+                <v-text-field
+                  dense
+                  readonly
+                  outlined
+                  label="Celular"
+                  type="text"
+                  placeholder="Celular"
+                  v-model="employee.cell_phone"
+                  class="p-0 mt-0 pl-2"
+                ></v-text-field>
+              </v-col>
+              <!-- Cellphone -->
+              <!-- Phone -->
+              <v-col cols="12" xs="12" sm="12" md="6">
+                <v-text-field
+                  dense
+                  readonly
+                  outlined
+                  label="Télefono"
+                  type="text"
+                  placeholder="Télefono"
+                  v-model="employee.phone"
+                  class="p-0 mt-0 pl-2"
+                ></v-text-field>
+              </v-col>
+              <!-- Phone -->
             </v-row>
           </div>
           <v-btn class="btn btn-normal mt-3 mb-3" @click="step++"
@@ -219,7 +207,7 @@
           <div class="mb-1 mt-2 h-100">
             <v-row>
               <!-- Direction -->
-              <v-col cols="12" xs="12" sm="12" md="6">
+              <v-col cols="12" xs="12" sm="12" md="12">
                 <v-text-field
                   dense
                   readonly
@@ -231,20 +219,6 @@
                 ></v-text-field>
               </v-col>
               <!-- Direction -->
-
-              <!-- Subdirección -->
-              <v-col cols="12" xs="12" sm="12" md="6">
-                <v-text-field
-                  dense
-                  readonly
-                  outlined
-                  label="Subdirección"
-                  type="text"
-                  v-model="employee.subdirection_name"
-                  class="p-0 mt-0 pl-2"
-                ></v-text-field>
-              </v-col>
-              <!-- Subdirección -->
 
               <!-- Unit Name -->
               <v-col cols="12" xs="12" sm="12" md="12">
@@ -393,7 +367,7 @@
                 <tr v-if="families.length == 0">
                   <td colspan="6">
                     <p class="text-center">
-                      No se encontró ningún estudio académico registrado.
+                      No se encontró ningún familiar registrado.
                     </p>
                   </td>
                 </tr>
@@ -431,13 +405,7 @@
               <!-- Emergency Kinship -->
 
               <!-- Emergency Cellphone -->
-              <v-col
-                cols="12"
-                xs="12"
-                sm="12"
-                md="6"
-                v-if="employee.emergency_cell_phone"
-              >
+              <v-col cols="12" xs="12" sm="12" md="6">
                 <v-text-field
                   dense
                   readonly
@@ -451,13 +419,7 @@
               </v-col>
               <!-- Emergency Cellphone -->
               <!-- Emergency Phone -->
-              <v-col
-                cols="12"
-                xs="12"
-                sm="12"
-                md="6"
-                v-if="employee.emergency_phone"
-              >
+              <v-col cols="12" xs="12" sm="12" md="6">
                 <v-text-field
                   dense
                   readonly
@@ -470,6 +432,20 @@
                 ></v-text-field>
               </v-col>
               <!-- Emergency Phone -->
+              <!-- Emergency Address -->
+              <v-col cols="12" xs="12" sm="12" md="12">
+                <v-text-field
+                  dense
+                  readonly
+                  outlined
+                  label="Dirección"
+                  type="text"
+                  placeholder="Teléfono"
+                  v-model="employee.emergency_address"
+                  class="p-0 mt-0 pl-2"
+                ></v-text-field>
+              </v-col>
+              <!-- Emergency Address -->
             </v-row>
           </div>
           <v-btn class="btn btn-normal mt-3 mb-3" @click="step++"
@@ -503,7 +479,7 @@
               <thead>
                 <th>Nivel educativo</th>
                 <th>Centro educativo</th>
-                <th>Año</th>
+                <th>Año de finalización</th>
                 <th>Título recibido</th>
               </thead>
               <tbody>
@@ -524,34 +500,58 @@
                 <tr v-if="academics.length == 0">
                   <td colspan="6">
                     <p class="text-center">
-                      No se encontró ningún estudio académico registrado.
+                      No se encontró ningún nivel académico registrado.
                     </p>
                   </td>
                 </tr>
               </tbody>
             </table>
             <!-- Family Group -->
-            <v-row>
-              <!-- Subjects Approved -->
-              <v-col cols="12" xs="12" sm="12" md="12">
-                <h6 class="mb-5">
+            <v-row v-for="(academic, index) in academics" :key="index">
+              <v-col
+                cols="12"
+                md="12"
+                sm="12"
+                v-if="academic.career_status == 'No Finalizada'"
+              >
+                <span class="fw-bold">NOTA:</span
+                ><span class="text-uppercase">
                   En caso de haber estudiado una carrera universitaria y no fue
-                  finalizada, establezca cuantas materias aprobó:
-                </h6>
-                <v-col cols="12" xs="12" sm="12" md="6">
-                  <v-text-field
-                    dense
-                    readonly
-                    label="Materias aprobadas"
-                    outlined
-                    type="text"
-                    placeholder="Materias aprobadas"
-                    v-model="employee.subjects_approved"
-                    class="p-0 mt-0 pl-2"
-                  ></v-text-field>
-                </v-col>
+                  finalizada:
+                </span>
+              </v-col>
+              <!-- Career Status -->
+              <v-col
+                cols="12"
+                md="4"
+                sm="4"
+                v-if="academic.career_status == 'No Finalizada'"
+              >
+                <span class="fw-bold text-uppercase">ESTADO: </span>
+                <span class="text-uppercase">{{ academic.career_status }}</span>
+              </v-col>
+              <!-- Career -->
+              <v-col
+                cols="12"
+                md="4"
+                sm="4"
+                v-if="academic.career_status == 'No Finalizada'"
+              >
+                <span class="fw-bold text-uppercase">Carrera: </span>
+                <span class="text-uppercase">{{ academic.career }}</span>
               </v-col>
               <!-- Subjects Approved -->
+              <v-col
+                cols="12"
+                md="4"
+                sm="4"
+                v-if="academic.career_status == 'No Finalizada'"
+              >
+                <span class="fw-bold text-uppercase">Materias aprobadas: </span>
+                <span class="text-uppercase">{{
+                  academic.subjects_approved
+                }}</span>
+              </v-col>
             </v-row>
           </div>
           <v-btn class="btn btn-normal mt-3 mb-3" @click="step++"
@@ -583,10 +583,20 @@
               <v-col cols="12" md="12" sm="12">
                 <span class="fw-bold">Documentos a anexar: </span>
                 <a :href="employee.dui_file" target="_blank"
-                  ><li>Copia de su Documento Único de Identidad.</li></a
+                  ><li v-if="employee.dui_file">
+                    Copia de su Documento Único de Identidad.
+                  </li>
+                  <li v-else>
+                    No se adjuntó ninguna copia de Documento Único de Identidad
+                  </li></a
                 >
                 <a :href="employee.title_file" target="_blank"
-                  ><li>Copia de Título o Diploma si adquirió alguno.</li>
+                  ><li v-if="employee.title_file">
+                    Copia de Título o Diploma si adquirió alguno.
+                  </li>
+                  <li v-else>
+                    No se adjuntó ninguna copia de Título o Diploma
+                  </li>
                 </a>
               </v-col>
             </v-row>
@@ -594,38 +604,6 @@
           <!-- <v-btn text>Cancel -->
         </v-stepper-content>
         <!-- Anexar documentos -->
-
-        <!-- <v-row>
-          <v-col cols="12" xs="12" sm="12" md="12" v-if="txtNotify">
-            <v-textarea
-              label="Ingresa un comentario"
-              name="input-7-4"
-              outlined
-              placeholder=""
-              v-model="description"
-              class="mb-2"
-              rows="5"
-            ></v-textarea>
-          </v-col>
-          <v-col cols="12" xs="12" sm="12" md="4">
-            <v-btn
-              class="btn btn-normal-close mb-3"
-              @click="notifyUser()"
-              v-if="btnNotify"
-              :disabled="!!disableButton"
-            >
-              Notificar
-            </v-btn>
-            <v-btn
-              class="btn btn-normal-close mb-5"
-              :disabled="!!disableButton"
-              @click="publishUser()"
-              v-else
-            >
-              Publicar
-            </v-btn>
-          </v-col>
-        </v-row> -->
       </v-app>
     </v-stepper>
     <v-row v-else class="card-rounded">

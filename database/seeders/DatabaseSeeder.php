@@ -22,11 +22,10 @@ class DatabaseSeeder extends Seeder
             FamilyStatusSeeder::class,
             AcademicLevelSeeder::class,
             ProfessionSeeder::class,
-            UnitSeeder::class,
             DirectionSeeder::class,
-            SubdirectionSeeder::class,
+            DependenceSeeder::class,
             KinshipSeeder::class,
-            // EmployeeSeeder::class,
+            EmployeeStatusSeeder::class,
         ]);
     }
 }

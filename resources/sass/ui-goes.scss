@@ -238,6 +238,22 @@ footer {
     .col-md-5 {
         width: 80.66%;
     }
+
+    // .body-content{
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //     flex-direction: column;
+    //     row-gap: 10px;
+    // }
+
+    // .body-content .content-item h4{
+    //     margin-bottom: 20px;
+    //     font-size: 16px;
+    // }
+    // .body-content .content-item{
+    //     width: 100%;
+    // }
 }
 
 /**
@@ -534,8 +550,8 @@ select:-webkit-autofill {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    row-gap: 10px;
+    flex-direction: column;
 }
 
-.content-item{
 
-}

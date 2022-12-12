@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Subdirection extends Model
+class EmployeeStatus extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'subdirection';
+    protected $table = 'employee_status';
 
     public $incrementing = true;
 
     protected $data = ['deleted_at'];
 
     protected $fillable = [
-        'id', 'subdirection_name', 'deleted_at', 'created_at', 'updated_at', 
+        'id', 'status_name', 
     ];
 
     public $hidden = [
@@ -30,21 +30,21 @@ class Subdirection extends Model
 
     public static function allDataSearched($search, $sortBy, $sort, $skip, $itemsPerPage)
     {
-        return Subdirection::select('subdirection.*', 'subdirection.id as id')
+        return EmployeeStatus::select('employee_status.*', 'employee_status.id as id')
         
-		->where('subdirection.subdirection_name', 'like', $search)
+		->where('employee_status.status_name', 'like', $search)
 
         ->skip($skip)
         ->take($itemsPerPage)
-        ->orderBy("subdirection.$sortBy", $sort)
+        ->orderBy("employee_status.$sortBy", $sort)
         ->get();
     }
 
     public static function counterPagination($search)
     {
-        return Subdirection::select('subdirection.*', 'subdirection.id as id')
+        return EmployeeStatus::select('employee_status.*', 'employee_status.id as id')
         
-		->where('subdirection.subdirection_name', 'like', $search)
+		->where('employee_status.status_name', 'like', $search)
 
         ->count();
     }

@@ -38,7 +38,7 @@
             </tr>
             <tr v-if="families.length == 0">
               <td colspan="5" class="text-center pt-4">
-                <p>No se encontró ningún registro.</p>
+                <p>No se encontró ningún familiar registrado.</p>
               </td>
             </tr>
           </tbody>
@@ -144,6 +144,15 @@
           :validation="validation.emergency_phone"
           v-mask="'####-####'"
           validationTextType="only-numbers"
+        />
+      </v-col>
+      <!-- Address -->
+      <v-col cols="12" xs="12" sm="12" md="12">
+        <base-input
+          label="Dirección"
+          v-model.trim="validation.emergency_address.$model"
+          :validation="validation.emergency_address"
+          validationTextType="none"
         />
       </v-col>
     </v-row>
