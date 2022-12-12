@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-btn class="btn btn-normal mb-3 mt-3" @click="addFamily()">
-          Agregar
+          Agregar Familiar
         </v-btn>
       </v-col>
     </v-row>

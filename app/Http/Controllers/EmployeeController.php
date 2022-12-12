@@ -64,7 +64,12 @@ class EmployeeController extends Controller
                 $employee->personal_email = $request->personal_email;
                 $employee->phone = $request->phone;
                 $employee->cell_phone = $request->cell_phone;
-                $employee->employee_status_id = 2;
+
+                if($employee->employee_status_id == 2){
+                    $employee->employee_status_id = 3;
+                }else{
+                    $employee->employee_status_id = 2;
+                }
 
                 $employee->save();
                 break;
