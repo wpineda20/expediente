@@ -15,13 +15,13 @@ class ProfessionSeeder extends Seeder
      */
     public function run()
     {
-        Profession::insert([
-            [
-                "id" => 1,
-                "profession_name" => "Programador/a",
-                "created_at" => now(),
+        // Profession::insert([
+        //     [
+        //         "id" => 1,
+        //         "profession_name" => "Programador/a",
+        //         "created_at" => now(),
 
-            ],
-        ]);
+        //     ],
+        // ]);
     }
 }
