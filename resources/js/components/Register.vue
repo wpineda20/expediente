@@ -46,7 +46,7 @@
                   <!-- Last name -->
                   <v-col cols="12" xs="12" sm="12" md="12">
                     <base-input
-                      label="Apellidos"
+                      label="Apellido"
                       v-model.trim="$v.user.last_name.$model"
                       :validation="$v.user.last_name"
                       validationTextType="default"
@@ -263,12 +263,12 @@ export default {
       alertEvent: "",
       counterAlert: 0,
       user: {
-        name: "Leonel",
-        last_name: "Lopez",
-        email: "lopezleonel192@gmail.com",
-        dui: "12345678-3",
-        password: "Leonel23",
-        password_confirmation: "Leonel23",
+        name: "",
+        last_name: "",
+        email: "",
+        dui: "",
+        password: "",
+        password_confirmation: "",
       },
       showTextPassword: "Mostrar contraseña",
       showAlert: false,
