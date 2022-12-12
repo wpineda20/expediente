@@ -30,6 +30,12 @@ class AcademicDataController extends Controller
 
         foreach ($request->academics as $level) {
 
+            if($level['career_status'] == true) {
+                $level['career_status'] = 2;
+            }else{
+                $level['career_status'] = 1;
+            }
+
             AcademicData::insert([
                 'employee_id' => $employee_id,
                 'academic_level_id' => AcademicLevel::where('level_name', $level['level_name'])->first()?->id,

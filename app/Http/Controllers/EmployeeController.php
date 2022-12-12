@@ -99,22 +99,10 @@ class EmployeeController extends Controller
                 break;
             case 4:
 
-                foreach ($request->academics as $item) {
-
-                    if($item['career_status'] == true){
-                        $item['career_status'] = 2;
-                    }
-
-                    // ($item['career_status'] == true) ? 2 : (($item['career_status'] == false) ? 1 : null);
-
-                }
-                dd($request->academics);
-
                 AcademicDataController::store($request, $employee->id);
 
                 break;
             case 5:
-                // dd($request);
 
                 if ($request->dui_file) {
                 $employee->dui_file = FileController::base64ToFile($request->dui_file, date("Y-m-d") . '-dui', 'dui');
@@ -310,17 +298,14 @@ class EmployeeController extends Controller
         $skip = $request->skip;
         $limit = $request->take - $skip; // the limit
 
-        $registeredRecords = Employee::select('*', 'employee.id as employee_id', 'es.status_name')
+        $registeredRecords = Employee::select('*', 'employee.id as employee_id', 'es.status_name', DB::raw("CONCAT(u.name,' ',u.last_name) AS user_name"))
         ->join('employee_status as es', 'employee.employee_status_id', '=', 'es.id')
-        // ->where('employee.employee_status_id', 3)
+        ->join('users as u', 'employee.user_id', '=', 'u.id')
         ->skip($skip)
         ->take($limit)
         ->get();
 
-        // dd($registeredRecords);
-
         $total = Employee::count();
-        // dd($total);
 
         return response()->json([
             'message' => 'success',
@@ -346,8 +331,7 @@ class EmployeeController extends Controller
             'm.municipality_name as municipality_id',
             'd.department_name',
             'di.direction_name as direction_id',
-            // 'sub.subdirection_name as subdirection_id',
-            // 'u.unit_name as unit_id',
+            'dep.unit_name as unit_id',
             'mu.municipality_name as municipality_assigned_id',
             'de.department_name as department_assigned_id',
             'fge.emergency_full_name',
@@ -362,8 +346,7 @@ class EmployeeController extends Controller
         ->join('municipalities as m', 'e.municipality_id', '=', 'm.id', 'left outer')
         ->join('department as d', 'm.department_id', '=', 'd.id', 'left outer')
         ->join('direction as di', 'e.direction_id', '=', 'di.id', 'left outer')
-        // ->join('subdirection as sub', 'e.subdirection_id', '=', 'sub.id', 'left outer')
-        // ->join('unit as u', 'e.unit_id', '=', 'u.id', 'left outer')
+        ->join('dependence as dep', 'e.unit_id', '=', 'dep.id', 'left outer')
         ->join('municipalities as mu', 'e.municipality_assigned_id', '=', 'mu.id', 'left outer')
         ->join('department as de', 'mu.department_id', '=', 'de.id', 'left outer')
         ->join('family_group_emergency as fge', 'e.id', '=', 'fge.employee_id', 'left outer')
@@ -403,6 +386,14 @@ class EmployeeController extends Controller
         ->join('academic_level as al', 'ad.academic_level_id', '=', 'al.id')
         ->where('e.user_id', auth()->user()->id)
         ->get();
+
+        foreach ($academicData as $key => $value) {
+            if($value->career_status == 2){
+                $value->career_status = "No Finalizada";
+            }else{
+                $value->career_status = "Finalizada";
+            }
+        }
 
         $recordInfoEmployee->academics = $academicData;
 
@@ -461,8 +452,7 @@ class EmployeeController extends Controller
             'mu.municipality_name as municipality_assigned_id',
             'de.department_name as department_assigned_id',
             'di.direction_name',
-            // 'sub.subdirection_name',
-            // 'u.unit_name',
+            'dep.unit_name',
             'fge.emergency_full_name',
             'fge.emergency_phone',
             'fge.emergency_cell_phone',
@@ -478,7 +468,7 @@ class EmployeeController extends Controller
          ->join('department as de', 'mu.department_id', '=', 'de.id', 'left outer')
          ->join('direction as di', 'e.direction_id', '=', 'di.id', 'left outer')
         //  ->join('subdirection as sub', 'e.subdirection_id', '=', 'sub.id', 'left outer')
-        //  ->join('unit as u', 'e.unit_id', '=', 'u.id', 'left outer')
+         ->join('dependence as dep', 'e.unit_id', '=', 'dep.id', 'left outer')
          ->join('family_group_emergency as fge', 'e.id', '=', 'fge.employee_id', 'left outer')
          ->join('kinship as k', 'fge.kinship_id', '=', 'k.id', 'left outer')
          ->where('e.id', $request->id)
@@ -516,13 +506,23 @@ class EmployeeController extends Controller
             'academic_data.education_center',
             'academic_data.year',
             'academic_data.obtained_title',
+            'academic_data.career_status',
+            'academic_data.career',
+            'academic_data.subjects_approved',
             'al.level_name as academic_level_id',
             )
         ->join('employee as e', 'academic_data.employee_id', '=', 'e.id')
         ->join('academic_level as al', 'academic_data.academic_level_id', '=', 'al.id')
         ->where('e.id', $request->id)
         ->get();
-        // dd($academicData);
+
+        foreach ($academicData as $key => $value) {
+            if($value->career_status == 2){
+                $value->career_status = "No Finalizada";
+            }else{
+                $value->career_status = "Finalizada";
+            }
+        }
 
 
          return response()->json([

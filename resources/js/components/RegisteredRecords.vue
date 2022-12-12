@@ -74,12 +74,12 @@ export default {
       search: "",
       singleExpand: true,
       headers: [
-        // {
-        //   text: "NOMBRE COMPLETO",
-        //   align: "start",
-        //   sortable: true,
-        //   value: "full_name",
-        // },
+        {
+          text: "USUARIO",
+          align: "start",
+          sortable: true,
+          value: "user_name",
+        },
         { text: "NOMBRE", value: "full_name" },
         { text: "CORREO PERSONAL", value: "personal_email" },
         { text: "CELULAR", value: "cell_phone" },
