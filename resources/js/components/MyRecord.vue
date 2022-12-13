@@ -223,10 +223,8 @@
                 <h5 class="text-center fw-bold bg-black mb-0">
                   III. GRUPO FAMILIAR
                 </h5>
-                <v-col cols="12" md="12" sm="12" style="padding: 12px 0px">
+                <v-col cols="12" md="12" sm="12" class="table-responsive" style="padding: 12px 0px">
                   <table class="table table-bordered table-responsive-md">
-                    <!-- <thead> -->
-                    <!-- </thead> -->
                     <tbody>
                       <tr class="text-center fw-bold">
                         <td>NOMBRE COMPLETO</td>
@@ -322,6 +320,7 @@
                   md="12"
                   sm="12"
                   style="padding: 12px 0px 0px 0px"
+                  class="table-responsive"
                 >
                   <table class="table table-bordered table-responsive-md">
                     <!-- <thead> -->
@@ -536,5 +535,18 @@ td {
 
 .table-bordered > :not(caption) > * > * {
   border-width: 2px;
+}
+
+@media screen and (max-width: 550px) {
+  .record-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .card-body {
+    padding: 30px !important;
+  }
 }
 </style>
