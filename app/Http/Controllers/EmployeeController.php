@@ -417,9 +417,11 @@ class EmployeeController extends Controller
             'employee.cell_phone',
             'employee.nominal_fee',
             'employee.id as employee_id',
-            'es.status_name'
+            'es.status_name',
+            DB::raw("CONCAT(u.name,' ',u.last_name) AS user_name")
         )
         ->join('employee_status as es', 'employee.employee_status_id', '=', 'es.id')
+        ->join('users as u', 'employee.user_id', '=', 'u.id')
         ->where('employee.full_name', 'like', '%' . $request->search . '%')
         ->orWhere('employee.personal_email', 'like', '%' . $request->search . '%')
         ->orWhere('employee.nominal_fee', 'like', '%' . $request->search . '%')
