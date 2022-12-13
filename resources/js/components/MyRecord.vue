@@ -249,6 +249,16 @@
                           <p>{{ families.date_birth }}</p>
                         </td>
                       </tr>
+                      <!-- <tr v-if="employeeRecord.familyGroup.length == 0">
+                        <td
+                          colspan="4"
+                          style="border-right-color: #fff !important"
+                        >
+                          <p class="text-center fw-bold">
+                            No se encontró ningún familiar registrado.
+                          </p>
+                        </td>
+                      </tr> -->
                     </tbody>
                   </table>
                 </v-col>
@@ -324,10 +334,6 @@
                         <td style="border-right-color: #fff !important">
                           TITULO RECIBIDO
                         </td>
-                        <!-- <td>ESTADO</td> -->
-                        <!-- <td style="border-right-color: #fff !important">
-                          MATERIAS APROBADAS
-                        </td> -->
                       </tr>
                       <tr
                         v-for="(academic, index) in employeeRecord.academics"
@@ -345,20 +351,14 @@
                         <td style="border-right-color: #fff !important">
                           <p>{{ academic.obtained_title }}</p>
                         </td>
-                        <!-- <td v-if="academic.career_status == 'No Finalizada'">
-                          <p class="text-center">
-                            {{ academic.career_status }}
-                          </p>
-                        </td> -->
-                        <!-- <td
-                          style="border-right-color: #fff !important"
-                          v-if="academic.subjects_approved"
-                        >
-                          <p class="text-center">
-                            {{ academic.subjects_approved }}
-                          </p>
-                        </td> -->
                       </tr>
+                      <!-- <tr v-if="employeeRecord.academics.length == 0" >
+                        <td colspan="4" style="border-right-color: #fff !important">
+                          <p class="text-center fw-bold">
+                            No se encontró ningún nivel académico registrado.
+                          </p>
+                        </td>
+                      </tr> -->
                     </tbody>
                   </table>
                 </v-col>
@@ -453,7 +453,7 @@ export default {
       redirectSessionFinished: false,
       alertTimeOut: 0,
       status: 1,
-      currentYear: new Date().getFullYear(), // 2022
+      currentYear: new Date().getFullYear(), // Current Year
     };
   },
 
@@ -469,7 +469,7 @@ export default {
 
       if (res.data.message == "success") {
         this.status = res.data.status;
-        if (this.status == 1) {
+        if (this.status == 1 || this.status == 2) {
           window.location = "/record";
         } else {
           this.initialize();
@@ -532,12 +532,9 @@ td {
   margin-bottom: 0rem;
   border-color: #000 !important;
   border-left-color: #fff !important;
-  /* border-right-color: #fff !important; */
 }
 
 .table-bordered > :not(caption) > * > * {
   border-width: 2px;
-  /* border-left-width: 0px; */
-  /* border-right-width: 0px; */
 }
 </style>
