@@ -17,7 +17,8 @@
                         </div>
                     </div>
                     <div class="text-center pt-3 pb-3">
-                        <a class="btn btn-normal-close mx-auto text-uppercase" style="padding-left: 25px; padding-right:25px" href="/record">
+                        <a class="btn btn-normal-close mx-auto text-uppercase"
+                            style="padding-left: 25px; padding-right:25px" href="/record">
                             Iniciar Registro
                         </a>
                     </div>
