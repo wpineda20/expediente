@@ -65,9 +65,9 @@ class EmployeeController extends Controller
                 $employee->phone = $request->phone;
                 $employee->cell_phone = $request->cell_phone;
 
-                if($employee->employee_status_id == 2){
+                if ($employee->employee_status_id == 2) {
                     $employee->employee_status_id = 3;
-                }else{
+                } else {
                     $employee->employee_status_id = 2;
                 }
 
@@ -89,7 +89,7 @@ class EmployeeController extends Controller
 
                 $family_group_emergency_data = FamilyGroupEmergency::where('employee_id', $request->employee_id)->first();
 
-                if($family_group_emergency_data == null){
+                if ($family_group_emergency_data == null) {
                     $family_group_emergency_data = new FamilyGroupEmergency();
                 }
 
@@ -110,11 +110,11 @@ class EmployeeController extends Controller
             case 5:
 
                 if ($request->dui_file) {
-                $employee->dui_file = FileController::base64ToFile($request->dui_file, date("Y-m-d") . '-dui', 'dui');
+                    $employee->dui_file = FileController::base64ToFile($request->dui_file, date("Y-m-d") . '-dui', 'dui');
                 }
 
                 if ($request->title_file) {
-                $employee->title_file = FileController::base64ToFile($request->title_file, date("Y-m-d") . '-title', 'titles');
+                    $employee->title_file = FileController::base64ToFile($request->title_file, date("Y-m-d") . '-title', 'titles');
                 }
 
                 $employee->employee_status_id = 3;
@@ -126,12 +126,11 @@ class EmployeeController extends Controller
                 break;
         }
 
-         return response()->json([
+        return response()->json([
             'status' => 200,
             'message' => $notificationEmployee,
             'success' => true,
         ]);
-
     }
 
     /**
@@ -140,11 +139,12 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function infoEmployeeLoggedIn(Request $request){
+    public function infoEmployeeLoggedIn(Request $request)
+    {
 
         $employee = Employee::select('*')
-        ->where('employee.user_id', auth()->user()->id)
-        ->first();
+            ->where('employee.user_id', auth()->user()->id)
+            ->first();
 
         //Family Status
         $familyStatus = DB::table('employee as e')
@@ -154,7 +154,7 @@ class EmployeeController extends Controller
             ->first();
         $employee->family_status_name = $familyStatus?->family_status_name;
 
-         //Profession
+        //Profession
         $profession = DB::table('employee as e')
             ->select('p.profession_name')
             ->join('profession as p', 'e.profession_id', '=', 'p.id')
@@ -206,27 +206,27 @@ class EmployeeController extends Controller
             'fg.date_birth',
             'k.kinship_name',
         )
-        ->join('employee as e', 'fg.employee_id', '=', 'e.id')
-        ->join('kinship as k', 'fg.kinship_id', '=', 'k.id')
-        ->where('e.user_id', auth()->user()->id)
-        ->get();
+            ->join('employee as e', 'fg.employee_id', '=', 'e.id')
+            ->join('kinship as k', 'fg.kinship_id', '=', 'k.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->get();
 
         $employee->families = $families;
 
         //Family Group Emergency
         $family_group_emergency = DB::table('family_group_emergency as fge')
-        ->select(
-            'fge.id',
-            'fge.emergency_full_name',
-            'fge.emergency_phone',
-            'fge.emergency_cell_phone',
-            'fge.emergency_address',
-            'k.kinship_name',
-        )
-        ->join('employee as e', 'fge.employee_id', '=', 'e.id')
-        ->join('kinship as k', 'fge.kinship_id', '=', 'k.id')
-        ->where('e.user_id', auth()->user()->id)
-        ->first();
+            ->select(
+                'fge.id',
+                'fge.emergency_full_name',
+                'fge.emergency_phone',
+                'fge.emergency_cell_phone',
+                'fge.emergency_address',
+                'k.kinship_name',
+            )
+            ->join('employee as e', 'fge.employee_id', '=', 'e.id')
+            ->join('kinship as k', 'fge.kinship_id', '=', 'k.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->first();
 
         $employee->emergency_full_name = $family_group_emergency?->emergency_full_name;
         $employee->emergency_phone = $family_group_emergency?->emergency_phone;
@@ -241,11 +241,11 @@ class EmployeeController extends Controller
             'ad.year',
             'ad.obtained_title',
             'al.level_name',
-            )
-        ->join('employee as e', 'ad.employee_id', '=', 'e.id')
-        ->join('academic_level as al', 'ad.academic_level_id', '=', 'al.id')
-        ->where('e.user_id', auth()->user()->id)
-        ->get();
+        )
+            ->join('employee as e', 'ad.employee_id', '=', 'e.id')
+            ->join('academic_level as al', 'ad.academic_level_id', '=', 'al.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->get();
 
         $employee->academics = $academics;
 
@@ -291,23 +291,40 @@ class EmployeeController extends Controller
         //
     }
 
-      /**
+    /**
      * Gets All Registered Records
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getRegisteredRecords(Request $request){
+    public function getRegisteredRecords(Request $request)
+    {
+        $filters = [];
+
+        if (isset($request->filter)) {
+            switch ($request->filter) {
+                case "Registrado":
+                    $filters['es.status_name'] = "Registrado";
+                    break;
+                case "Digitado":
+                    $filters['es.status_name'] = "Digitado";
+                    break;
+                case "Finalizado":
+                    $filters['es.status_name'] = "Finalizado";
+                    break;
+            }
+        }
 
         $skip = $request->skip;
         $limit = $request->take - $skip; // the limit
 
         $registeredRecords = Employee::select('*', 'employee.id as employee_id', 'es.status_name', DB::raw("CONCAT(u.name,' ',u.last_name) AS user_name"))
-        ->join('employee_status as es', 'employee.employee_status_id', '=', 'es.id')
-        ->join('users as u', 'employee.user_id', '=', 'u.id')
-        ->skip($skip)
-        ->take($limit)
-        ->get();
+            ->join('employee_status as es', 'employee.employee_status_id', '=', 'es.id')
+            ->join('users as u', 'employee.user_id', '=', 'u.id')
+            ->where($filters)
+            ->skip($skip)
+            ->take($limit)
+            ->get();
 
         $total = Employee::count();
 
@@ -328,45 +345,45 @@ class EmployeeController extends Controller
     {
 
         $recordInfoEmployee = DB::table('employee as e')
-        ->select(
-            'e.*',
-            'fs.family_status_name as family_status_id',
-            'p.profession_name as profession_id',
-            'm.municipality_name as municipality_id',
-            'd.department_name',
-            'di.direction_name as direction_id',
-            'dep.unit_name as unit_id',
-            'mu.municipality_name as municipality_assigned_id',
-            'de.department_name as department_assigned_id',
-            'fge.emergency_full_name',
-            'fge.emergency_phone',
-            'fge.emergency_cell_phone',
-            'fge.emergency_address',
-            'k.kinship_name as emergency_kinship_id',
-        )
+            ->select(
+                'e.*',
+                'fs.family_status_name as family_status_id',
+                'p.profession_name as profession_id',
+                'm.municipality_name as municipality_id',
+                'd.department_name',
+                'di.direction_name as direction_id',
+                'dep.unit_name as unit_id',
+                'mu.municipality_name as municipality_assigned_id',
+                'de.department_name as department_assigned_id',
+                'fge.emergency_full_name',
+                'fge.emergency_phone',
+                'fge.emergency_cell_phone',
+                'fge.emergency_address',
+                'k.kinship_name as emergency_kinship_id',
+            )
 
-        ->join('family_status as fs', 'e.family_status_id', '=', 'fs.id', 'left outer')
-        ->join('profession as p', 'e.profession_id', '=', 'p.id', 'left outer')
-        ->join('municipalities as m', 'e.municipality_id', '=', 'm.id', 'left outer')
-        ->join('department as d', 'm.department_id', '=', 'd.id', 'left outer')
-        ->join('direction as di', 'e.direction_id', '=', 'di.id', 'left outer')
-        ->join('dependence as dep', 'e.unit_id', '=', 'dep.id', 'left outer')
-        ->join('municipalities as mu', 'e.municipality_assigned_id', '=', 'mu.id', 'left outer')
-        ->join('department as de', 'mu.department_id', '=', 'de.id', 'left outer')
-        ->join('family_group_emergency as fge', 'e.id', '=', 'fge.employee_id', 'left outer')
-        ->join('kinship as k', 'fge.kinship_id', '=', 'k.id', 'left outer')
-        ->where('e.user_id', auth()->user()->id)
-        ->first();
+            ->join('family_status as fs', 'e.family_status_id', '=', 'fs.id', 'left outer')
+            ->join('profession as p', 'e.profession_id', '=', 'p.id', 'left outer')
+            ->join('municipalities as m', 'e.municipality_id', '=', 'm.id', 'left outer')
+            ->join('department as d', 'm.department_id', '=', 'd.id', 'left outer')
+            ->join('direction as di', 'e.direction_id', '=', 'di.id', 'left outer')
+            ->join('dependence as dep', 'e.unit_id', '=', 'dep.id', 'left outer')
+            ->join('municipalities as mu', 'e.municipality_assigned_id', '=', 'mu.id', 'left outer')
+            ->join('department as de', 'mu.department_id', '=', 'de.id', 'left outer')
+            ->join('family_group_emergency as fge', 'e.id', '=', 'fge.employee_id', 'left outer')
+            ->join('kinship as k', 'fge.kinship_id', '=', 'k.id', 'left outer')
+            ->where('e.user_id', auth()->user()->id)
+            ->first();
 
 
-        if(isset($recordInfoEmployee->dui_file)){
+        if (isset($recordInfoEmployee->dui_file)) {
 
             $fullUrlDuiFile = asset($recordInfoEmployee->dui_file);
 
             $recordInfoEmployee->dui_file = $fullUrlDuiFile;
         }
 
-        if(isset($recordInfoEmployee->title_file)){
+        if (isset($recordInfoEmployee->title_file)) {
 
             $fullUrlTitleFile = asset($recordInfoEmployee->title_file);
 
@@ -380,20 +397,20 @@ class EmployeeController extends Controller
             ->join('kinship as k', 'fg.kinship_id', '=', 'k.id')
             ->where('e.user_id', auth()->user()->id)
             ->get();
-            $recordInfoEmployee->familyGroup = $familyGroup;
+        $recordInfoEmployee->familyGroup = $familyGroup;
 
         //Academic Data
         $academicData = DB::table('academic_data as ad')
-        ->select('ad.*', 'al.level_name as academic_level_id')
-        ->join('employee as e', 'ad.employee_id', '=', 'e.id')
-        ->join('academic_level as al', 'ad.academic_level_id', '=', 'al.id')
-        ->where('e.user_id', auth()->user()->id)
-        ->get();
+            ->select('ad.*', 'al.level_name as academic_level_id')
+            ->join('employee as e', 'ad.employee_id', '=', 'e.id')
+            ->join('academic_level as al', 'ad.academic_level_id', '=', 'al.id')
+            ->where('e.user_id', auth()->user()->id)
+            ->get();
 
         foreach ($academicData as $key => $value) {
-            if($value->career_status == 2){
+            if ($value->career_status == 2) {
                 $value->career_status = "No Finalizada";
-            }else{
+            } else {
                 $value->career_status = "Finalizada";
             }
         }
@@ -403,13 +420,14 @@ class EmployeeController extends Controller
         return response()->json(['message' => 'success', 'recordInfoEmployee' => $recordInfoEmployee]);
     }
 
-     /**
+    /**
      * Search Registered Records
      *
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function searchRegisteredRecords(Request $request){
+    public function searchRegisteredRecords(Request $request)
+    {
 
         $registeredRecords = Employee::select(
             'employee.full_name',
@@ -420,13 +438,13 @@ class EmployeeController extends Controller
             'es.status_name',
             DB::raw("CONCAT(u.name,' ',u.last_name) AS user_name")
         )
-        ->join('employee_status as es', 'employee.employee_status_id', '=', 'es.id')
-        ->join('users as u', 'employee.user_id', '=', 'u.id')
-        ->where('employee.full_name', 'like', '%' . $request->search . '%')
-        ->orWhere('employee.personal_email', 'like', '%' . $request->search . '%')
-        ->orWhere('employee.nominal_fee', 'like', '%' . $request->search . '%')
-        ->orWhere('es.status_name', 'like', '%' . $request->search . '%')
-        ->get();
+            ->join('employee_status as es', 'employee.employee_status_id', '=', 'es.id')
+            ->join('users as u', 'employee.user_id', '=', 'u.id')
+            ->where('employee.full_name', 'like', '%' . $request->search . '%')
+            ->orWhere('employee.personal_email', 'like', '%' . $request->search . '%')
+            ->orWhere('employee.nominal_fee', 'like', '%' . $request->search . '%')
+            ->orWhere('es.status_name', 'like', '%' . $request->search . '%')
+            ->get();
 
         return response()->json([
             'message' => 'success',
@@ -441,50 +459,51 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function registeredRecordById(Request $request){
+    public function registeredRecordById(Request $request)
+    {
 
 
-         $record = Employee::where('id', $request->id)->first();
+        $record = Employee::where('id', $request->id)->first();
 
-         $registeredRecords = DB::table('employee as e')
-         ->select(
-            'e.*',
-            'fs.family_status_name',
-            'p.profession_name',
-            'm.municipality_name',
-            'd.department_name',
-            'mu.municipality_name as municipality_assigned_id',
-            'de.department_name as department_assigned_id',
-            'di.direction_name',
-            'dep.unit_name',
-            'fge.emergency_full_name',
-            'fge.emergency_phone',
-            'fge.emergency_cell_phone',
-            'fge.emergency_address',
-            'k.kinship_name as emergency_kinship_id',
+        $registeredRecords = DB::table('employee as e')
+            ->select(
+                'e.*',
+                'fs.family_status_name',
+                'p.profession_name',
+                'm.municipality_name',
+                'd.department_name',
+                'mu.municipality_name as municipality_assigned_id',
+                'de.department_name as department_assigned_id',
+                'di.direction_name',
+                'dep.unit_name',
+                'fge.emergency_full_name',
+                'fge.emergency_phone',
+                'fge.emergency_cell_phone',
+                'fge.emergency_address',
+                'k.kinship_name as emergency_kinship_id',
             )
-         ->join('family_status as fs', 'e.family_status_id', '=', 'fs.id', 'left outer')
-         ->join('profession as p', 'e.profession_id', '=', 'p.id', 'left outer')
-         ->join('municipalities as m', 'e.municipality_id', '=', 'm.id', 'left outer')
-         ->join('department as d', 'm.department_id', '=', 'd.id', 'left outer')
-         // Department & Municipality Assigned
-         ->join('municipalities as mu', 'e.municipality_assigned_id', '=', 'mu.id', 'left outer')
-         ->join('department as de', 'mu.department_id', '=', 'de.id', 'left outer')
-         ->join('direction as di', 'e.direction_id', '=', 'di.id', 'left outer')
-         ->join('dependence as dep', 'e.unit_id', '=', 'dep.id', 'left outer')
-         ->join('family_group_emergency as fge', 'e.id', '=', 'fge.employee_id', 'left outer')
-         ->join('kinship as k', 'fge.kinship_id', '=', 'k.id', 'left outer')
-         ->where('e.id', $request->id)
-         ->first();
+            ->join('family_status as fs', 'e.family_status_id', '=', 'fs.id', 'left outer')
+            ->join('profession as p', 'e.profession_id', '=', 'p.id', 'left outer')
+            ->join('municipalities as m', 'e.municipality_id', '=', 'm.id', 'left outer')
+            ->join('department as d', 'm.department_id', '=', 'd.id', 'left outer')
+            // Department & Municipality Assigned
+            ->join('municipalities as mu', 'e.municipality_assigned_id', '=', 'mu.id', 'left outer')
+            ->join('department as de', 'mu.department_id', '=', 'de.id', 'left outer')
+            ->join('direction as di', 'e.direction_id', '=', 'di.id', 'left outer')
+            ->join('dependence as dep', 'e.unit_id', '=', 'dep.id', 'left outer')
+            ->join('family_group_emergency as fge', 'e.id', '=', 'fge.employee_id', 'left outer')
+            ->join('kinship as k', 'fge.kinship_id', '=', 'k.id', 'left outer')
+            ->where('e.id', $request->id)
+            ->first();
 
-        if(isset($registeredRecords->dui_file)){
+        if (isset($registeredRecords->dui_file)) {
 
             $fullUrlDuiFile = asset($registeredRecords->dui_file);
 
             $registeredRecords->dui_file = $fullUrlDuiFile;
         }
 
-        if(isset($registeredRecords->title_file)){
+        if (isset($registeredRecords->title_file)) {
 
             $fullUrlTitleFile = asset($registeredRecords->title_file);
 
@@ -498,10 +517,10 @@ class EmployeeController extends Controller
             'family_group.date_birth',
             'k.kinship_name as kinship_id',
         )
-        ->join('employee as e', 'family_group.employee_id', '=', 'e.id')
-        ->join('kinship as k', 'family_group.kinship_id', '=', 'k.id')
-        ->where('e.id', $request->id)
-        ->get();
+            ->join('employee as e', 'family_group.employee_id', '=', 'e.id')
+            ->join('kinship as k', 'family_group.kinship_id', '=', 'k.id')
+            ->where('e.id', $request->id)
+            ->get();
 
         $academicData = AcademicData::select(
             'academic_data.id',
@@ -513,43 +532,41 @@ class EmployeeController extends Controller
             'academic_data.career',
             'academic_data.subjects_approved',
             'al.level_name as academic_level_id',
-            )
-        ->join('employee as e', 'academic_data.employee_id', '=', 'e.id')
-        ->join('academic_level as al', 'academic_data.academic_level_id', '=', 'al.id')
-        ->where('e.id', $request->id)
-        ->get();
+        )
+            ->join('employee as e', 'academic_data.employee_id', '=', 'e.id')
+            ->join('academic_level as al', 'academic_data.academic_level_id', '=', 'al.id')
+            ->where('e.id', $request->id)
+            ->get();
 
         foreach ($academicData as $key => $value) {
-            if($value->career_status == 2){
+            if ($value->career_status == 2) {
                 $value->career_status = "No Finalizada";
-            }else{
+            } else {
                 $value->career_status = "Finalizada";
             }
         }
 
 
-         return response()->json([
+        return response()->json([
             'message' => 'success',
             'registeredRecords' => $registeredRecords,
             'families' => $familyGroup,
             'academics' => $academicData,
         ]);
+    }
 
-     }
 
-
-      /**
+    /**
      * Verify Status Employee For View My Record Access
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-     public function verifyStatusEmployee(Request $request){
+    public function verifyStatusEmployee(Request $request)
+    {
 
         $employee = Employee::select('employee_status_id')->where('user_id', auth()->user()->id)->first();
 
         return response()->json(['message' => 'success', 'status' => $employee->employee_status_id]);
-
-     }
-
+    }
 }

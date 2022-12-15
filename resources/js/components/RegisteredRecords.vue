@@ -1,6 +1,15 @@
 <template>
   <v-container fluid>
     <alert-time-out :key="alertTimeOut" :redirect="redirectSessionFinished" />
+    <div class="container">
+      <v-row>
+        <v-tabs grow background-color="#f4f7fd">
+          <v-tab @click="filterRecords('Registrado')">Registrados</v-tab>
+          <v-tab @click="filterRecords('Digitado')">Digitados</v-tab>
+          <v-tab @click="filterRecords('Finalizado')">Finalizados</v-tab>
+        </v-tabs>
+      </v-row>
+    </div>
     <div data-app>
       <v-container fluid>
         <div v-if="!loading">
@@ -96,6 +105,7 @@ export default {
       skip: 0,
       take: 50,
       title: "Expedientes",
+      filter: "Registrado",
       numberItemsToAdd: 50,
       total: 0,
       loadMoreItems: false,
@@ -126,7 +136,8 @@ export default {
       this.counter++;
     },
 
-    async loadMore() {
+    async loadMore(filter = "Registrado") {
+      this.filter = filter;
       if (this.actualPage == 1) {
         this.actualPage = 1;
         this.skip = 0;
@@ -134,7 +145,7 @@ export default {
       }
       const res = await axios
         .get("api/employee/registeredRecords", {
-          params: { skip: this.skip, take: this.take },
+          params: { skip: this.skip, take: this.take, filter: filter },
         })
         .catch((error) => {
           this.verifySessionFinished(error.response.status, 401);
@@ -205,6 +216,30 @@ export default {
         this.alertTimeOut++;
       }
     },
+
+    async filterRecords(filter = "Registrado") {
+      this.filter = filter;
+
+      const res = await axios
+        .get("api/employee/registeredRecords", {
+          params: { skip: this.skip, take: this.take, filter: filter },
+        })
+        .catch((error) => {
+          this.verifySessionFinished(error.response.status, 401);
+          this.alertTimeOut++;
+        });
+
+      this.verifySessionFinished(res.status, 200);
+      this.alertTimeOut++;
+
+      this.registeredRecords = res.data.registeredRecords;
+      this.total = res.data.total;
+    },
   },
 };
 </script>
+<style >
+.v-tabs-slider {
+  background: #2d52a8 !important;
+}
+</style>
