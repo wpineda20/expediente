@@ -139,7 +139,7 @@
       <!-- Phone -->
       <v-col cols="12" xs="12" sm="12" md="6">
         <base-input
-          label="Teléfono"
+          label="Teléfono (Opcional)"
           v-model.trim="validation.emergency_phone.$model"
           :validation="validation.emergency_phone"
           v-mask="'####-####'"

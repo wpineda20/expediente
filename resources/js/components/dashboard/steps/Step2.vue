@@ -47,7 +47,7 @@
       <!-- Immediate Superior -->
       <v-col cols="12" xs="12" sm="12" md="6">
         <base-input
-          label="Jefe inmediato"
+          label="Nombre de jefe inmediato"
           v-model.trim="validation.immediate_superior.$model"
           :validation="validation.immediate_superior"
           validationTextType="none"
@@ -57,7 +57,7 @@
       <!-- Email Institutional -->
       <v-col cols="12" xs="12" sm="12" md="6">
         <base-input
-          label="Correo institucional"
+          label="Correo institucional de jefe inmediato"
           v-model.trim="validation.email_institutional.$model"
           :validation="validation.email_institutional"
           validationTextType="none"

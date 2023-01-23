@@ -44,18 +44,14 @@
                 </h5>
                 <!-- Full name -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="text-uppercase fw-bold"
-                    >NOMBRE COMPLETO SEGÚN DUI:
-                  </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.full_name
-                  }}</span>
+                  <span class="fw-bold fs-16">Nombre completo según DUI: </span>
+                  <span class="fs-16">{{ employeeRecord.full_name }}</span>
                 </v-col>
                 <!-- Full name -->
                 <!-- Family Status -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="text-uppercase fw-bold">ESTADO FAMILIAR: </span>
-                  <span class="text-uppercase">{{
+                  <span class="fw-bold fs-16">Estado familiar: </span>
+                  <span class="fs-16">{{
                     employeeRecord.family_status_id
                   }}</span>
                 </v-col>
@@ -63,73 +59,66 @@
                 <!-- Family Status -->
                 <!-- Profession -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="text-uppercase fw-bold">PROFESIÓN: </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.profession_id
-                  }}</span>
+                  <span class="fw-bold fs-16">Profesión: </span>
+                  <span class="fs-16">{{ employeeRecord.profession_id }}</span>
                 </v-col>
                 <!-- Profession -->
                 <!-- Current address -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="text-uppercase fw-bold">DIRECCIÓN ACTUAL: </span>
-                  <span class="text-uppercase">{{
+                  <span class="fw-bold fs-16">Dirección actual: </span>
+                  <span class="fs-16">{{
                     employeeRecord.current_address
                   }}</span>
                 </v-col>
                 <!-- Current address -->
                 <!-- Department -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="text-uppercase fw-bold">DEPARTAMENTO: </span>
-                  <span class="text-uppercase">{{
+                  <span class="fw-bold fs-16">Departamento: </span>
+                  <span class="fs-16">{{
                     employeeRecord.department_name
                   }}</span>
                 </v-col>
                 <!-- Department -->
                 <!-- Municipality -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="text-uppercase fw-bold">MUNICIPIO: </span>
-                  <span class="text-uppercase">{{
+                  <span class="fw-bold fs-16">Municipio: </span>
+                  <span class="fs-16">{{
                     employeeRecord.municipality_id
                   }}</span>
                 </v-col>
                 <!-- Municipality -->
                 <!-- Vulnerable area -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="text-uppercase fw-bold"
-                    >ESPECIFIQUE SI EL LUGAR DE SU DOMICILIO ES ZONA VULNERABLE:
+                  <span class="fw-bold fs-16"
+                    >Especifique si el lugar de su domicilio es zona
+                    vulnerable:
                   </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.vulnerable_area
-                  }}</span>
+                  <span class="fs-16">{{ employeeRecord.vulnerable_area }}</span>
                 </v-col>
                 <!-- Vulnerable area -->
                 <!-- Personal email -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="text-uppercase fw-bold"
-                    >CORREO ELECTRÓNICO (Personal):
+                  <span class="fw-bold fs-16"
+                    >Correo electrónico personal:
                   </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.personal_email
-                  }}</span>
+                  <span class="fs-16">{{ employeeRecord.personal_email }}</span>
                 </v-col>
                 <!-- Personal email -->
                 <!-- Cell Phone -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="text-uppercase fw-bold">CELULAR: </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.cell_phone
-                  }}</span>
+                  <span class="fw-bold fs-16">Celular personal: </span>
+                  <span class="fs-16">{{ employeeRecord.cell_phone }}</span>
                 </v-col>
                 <!-- Cell Phone -->
                 <!-- Phone -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="text-uppercase fw-bold"
-                    >TELÉFONO (Opcional):
+                  <span class="fw-bold fs-16"
+                    >Teléfono personal (Opcional):
                   </span>
-                  <span class="text-uppercase" v-if="employeeRecord.phone">{{
+                  <span class="fs-16" v-if="employeeRecord.phone">{{
                     employeeRecord.phone
                   }}</span>
-                  <span class="text-uppercase" v-else> - </span>
+                  <span class="fs-16" v-else> No registrado </span>
                 </v-col>
                 <!-- Phone -->
               </v-row>
@@ -140,78 +129,64 @@
                   II. DATOS LABORALES
                 </h5>
                 <v-col cols="12" md="12" sm="12">
-                  <span class="fw-bold text-uppercase"
-                    >UNIDAD ORGANIZATIVA:
-                  </span>
+                  <span class="fw-bold fs-16">UNIDAD ORGANIZATIVA: </span>
                 </v-col>
                 <!-- Direction -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="text-uppercase fw-bold">DIRECCIÓN: </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.direction_id
-                  }}</span>
+                  <span class="fw-bold fs-16">Dirección: </span>
+                  <span class="fs-16">{{ employeeRecord.direction_id }}</span>
                 </v-col>
 
                 <!-- Direction -->
 
                 <!-- Dependence -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="text-uppercase fw-bold">DEPENDENCIA: </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.unit_id
-                  }}</span>
+                  <span class="fw-bold fs-16">Dependencia: </span>
+                  <span class="fs-16">{{ employeeRecord.unit_id }}</span>
                 </v-col>
                 <!-- Dependence -->
                 <!-- Nominal Fee -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="fw-bold text-uppercase">CARGO NOMINAL: </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.nominal_fee
-                  }}</span>
+                  <span class="fw-bold fs-16">Cargo nominal: </span>
+                  <span class="fs-16">{{ employeeRecord.nominal_fee }}</span>
                 </v-col>
                 <!-- Nominal Fee -->
                 <!-- Functional Position -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="fw-bold text-uppercase">CARGO FUNCIONAL: </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.functional_position
-                  }}</span>
+                  <span class="fw-bold fs-16">Cargo funcional: </span>
+                  <span class="fs-16">{{ employeeRecord.functional_position }}</span>
                 </v-col>
 
                 <!-- Functional Position -->
                 <!-- Inmediate Superior -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="fw-bold text-uppercase">JEFE INMEDIATO: </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.immediate_superior
-                  }}</span>
+                  <span class="fw-bold fs-16">Nombre de jefe inmediato: </span>
+                  <span class="fs-16">{{ employeeRecord.immediate_superior }}</span>
                 </v-col>
 
                 <!-- Inmediate Superior -->
                 <!-- Email Institutional -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="fw-bold text-uppercase"
-                    >CORREO INSTITUCIONAL:
+                  <span class="fw-bold fs-16"
+                    >Correo institucional de jefe inmediato:
                   </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.email_institutional
-                  }}</span>
+                  <span class="fs-16">{{ employeeRecord.email_institutional }}</span>
                 </v-col>
                 <!-- Email Institutional -->
                 <!-- Municipality Assigned -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="fw-bold text-uppercase"
-                    >ASIGNADO EN EL MUNICIPIO DE:
+                  <span class="fw-bold fs-16"
+                    >Asinado en el municipio de:
                   </span>
-                  <span class="text-uppercase">{{
+                  <span class="fs-16">{{
                     employeeRecord.municipality_assigned_id
                   }}</span>
                 </v-col>
                 <!-- Municipality Assigned -->
                 <!-- Department Assigned -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="fw-bold text-uppercase">DEPARTAMENTO: </span>
-                  <span class="text-uppercase">{{
+                  <span class="fw-bold fs-16">Asignado en el departamento de: </span>
+                  <span class="fs-16">{{
                     employeeRecord.department_assigned_id
                   }}</span>
                 </v-col>
@@ -233,23 +208,23 @@
                   <table class="table table-bordered table-responsive-md">
                     <tbody>
                       <tr class="text-center fw-bold">
-                        <td>NOMBRE COMPLETO</td>
-                        <td>PARENTESCO</td>
-                        <td style="border-right-color: #fff !important">
-                          FECHA DE NACIMIENTO
+                        <td class="fs-16 text-uppercase">Nombre completo</td>
+                        <td class="fs-16 text-uppercase">Parentesco</td>
+                        <td class="fs-16 text-uppercase" style="border-right-color: #fff !important">
+                          Fecha de nacimiento
                         </td>
                       </tr>
                       <tr
                         v-for="(families, index) in employeeRecord.familyGroup"
                         :key="index"
                       >
-                        <td>
+                        <td class="fs-16">
                           <p>{{ families.full_name }}</p>
                         </td>
-                        <td>
+                        <td class="fs-16">
                           <p>{{ families.kinship_id }}</p>
                         </td>
-                        <td style="border-right-color: #fff !important">
+                        <td class="fs-16" style="border-right-color: #fff !important">
                           <p>{{ families.date_birth }}</p>
                         </td>
                       </tr>
@@ -268,44 +243,39 @@
                 </v-col>
                 <!-- Emergency Full Name -->
                 <v-col cols="12" md="8" sm="8">
-                  <span class="fw-bold text-uppercase"
-                    >EN CASO DE EMERGENCIA LLAMAR A:
-                  </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.emergency_full_name
-                  }}</span>
+                  <span class="fw-bold fs-16">En caso de emergencia llamar a: </span>
+                  <span class="fs-16">{{ employeeRecord.emergency_full_name }}</span>
                 </v-col>
                 <!-- Emergency Full Name -->
                 <!-- Cell Phone -->
                 <v-col cols="12" md="4" sm="4">
-                  <span class="fw-bold text-uppercase">CELULAR: </span>
-                  <span class="text-uppercase">{{
+                  <span class="fw-bold fs-16">Celular: </span>
+                  <span class="fs-16">{{
                     employeeRecord.emergency_cell_phone
                   }}</span>
                 </v-col>
                 <!-- Cell Phone -->
                 <!-- Emergency Full Name -->
                 <v-col cols="12" md="8" sm="8">
-                  <span class="fw-bold text-uppercase">PARENTESCO: </span>
-                  <span class="text-uppercase">{{
+                  <span class="fw-bold fs-16">Parentesco: </span>
+                  <span class="fs-16">{{
                     employeeRecord.emergency_kinship_id
                   }}</span>
                 </v-col>
                 <!-- Emergency Full Name -->
                 <!-- Phone -->
                 <v-col cols="12" md="4" sm="4">
-                  <span class="fw-bold text-uppercase">TELÉFONO: </span>
-                  <span class="text-uppercase">{{
+                  <span class="fw-bold fs-16">Teléfono: </span>
+                  <span class="fs-16" v-if="employeeRecord.emergency_phone">{{
                     employeeRecord.emergency_phone
                   }}</span>
+                  <span class="fs-16" v-else> No registrado </span>
                 </v-col>
                 <!-- Phone -->
                 <!-- Emergency Address -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="fw-bold text-uppercase">DIRECCIÓN: </span>
-                  <span class="text-uppercase">{{
-                    employeeRecord.emergency_address
-                  }}</span>
+                  <span class="fw-bold fs-16">Dirección: </span>
+                  <span class="fs-16">{{ employeeRecord.emergency_address }}</span>
                 </v-col>
                 <!-- Emergency Address -->
               </v-row>
@@ -333,10 +303,10 @@
                     <!-- </thead> -->
                     <tbody>
                       <tr class="text-center fw-bold hide">
-                        <td>NIVEL EDUCATIVO</td>
-                        <td>CENTRO EDUCATIVO</td>
-                        <td>AÑO DE FINALIZACIÓN</td>
-                        <td style="border-right-color: #fff !important">
+                        <td class="fs-16 text-uppercase">NIVEL EDUCATIVO</td>
+                        <td class="fs-16 text-uppercase">CENTRO EDUCATIVO</td>
+                        <td class="fs-16 text-uppercase">AÑO DE FINALIZACIÓN</td>
+                        <td class="fs-16 text-uppercase" style="border-right-color: #fff !important">
                           TITULO RECIBIDO
                         </td>
                       </tr>
@@ -344,16 +314,16 @@
                         v-for="(academic, index) in employeeRecord.academics"
                         :key="index"
                       >
-                        <td>
+                        <td class="fs-16">
                           <p>{{ academic.academic_level_id }}</p>
                         </td>
-                        <td>
+                        <td class="fs-16">
                           <p>{{ academic.education_center }}</p>
                         </td>
-                        <td>
+                        <td class="fs-16">
                           <p>{{ academic.year }}</p>
                         </td>
-                        <td style="border-right-color: #fff !important">
+                        <td class="fs-16" style="border-right-color: #fff !important">
                           <p>{{ academic.obtained_title }}</p>
                         </td>
                       </tr>
@@ -379,8 +349,8 @@
                 sm="12"
                 v-if="academic.career_status == 'No Finalizada'"
               >
-                <span class="fw-bold">NOTA:</span
-                ><span class="text-uppercase">
+                <span class="fw-bold fs-16">NOTA:</span
+                ><span class="fs-16">
                   En caso de haber estudiado una carrera universitaria y no fue
                   finalizada:
                 </span>
@@ -392,8 +362,8 @@
                 sm="4"
                 v-if="academic.career_status == 'No Finalizada'"
               >
-                <span class="fw-bold text-uppercase">ESTADO: </span>
-                <span class="text-uppercase">{{ academic.career_status }}</span>
+                <span class="fw-bold fs-16">Estado: </span>
+                <span class="fs-16">{{ academic.career_status }}</span>
               </v-col>
               <!-- Career -->
               <v-col
@@ -402,8 +372,8 @@
                 sm="4"
                 v-if="academic.career_status == 'No Finalizada'"
               >
-                <span class="fw-bold text-uppercase">Carrera: </span>
-                <span class="text-uppercase">{{ academic.career }}</span>
+                <span class="fw-bold fs-16">Carrera: </span>
+                <span class="fs-16">{{ academic.career }}</span>
               </v-col>
               <!-- Subjects Approved -->
               <v-col
@@ -412,25 +382,27 @@
                 sm="4"
                 v-if="academic.career_status == 'No Finalizada'"
               >
-                <span class="fw-bold text-uppercase">Materias aprobadas: </span>
-                <span class="text-uppercase">{{
-                  academic.subjects_approved
-                }}</span>
+                <span class="fw-bold fs-16">Materias aprobadas: </span>
+                <span class="fs-16">{{ academic.subjects_approved }}</span>
               </v-col>
             </v-row>
             <v-col cols="12" md="12" sm="12" class="pt-5">
-              <span class="fw-bold text-uppercase">Documentos a anexar: </span>
+              <span class="fw-bold fs-16">Documentos a anexar: </span>
               <a
                 :href="employeeRecord.dui_file"
                 target="_blank"
                 v-if="employeeRecord.dui_file"
-                ><li>Copia de su Documento Único de Identidad.</li></a
+                ><li class="fs-16">
+                  Enlace de copia de Documento Único de Identidad (PDF).
+                </li></a
               >
               <a
                 :href="employeeRecord.title_file"
                 target="_blank"
                 v-if="employeeRecord.title_file"
-                ><li>Copia de Título o Diploma si adquirió alguno.</li>
+                ><li class="fs-16">
+                  Enlace de copia de Título o Diploma si adquirió alguno (PDF).
+                </li>
               </a>
             </v-col>
             <!-- <v-col cols="12" md="12" sm="12">
@@ -541,6 +513,10 @@ td {
 
 .table-bordered > :not(caption) > * > * {
   border-width: 2px;
+}
+
+.fs-16 {
+  font-size: 16px !important;
 }
 
 @media screen and (max-width: 550px) {

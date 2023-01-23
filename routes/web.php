@@ -37,6 +37,7 @@ Route::get('/', function () {
 Auth::routes(['verify' => true, 'remember_me' => false]);
 
 Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], function () {
+
     //Administrador
     Route::group(['middleware' => ['has.role:Administrador']], function () {
         // Apis
@@ -103,9 +104,6 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
         Route::get('/employeeStatus', function () {
             return view('employee_status.index');
         });
-
-
-
     });
 
     //Administrador & Editor
@@ -131,7 +129,7 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
     });
 
     //My Record View
-     Route::get('/myRecord', function () {
+    Route::get('/myRecord', function () {
         return view('my_record.index');
     });
 
