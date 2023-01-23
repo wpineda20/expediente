@@ -83,7 +83,7 @@
       <!-- Personal Email -->
       <v-col cols="12" xs="12" sm="12" md="12">
         <base-input
-          label="Correo electrónico (Personal)"
+          label="Correo electrónico personal"
           v-model.trim="validation.personal_email.$model"
           :validation="validation.personal_email"
           validationTextType="none"
@@ -93,7 +93,7 @@
       <!-- Cell Phone -->
       <v-col cols="12" xs="12" sm="12" md="6">
         <base-input
-          label="Celular"
+          label="Celular personal"
           v-model.trim="validation.cell_phone.$model"
           :validation="validation.cell_phone"
           validationTextType="only-numbers"
@@ -103,7 +103,7 @@
       <!-- Phone -->
       <v-col cols="12" xs="12" sm="12" md="6">
         <base-input
-          label="Teléfono (Opcional)"
+          label="Teléfono personal (Opcional)"
           v-model.trim="validation.phone.$model"
           :validation="validation.phone"
           v-mask="'####-####'"
