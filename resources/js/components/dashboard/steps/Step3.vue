@@ -10,39 +10,41 @@
     <v-row>
       <v-col cols="12" lg="12" md="12" xs="12">
         <!-- Family Group -->
-        <table class="table table-responsive-md table-hover">
-          <thead>
-            <th>Nombre completo</th>
-            <th>Parentesco</th>
-            <th>Fecha de nacimiento</th>
-            <th class="text-center">Acciones</th>
-          </thead>
-          <tbody>
-            <tr v-for="(familyObject, index) in families" :key="index">
-              <td>
-                <p>{{ familyObject.full_name }}</p>
-              </td>
-              <td>
-                <p>{{ familyObject.kinship_name }}</p>
-              </td>
-              <td>
-                <p>{{ familyObject.date_birth }}</p>
-              </td>
-              <td class="text-center">
-                <a
-                  @click="deleteFamily(familyObject.id)"
-                  class="p-1 mr-1 text-center"
-                  ><span class="material-icons text-blue"> delete </span></a
-                >
-              </td>
-            </tr>
-            <tr v-if="families.length == 0">
-              <td colspan="5" class="text-center pt-4">
-                <p>No se encontró ningún familiar registrado.</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-responsive table-hover">
+            <thead>
+              <th>Nombre completo</th>
+              <th>Parentesco</th>
+              <th>Fecha de nacimiento</th>
+              <th class="text-center">Acciones</th>
+            </thead>
+            <tbody>
+              <tr v-for="(familyObject, index) in families" :key="index">
+                <td>
+                  <p>{{ familyObject.full_name }}</p>
+                </td>
+                <td>
+                  <p>{{ familyObject.kinship_name }}</p>
+                </td>
+                <td>
+                  <p>{{ familyObject.date_birth }}</p>
+                </td>
+                <td class="text-center">
+                  <a
+                    @click="deleteFamily(familyObject.id)"
+                    class="p-1 mr-1 text-center"
+                    ><span class="material-icons text-blue"> delete </span></a
+                  >
+                </td>
+              </tr>
+              <tr v-if="families.length == 0">
+                <td colspan="5" class="text-center pt-4">
+                  <p>No se encontró ningún familiar registrado.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <!-- Family Group -->
         <!-- New Family Group -->
         <v-dialog v-model="dialog" max-width="600px" persistent>
@@ -269,6 +271,17 @@ export default {
         this.$emit("update-alert", {
           show: true,
           message: "Campos obligatorios",
+          type: "fail",
+        });
+
+        return;
+      }
+
+      if (this.families.length == 0) {
+        this.$emit("update-alert", {
+          show: true,
+          message:
+            "Por favor registrar al menos un miembro de su grupo familiar.",
           type: "fail",
         });
 
