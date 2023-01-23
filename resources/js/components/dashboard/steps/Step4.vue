@@ -10,43 +10,45 @@
     <v-row>
       <v-col cols="12" lg="12" md="12" xs="12">
         <!-- Academic Level -->
-        <table class="table table-responsive-md table-hover">
-          <thead>
-            <th>Nivel educativo</th>
-            <th>Centro educativo</th>
-            <th>Año de finalización</th>
-            <th>Título recibido</th>
-            <th class="text-center">Acciones</th>
-          </thead>
-          <tbody>
-            <tr v-for="(academicObject, index) in academics" :key="index">
-              <td>
-                <p>{{ academicObject.level_name }}</p>
-              </td>
-              <td>
-                <p>{{ academicObject.education_center }}</p>
-              </td>
-              <td>
-                <p>{{ academicObject.year }}</p>
-              </td>
-              <td>
-                <p>{{ academicObject.obtained_title }}</p>
-              </td>
-              <td class="text-center">
-                <a
-                  @click="deleteAcademic(academicObject.id)"
-                  class="p-1 mr-1 text-center"
-                  ><span class="material-icons text-blue"> delete </span></a
-                >
-              </td>
-            </tr>
-            <tr v-if="academics.length == 0">
-              <td colspan="5" class="text-center pt-3">
-                <p>No se registró ningún nivel educativo.</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-responsive table-hover">
+            <thead>
+              <th>Nivel educativo</th>
+              <th>Centro educativo</th>
+              <th>Año de finalización</th>
+              <th>Título recibido</th>
+              <th class="text-center">Acciones</th>
+            </thead>
+            <tbody>
+              <tr v-for="(academicObject, index) in academics" :key="index">
+                <td>
+                  <p>{{ academicObject.level_name }}</p>
+                </td>
+                <td>
+                  <p>{{ academicObject.education_center }}</p>
+                </td>
+                <td>
+                  <p>{{ academicObject.year }}</p>
+                </td>
+                <td>
+                  <p>{{ academicObject.obtained_title }}</p>
+                </td>
+                <td class="text-center">
+                  <a
+                    @click="deleteAcademic(academicObject.id)"
+                    class="p-1 mr-1 text-center"
+                    ><span class="material-icons text-blue"> delete </span></a
+                  >
+                </td>
+              </tr>
+              <tr v-if="academics.length == 0">
+                <td colspan="5" class="text-center pt-3">
+                  <p>No se registró ningún nivel educativo.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <!-- Academic Level -->
         <!-- New Academic Level -->
         <v-dialog v-model="dialog" max-width="600px" persistent>
@@ -315,6 +317,16 @@ export default {
         this.$emit("update-alert", {
           show: true,
           message: "Campos obligatorios",
+          type: "fail",
+        });
+
+        return;
+      }
+
+      if (this.academics.length == 0) {
+        this.$emit("update-alert", {
+          show: true,
+          message: "Por favor registrar al menos un nivel académico.",
           type: "fail",
         });
 

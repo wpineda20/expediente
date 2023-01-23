@@ -65,7 +65,7 @@
                 <!-- Profession -->
                 <!-- Current address -->
                 <v-col cols="12" md="12" sm="12">
-                  <span class="fw-bold fs-16">Dirección actual: </span>
+                  <span class="fw-bold fs-16">Domicilio actual: </span>
                   <span class="fs-16">{{
                     employeeRecord.current_address
                   }}</span>
