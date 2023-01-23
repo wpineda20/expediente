@@ -90,10 +90,11 @@
                 <!-- Vulnerable area -->
                 <v-col cols="12" md="12" sm="12">
                   <span class="fw-bold fs-16"
-                    >Especifique si el lugar de su domicilio es zona
-                    vulnerable:
+                    >Especifique si el lugar de su domicilio es zona vulnerable:
                   </span>
-                  <span class="fs-16">{{ employeeRecord.vulnerable_area }}</span>
+                  <span class="fs-16">{{
+                    employeeRecord.vulnerable_area
+                  }}</span>
                 </v-col>
                 <!-- Vulnerable area -->
                 <!-- Personal email -->
@@ -154,14 +155,18 @@
                 <!-- Functional Position -->
                 <v-col cols="12" md="6" sm="6">
                   <span class="fw-bold fs-16">Cargo funcional: </span>
-                  <span class="fs-16">{{ employeeRecord.functional_position }}</span>
+                  <span class="fs-16">{{
+                    employeeRecord.functional_position
+                  }}</span>
                 </v-col>
 
                 <!-- Functional Position -->
                 <!-- Inmediate Superior -->
                 <v-col cols="12" md="12" sm="12">
                   <span class="fw-bold fs-16">Nombre de jefe inmediato: </span>
-                  <span class="fs-16">{{ employeeRecord.immediate_superior }}</span>
+                  <span class="fs-16">{{
+                    employeeRecord.immediate_superior
+                  }}</span>
                 </v-col>
 
                 <!-- Inmediate Superior -->
@@ -170,7 +175,9 @@
                   <span class="fw-bold fs-16"
                     >Correo institucional de jefe inmediato:
                   </span>
-                  <span class="fs-16">{{ employeeRecord.email_institutional }}</span>
+                  <span class="fs-16">{{
+                    employeeRecord.email_institutional
+                  }}</span>
                 </v-col>
                 <!-- Email Institutional -->
                 <!-- Municipality Assigned -->
@@ -185,7 +192,9 @@
                 <!-- Municipality Assigned -->
                 <!-- Department Assigned -->
                 <v-col cols="12" md="6" sm="6">
-                  <span class="fw-bold fs-16">Asignado en el departamento de: </span>
+                  <span class="fw-bold fs-16"
+                    >Asignado en el departamento de:
+                  </span>
                   <span class="fs-16">{{
                     employeeRecord.department_assigned_id
                   }}</span>
@@ -210,7 +219,10 @@
                       <tr class="text-center fw-bold">
                         <td class="fs-16 text-uppercase">Nombre completo</td>
                         <td class="fs-16 text-uppercase">Parentesco</td>
-                        <td class="fs-16 text-uppercase" style="border-right-color: #fff !important">
+                        <td
+                          class="fs-16 text-uppercase"
+                          style="border-right-color: #fff !important"
+                        >
                           Fecha de nacimiento
                         </td>
                       </tr>
@@ -224,7 +236,10 @@
                         <td class="fs-16">
                           <p>{{ families.kinship_id }}</p>
                         </td>
-                        <td class="fs-16" style="border-right-color: #fff !important">
+                        <td
+                          class="fs-16"
+                          style="border-right-color: #fff !important"
+                        >
                           <p>{{ families.date_birth }}</p>
                         </td>
                       </tr>
@@ -243,8 +258,12 @@
                 </v-col>
                 <!-- Emergency Full Name -->
                 <v-col cols="12" md="8" sm="8">
-                  <span class="fw-bold fs-16">En caso de emergencia llamar a: </span>
-                  <span class="fs-16">{{ employeeRecord.emergency_full_name }}</span>
+                  <span class="fw-bold fs-16"
+                    >En caso de emergencia llamar a:
+                  </span>
+                  <span class="fs-16">{{
+                    employeeRecord.emergency_full_name
+                  }}</span>
                 </v-col>
                 <!-- Emergency Full Name -->
                 <!-- Cell Phone -->
@@ -275,7 +294,9 @@
                 <!-- Emergency Address -->
                 <v-col cols="12" md="12" sm="12">
                   <span class="fw-bold fs-16">Dirección: </span>
-                  <span class="fs-16">{{ employeeRecord.emergency_address }}</span>
+                  <span class="fs-16">{{
+                    employeeRecord.emergency_address
+                  }}</span>
                 </v-col>
                 <!-- Emergency Address -->
               </v-row>
@@ -305,8 +326,13 @@
                       <tr class="text-center fw-bold hide">
                         <td class="fs-16 text-uppercase">NIVEL EDUCATIVO</td>
                         <td class="fs-16 text-uppercase">CENTRO EDUCATIVO</td>
-                        <td class="fs-16 text-uppercase">AÑO DE FINALIZACIÓN</td>
-                        <td class="fs-16 text-uppercase" style="border-right-color: #fff !important">
+                        <td class="fs-16 text-uppercase">
+                          AÑO DE FINALIZACIÓN
+                        </td>
+                        <td
+                          class="fs-16 text-uppercase"
+                          style="border-right-color: #fff !important"
+                        >
                           TITULO RECIBIDO
                         </td>
                       </tr>
@@ -323,7 +349,10 @@
                         <td class="fs-16">
                           <p>{{ academic.year }}</p>
                         </td>
-                        <td class="fs-16" style="border-right-color: #fff !important">
+                        <td
+                          class="fs-16"
+                          style="border-right-color: #fff !important"
+                        >
                           <p>{{ academic.obtained_title }}</p>
                         </td>
                       </tr>
@@ -355,16 +384,6 @@
                   finalizada:
                 </span>
               </v-col>
-              <!-- Career Status -->
-              <v-col
-                cols="12"
-                md="4"
-                sm="4"
-                v-if="academic.career_status == 'No Finalizada'"
-              >
-                <span class="fw-bold fs-16">Estado: </span>
-                <span class="fs-16">{{ academic.career_status }}</span>
-              </v-col>
               <!-- Career -->
               <v-col
                 cols="12"
@@ -384,6 +403,16 @@
               >
                 <span class="fw-bold fs-16">Materias aprobadas: </span>
                 <span class="fs-16">{{ academic.subjects_approved }}</span>
+              </v-col>
+              <!-- Career Status -->
+              <v-col
+                cols="12"
+                md="4"
+                sm="4"
+                v-if="academic.career_status == 'No Finalizada'"
+              >
+                <span class="fw-bold fs-16">Estado: </span>
+                <span class="fs-16">{{ academic.career_status }}</span>
               </v-col>
             </v-row>
             <v-col cols="12" md="12" sm="12" class="pt-5">

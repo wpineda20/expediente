@@ -250,8 +250,11 @@ export default {
 
         return;
       }
+      // console.log(this.family);
       this.families.push(this.family);
       this.families = [...new Set(this.families)];
+      // console.log(this.families);
+      console.log(this.families);
 
       this.$nextTick(() => {
         this.close();
