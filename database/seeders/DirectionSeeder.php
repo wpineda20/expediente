@@ -15,7 +15,7 @@ class DirectionSeeder extends Seeder
      */
     public function run()
     {
-         Direction::insert([
+        Direction::insert([
             [
                 "id" => 1,
                 "direction_name" => "Jefatura de Gabinete",
@@ -159,6 +159,16 @@ class DirectionSeeder extends Seeder
             [
                 "id" => 29,
                 "direction_name" => "Dirección de Conservación de Bienes Culturales Inmuebles",
+                "created_at" => now(),
+            ],
+            [
+                "id" => 30,
+                "direction_name" => "Despacho Ministerial de Cultura",
+                "created_at" => now(),
+            ],
+            [
+                "id" => 31,
+                "direction_name" => "Despacho Viceministerial",
                 "created_at" => now(),
             ],
         ]);
