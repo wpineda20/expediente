@@ -452,7 +452,7 @@
           <v-btn class="btn btn-normal mt-3 mb-3" @click="step++"
             >Continuar</v-btn
           >
-           <v-btn class="btn btn-normal-close mt-3 mb-3" @click="step--"
+          <v-btn class="btn btn-normal-close mt-3 mb-3" @click="step--"
             >Volver</v-btn
           >
         </v-stepper-content>
@@ -560,7 +560,7 @@
           <v-btn class="btn btn-normal mt-3 mb-3" @click="step++"
             >Continuar</v-btn
           >
-           <v-btn class="btn btn-normal-close mt-3 mb-3" @click="step--"
+          <v-btn class="btn btn-normal-close mt-3 mb-3" @click="step--"
             >Volver</v-btn
           >
         </v-stepper-content>
@@ -589,7 +589,7 @@
                 <span class="fw-bold">Documentos a anexar: </span>
                 <a :href="employee.dui_file" target="_blank"
                   ><li v-if="employee.dui_file">
-                    Copia de su Documento Único de Identidad.
+                    Enlace de copia de Documento Único de Identidad (PDF).
                   </li>
                   <li v-else>
                     No se adjuntó ninguna copia de Documento Único de Identidad
@@ -597,7 +597,8 @@
                 >
                 <a :href="employee.title_file" target="_blank"
                   ><li v-if="employee.title_file">
-                    Copia de Título o Diploma si adquirió alguno.
+                    Enlace de copia de Título o Diploma si adquirió alguno
+                    (PDF).
                   </li>
                   <li v-else>
                     No se adjuntó ninguna copia de Título o Diploma
@@ -606,7 +607,7 @@
               </v-col>
             </v-row>
           </div>
-           <v-btn class="btn btn-normal-close mt-3 mb-3" @click="step--"
+          <v-btn class="btn btn-normal-close mt-3 mb-3" @click="step--"
             >Volver</v-btn
           >
         </v-stepper-content>
