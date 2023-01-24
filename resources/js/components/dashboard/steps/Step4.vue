@@ -10,8 +10,8 @@
     <v-row>
       <v-col cols="12" lg="12" md="12" xs="12">
         <!-- Academic Level -->
-        <div class="table-responsive">
-          <table class="table table-responsive table-hover">
+        <div class="table-responsive-md">
+          <table class="table table-responsive-md table-hover">
             <thead>
               <th>Nivel educativo</th>
               <th>Centro educativo</th>
@@ -296,9 +296,25 @@ export default {
 
         return;
       }
-      this.academics.push(this.academic);
-      this.academics = [...new Set(this.academics)];
 
+      if (this.academics.length > 4) {
+        this.$emit("update-alert", {
+          show: true,
+          message:
+            "El máximo de niveles educativos que puede registar es de 5.",
+          type: "fail",
+        });
+
+        this.$nextTick(() => {
+          this.close();
+        });
+
+        return;
+      }
+
+      this.academics.push({ ...this.academic });
+      // this.academics = [...new Set(this.academics)];
+      console.log(this.academics);
       this.$nextTick(() => {
         this.close();
       });

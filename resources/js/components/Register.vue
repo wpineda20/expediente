@@ -30,7 +30,7 @@
                   <!-- Name -->
                   <v-col cols="12" xs="12" sm="12" md="12">
                     <base-input
-                      label="Nombre"
+                      label="Nombres"
                       v-model.trim="$v.user.name.$model"
                       :validation="$v.user.name"
                       validationTextType="default"
@@ -46,7 +46,7 @@
                   <!-- Last name -->
                   <v-col cols="12" xs="12" sm="12" md="12">
                     <base-input
-                      label="Apellido"
+                      label="Apellidos"
                       v-model.trim="$v.user.last_name.$model"
                       :validation="$v.user.last_name"
                       validationTextType="default"

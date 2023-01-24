@@ -240,10 +240,13 @@ class EmployeeController extends Controller
             'ad.education_center',
             'ad.year',
             'ad.obtained_title',
+            'ad.career_status',
+            'ad.career',
+            'ad.subjects_approved',
             'al.level_name',
         )
-            ->join('employee as e', 'ad.employee_id', '=', 'e.id')
-            ->join('academic_level as al', 'ad.academic_level_id', '=', 'al.id')
+            ->join('employee as e', 'ad.employee_id', '=', 'e.id', 'left outer')
+            ->join('academic_level as al', 'ad.academic_level_id', '=', 'al.id', 'left outer')
             ->where('e.user_id', auth()->user()->id)
             ->get();
 
@@ -408,7 +411,7 @@ class EmployeeController extends Controller
             ->get();
 
         foreach ($academicData as $key => $value) {
-            if ($value->career_status == 2) {
+            if ($value->career_status == 1) {
                 $value->career_status = "No Finalizada";
             } else {
                 $value->career_status = "Finalizada";
@@ -539,7 +542,7 @@ class EmployeeController extends Controller
             ->get();
 
         foreach ($academicData as $key => $value) {
-            if ($value->career_status == 2) {
+            if ($value->career_status == 1) {
                 $value->career_status = "No Finalizada";
             } else {
                 $value->career_status = "Finalizada";

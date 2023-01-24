@@ -39,7 +39,7 @@
               </tr>
               <tr v-if="families.length == 0">
                 <td colspan="5" class="text-center pt-4">
-                  <p>No se encontró ningún familiar registrado.</p>
+                  <p>No se encontró ningún miembro familiar registrado.</p>
                 </td>
               </tr>
             </tbody>
@@ -180,6 +180,7 @@ import {
 export default {
   data: () => ({
     dialog: false,
+    families: [],
     family: {
       full_name: "",
       kinship_name: "",
@@ -190,7 +191,6 @@ export default {
       kinship_name: "",
       date_birth: "",
     },
-    families: [],
   }),
 
   props: {
@@ -250,11 +250,23 @@ export default {
 
         return;
       }
-      // console.log(this.family);
-      this.families.push(this.family);
-      this.families = [...new Set(this.families)];
-      // console.log(this.families);
-      console.log(this.families);
+
+      if (this.families.length > 4) {
+        this.$emit("update-alert", {
+          show: true,
+          message:
+            "El máximo de miembros que puede registrar en su grupo familiar es de 5.",
+          type: "fail",
+        });
+
+        this.$nextTick(() => {
+          this.close();
+        });
+
+        return;
+      }
+      this.families.push({ ...this.family });
+      // this.families = [...new Set(this.families)];
 
       this.$nextTick(() => {
         this.close();
