@@ -15,7 +15,7 @@ class KinshipSeeder extends Seeder
      */
     public function run()
     {
-         Kinship::insert([
+        Kinship::insert([
             [
                 "id" => 1,
                 "kinship_name" => "Hijo/a",
@@ -58,7 +58,7 @@ class KinshipSeeder extends Seeder
                 "created_at" => now(),
 
             ],
-             [
+            [
                 "id" => 8,
                 "kinship_name" => "Primo/a",
                 "created_at" => now(),
@@ -73,6 +73,12 @@ class KinshipSeeder extends Seeder
             [
                 "id" => 10,
                 "kinship_name" => "Nieto/a",
+                "created_at" => now(),
+
+            ],
+            [
+                "id" => 11,
+                "kinship_name" => "Cuñado/a",
                 "created_at" => now(),
 
             ],

@@ -485,7 +485,7 @@ insert  into `profession`(`id`,`profession_name`) values
 (177,'Radiólogo/a'),
 (178,'Secretaria'),
 (179,'Terapeuta'),
-(180,'Otro'),
+(180,'Arquitecto/a'),
 (181,'Relaciones internacionales'),
 (182,'Administrador de empresas'),
 (183,'Tramoyista'),

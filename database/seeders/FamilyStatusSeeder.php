@@ -19,23 +19,23 @@ class FamilyStatusSeeder extends Seeder
         FamilyStatus::insert([
             [
                 "id" => 1,
-                "family_status_name" => "S",
+                "family_status_name" => "Soltero/a",
                 "created_at" => now(),
 
             ],
             [
                 "id" => 2,
-                "family_status_name" => "C",
+                "family_status_name" => "Casado/a",
                 "created_at" => now(),
             ],
             [
                 "id" => 3,
-                "family_status_name" => "A",
+                "family_status_name" => "Acompañado/a",
                 "created_at" => now(),
             ],
             [
                 "id" => 4,
-                "family_status_name" => "V",
+                "family_status_name" => "Viudo/a",
                 "created_at" => now(),
             ],
         ]);
