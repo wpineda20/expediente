@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('education_center');
             $table->integer('year');
             $table->string('obtained_title');
-            $table->boolean('career_status')->nullable()->comment('0/false=Finalizada; 1/true=No Finalizada');
+            $table->boolean('career_status')->nullable()->comment('0=Finalizada; 1=No Finalizada');
             $table->string('career')->nullable();
             $table->integer('subjects_approved')->nullable();
             $table->softDeletes();

@@ -27,16 +27,8 @@ class AcademicDataController extends Controller
     public static function store(Request $request, $employee_id)
     {
         AcademicData::where(['employee_id' => $request->employee_id])->delete();
+        
         foreach ($request->academics  as $level) {
-            //Validate if career_status is finished (0/false = Finalizada)
-            if ($level['career_status'] == false) {
-                $level['career_status'] = false;
-            }
-            //Validate if career_status is no finished (1/true = No Finalizada)
-            else {
-                $level['career_status'] = true;
-            }
-
             AcademicData::insert([
                 'employee_id' => $employee_id,
                 'academic_level_id' => AcademicLevel::where('level_name', $level['level_name'])->first()?->id,
