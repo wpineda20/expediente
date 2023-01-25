@@ -104,6 +104,10 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
         Route::get('/employeeStatus', function () {
             return view('employee_status.index');
         });
+
+        Route::get('/actions', function () {
+            return view('actions.index');
+        });
     });
 
     //Administrador & Editor
