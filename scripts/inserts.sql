@@ -490,3 +490,4 @@ insert  into `profession`(`id`,`profession_name`) values
 (182,'Administrador de empresas'),
 (183,'Tramoyista'),
 (184,'Acomodador');
+(185,'Desarrollador/a de software');
