@@ -313,8 +313,7 @@ export default {
       }
 
       this.academics.push({ ...this.academic });
-      // this.academics = [...new Set(this.academics)];
-      console.log(this.academics);
+
       this.$nextTick(() => {
         this.close();
       });
