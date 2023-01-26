@@ -18,9 +18,9 @@ class Action extends Model
      */
     protected $fillable = [
         'id',
-        'user_id',
         'employee_id',
         'employee_status_id',
+        'id_section',
         'created_at',
     ];
 
