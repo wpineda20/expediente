@@ -65,7 +65,7 @@ class EmployeeController extends Controller
                 $employee->phone = $request->phone;
                 $employee->cell_phone = $request->cell_phone;
 
-                if ($employee->employee_status_id == 2) {
+                if ($employee->employee_status_id == 3) {
                     $employee->employee_status_id = 3;
                 } else {
                     $employee->employee_status_id = 2;
