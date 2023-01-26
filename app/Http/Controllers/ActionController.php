@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Action;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class ActionController extends Controller
@@ -60,5 +61,28 @@ class ActionController extends Controller
     public function destroy(Action $action)
     {
         //
+    }
+
+    /**
+     * Get Employee Actions
+     *
+     * @return \Illuminate\Http\Request
+     */
+    public function getEmployeeActions(Request $request)
+    {
+
+        $employeeActions = Action::select(
+            '*',
+            'action.created_at as record_updated',
+            'es.status_name',
+            'e.full_name',
+        )
+            ->join('employee as e', 'action.employee_id', '=', 'e.id')
+            ->join('employee_status as es', 'action.employee_status_id', '=', 'es.id')
+            ->get();
+
+        $employeeActions->makeHidden(['id']);
+
+        return response()->json(['message' => 'success', 'employeeActions' => $employeeActions]);
     }
 }

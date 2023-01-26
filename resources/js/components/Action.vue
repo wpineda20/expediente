@@ -1,6 +1,13 @@
 <template>
   <v-container fluid>
-    <alert-time-out :key="alertTimeOut" :redirect="redirectSessionFinished" />
+    <alert
+      :text="textAlert"
+      :event="alertEvent"
+      :show="showAlert"
+      @show-alert="updateAlert($event)"
+      class="mb-2"
+    />
+    <!-- <alert-time-out :key="alertTimeOut" :redirect="redirectSessionFinished" /> -->
     <div data-app>
       <v-container fluid>
         <div v-if="!loading">
@@ -24,39 +31,22 @@
                     type="text"
                     class=""
                     v-model="search"
-                    @keyup="searchUser()"
+                    @keyup="searchEmployee()"
                   ></v-text-field>
                 </v-col>
               </v-row>
             </v-card-title>
             <v-data-table
               :headers="headers"
-              :items="registeredRecords"
-              :options.sync="options"
-              :server-items-length="total"
-              :footer-props="{ itemsPerPageOptions: [50] }"
-              :items-per-page="take"
-              @update:options="updatePagination"
-              :page.sync="actualPage"
-              :single-expand="singleExpand"
-              :expanded.sync="expanded"
-              item-key="employee_id"
-              show-expand
-              class="elevation-1"
+              :items="recordsFiltered"
+              :loading="loading"
+              :footer-props="{ 'items-per-page-options': [15, 30, 50, 100] }"
             >
-              <template v-slot:expanded-item="{ headers, item }">
-                <td :colspan="headers.length" class="w-100">
-                  <record-registered
-                    :registeredRecordSelected="item.employee_id"
-                    :key="item.employee_id"
-                  />
-                </td>
-              </template>
-              <!-- <template v-slot:no-data>
-                <v-icon small class="mr-2" @click="loadMore">
+              <template v-slot:no-data>
+                <v-icon small class="mr-2" @click="initialize">
                   mdi-refresh
                 </v-icon>
-              </template> -->
+              </template>
             </v-data-table>
           </v-card>
         </div>
@@ -72,165 +62,112 @@
 
 <script>
 import axios from "axios";
+import { format } from "date-fns";
+import esEsLocale from "date-fns/locale/es";
 
 export default {
   data() {
     return {
       search: "",
-      singleExpand: true,
       headers: [
-        // {
-        //   text: "USUARIO",
-        //   align: "start",
-        //   sortable: true,
-        //   value: "user_name",
-        // },
-        { text: "NOMBRE", value: "full_name" },
-        { text: "CORREO INSTITUCIONAL", value: "full_name" },
-        { text: "FECHA DE ACTUALIZACIÓN", value: "personal_email" },
-        { text: "SECCIÓN ACTUALIZADA", value: "cell_phone" },
-        // { text: "CARGO", value: "nominal_fee" },
+        { text: "EMPLEADO", value: "full_name" },
+        { text: "FECHA DE ACTUALIZACIÓN", value: "record_updated" },
+        { text: "SECCIÓN ACTUALIZADA", value: "id_section" },
         { text: "ESTADO", value: "status_name" },
-        //   { text: "PROFESIÓN", value: "profession_name" },
-        //   { text: "ACCIÓN", value: "actions", sortable: false },
       ],
-      registeredRecords: [],
-      registeredRecordSelected: "",
+      records: [],
+      recordsFiltered: [],
       counter: 0,
       loading: false,
-      dialog: false,
-      skip: 0,
-      take: 50,
       title: "Acciones",
-      filter: "Registrado",
-      numberItemsToAdd: 50,
-      total: 0,
-      loadMoreItems: false,
-      options: {},
-      actualPage: 1,
-      expanded: [],
+      totalItems: 0,
+      textAlert: "",
+      alertEvent: "success",
+      showAlert: false,
       redirectSessionFinished: false,
       alertTimeOut: 0,
     };
   },
 
-  watch: {
-    options: {
-      handler() {
-        this.loadMore();
-      },
-      deep: false,
-    },
+  mounted() {
+    this.initialize();
   },
 
   methods: {
-    initializeVerification() {
-      this.dialog = true;
+    async initialize() {
+      this.records = [];
+      this.recordsFiltered = [];
+
+      let res = await axios.post("api/action/log").catch((error) => {
+        this.updateAlert(true, "No fue posible obtener el registro.", "fail");
+      });
+
+      this.recordsFiltered = res.data.employeeActions;
+
+      this.records = this.recordsFiltered;
+
+      this.setDate();
+      this.setSection();
     },
 
-    async getRegisteredRecord(id) {
-      this.registeredRecordSelected = id;
-      this.counter++;
-    },
+    searchEmployee() {
+      this.recordsFiltered = [];
 
-    async loadMore(filter = "Registrado") {
-      this.filter = filter;
-      if (this.actualPage == 1) {
-        this.actualPage = 1;
-        this.skip = 0;
-        this.take = this.numberItemsToAdd;
-      }
-      const res = await axios
-        .get("api/employee/registeredRecords", {
-          params: { skip: this.skip, take: this.take, filter: filter },
-        })
-        .catch((error) => {
-          this.verifySessionFinished(error.response.status, 401);
-          this.alertTimeOut++;
+      if (this.search != "") {
+        this.records.forEach((record) => {
+          let searchConcat = "";
+          for (let i = 0; i < record.full_name.length; i++) {
+            searchConcat += record.full_name[i].toUpperCase();
+            if (
+              searchConcat === this.search.toUpperCase() &&
+              !this.recordsFiltered.some((rec) => rec == record)
+            ) {
+              this.recordsFiltered.push(record);
+            }
+          }
         });
-
-      this.verifySessionFinished(res.status, 200);
-      this.alertTimeOut++;
-
-      this.registeredRecords = res.data.registeredRecords;
-      this.total = res.data.total;
-    },
-
-    updatePagination(pagination) {
-      if (pagination.page != 1) {
-        // Si la página es distinta de 1, verifica los datos a tomar y quitar
-        if (pagination.page <= this.actualPage) {
-          //Si la página es menor que la actual, se está retrocediendo
-          this.take = this.skip;
-          this.skip = this.take - this.numberItemsToAdd;
-        } else {
-          //Sino, se está aumentando en la cantidad de usuarios por ver
-          this.skip = this.take;
-          this.take += this.numberItemsToAdd;
-        }
-      } else {
-        //Si es igual a cero, es la vista inicial
-        this.skip = 0;
-        this.take = this.numberItemsToAdd;
+        return;
       }
-      this.actualPage = pagination.page;
-      //   console.log(this.skip, this.take);
+
+      this.recordsFiltered = this.records;
     },
 
-    async searchUser() {
-      clearTimeout(this.timeOut);
-      this.timeOut = setTimeout(async () => {
-        this.skip = 0;
-        this.take = this.numberItemsToAdd;
+    setDate() {
+      this.recordsFiltered.forEach((employee) => {
+        employee.record_updated = format(
+          new Date(employee.record_updated),
+          "EEEE, dd MMMM, yyyy",
+          {
+            locale: esEsLocale,
+          }
+        );
+      });
+    },
 
-        if (this.search == "") {
-          this.loadMore();
-          return;
+    setSection() {
+      this.recordsFiltered.forEach((employee) => {
+        if (employee.id_section == 1) {
+          employee.id_section = "Datos personales";
         }
-
-        const res = await axios
-          .post("api/employee/registeredRecords/search", {
-            skip: this.skip,
-            take: this.take,
-            search: this.search,
-          })
-          .catch((error) => {
-            this.verifySessionFinished(error.response.status, 419);
-          });
-
-        this.verifySessionFinished(res.status, 200);
-        this.registeredRecords = res.data.registeredRecords;
-        this.total = res.data.total;
-        this.alertTimeOut++;
-      }, 750);
-    },
-
-    verifySessionFinished(status, code) {
-      if (status == code) {
-        if (status == 419 || status == 401) {
-          this.redirectSessionFinished = true;
+        if (employee.id_section == 2) {
+          employee.id_section = "Datos laborales";
         }
-        this.alertTimeOut++;
-      }
+        if (employee.id_section == 3) {
+          employee.id_section = "Grupo familiar";
+        }
+        if (employee.id_section == 4) {
+          employee.id_section = "Formación Académica";
+        }
+        if (employee.id_section == 5) {
+          employee.id_section = "Anexar Documentos";
+        }
+      });
     },
 
-    async filterRecords(filter = "Registrado") {
-      this.filter = filter;
-
-      const res = await axios
-        .get("api/employee/registeredRecords", {
-          params: { skip: this.skip, take: this.take, filter: filter },
-        })
-        .catch((error) => {
-          this.verifySessionFinished(error.response.status, 401);
-          this.alertTimeOut++;
-        });
-
-      this.verifySessionFinished(res.status, 200);
-      this.alertTimeOut++;
-
-      this.registeredRecords = res.data.registeredRecords;
-      this.total = res.data.total;
+    updateAlert(show = false, text = "Alerta", event = "success") {
+      this.textAlert = text;
+      this.alertEvent = event;
+      this.showAlert = show;
     },
   },
 };

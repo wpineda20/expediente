@@ -16,6 +16,7 @@ use App\Http\Controllers\FamilyStatusController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeStatusController;
 use App\Http\Controllers\DependenceController;
+use App\Http\Controllers\ActionController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExcelController;
 
@@ -124,6 +125,8 @@ Route::group(['middleware' => ['auth', 'verified', 'log', 'throttle:web']], func
         Route::get('api/registeredRecordById', [EmployeeController::class, 'registeredRecordById']);
         //Search Registered Records
         Route::post('api/employee/registeredRecords/search', [EmployeeController::class, 'searchRegisteredRecords']);
+        //
+        Route::post('api/action/log', [ActionController::class, 'getEmployeeActions']);
     });
 
 

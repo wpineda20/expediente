@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('action', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->references('id')->on('users');
             $table->foreignId('employee_id')->nullable()->constrained()->references('id')->on('employee');
+            // $table->string('employee_name')->nullable();
             $table->foreignId('employee_status_id')->nullable()->constrained()->references('id')->on('employee_status')->comment('1=Registrado 2=Digitado 3=Finalizado');
+            $table->integer('id_section')->nullable();
             $table->timestamps();
         });
     }

@@ -14,6 +14,7 @@ use App\Models\Kinship;
 use App\Models\FamilyGroupEmergency;
 use App\Models\FamilyGroup;
 use App\Models\AcademicData;
+use App\Models\Action;
 use Storage;
 
 use Illuminate\Http\Request;
@@ -67,6 +68,13 @@ class EmployeeController extends Controller
 
                 if ($employee->employee_status_id == 3) {
                     $employee->employee_status_id = 3;
+
+                    Action::insert([
+                        'employee_id' => $employee->id,
+                        'employee_status_id' => $employee->employee_status_id,
+                        'id_section' => $request->idSection,
+                        'created_at' => date('Y-m-d H:m'),
+                    ]);
                 } else {
                     $employee->employee_status_id = 2;
                 }
@@ -81,6 +89,15 @@ class EmployeeController extends Controller
                 $employee->immediate_superior = $request->immediate_superior;
                 $employee->email_institutional = $request->email_institutional;
                 $employee->municipality_assigned_id = Municipality::where('municipality_name', $request->municipality_name)->first()?->id;
+
+                if ($employee->employee_status_id == 3) {
+                    Action::insert([
+                        'employee_id' => $employee->id,
+                        'employee_status_id' => $employee->employee_status_id,
+                        'id_section' => $request->idSection,
+                        'created_at' => date('Y-m-d H:m'),
+                    ]);
+                }
 
                 $employee->save();
                 break;
@@ -100,11 +117,29 @@ class EmployeeController extends Controller
                 $family_group_emergency_data->kinship_id = Kinship::where('kinship_name', $request->kinship_name)->first()?->id;
                 $family_group_emergency_data->employee_id = $employee->id;
 
+                if ($employee->employee_status_id == 3) {
+                    Action::insert([
+                        'employee_id' => $employee->id,
+                        'employee_status_id' => $employee->employee_status_id,
+                        'id_section' => $request->idSection,
+                        'created_at' => date('Y-m-d H:m'),
+                    ]);
+                }
+
                 $family_group_emergency_data->save();
                 break;
             case 4:
 
                 AcademicDataController::store($request, $employee->id);
+
+                if ($employee->employee_status_id == 3) {
+                    Action::insert([
+                        'employee_id' => $employee->id,
+                        'employee_status_id' => $employee->employee_status_id,
+                        'id_section' => $request->idSection,
+                        'created_at' => date('Y-m-d H:m'),
+                    ]);
+                }
 
                 break;
             case 5:
@@ -115,6 +150,15 @@ class EmployeeController extends Controller
 
                 if ($request->title_file) {
                     $employee->title_file = FileController::base64ToFile($request->title_file, date("Y-m-d") . '-title', 'titles');
+                }
+
+                if ($employee->employee_status_id == 3) {
+                    Action::insert([
+                        'employee_id' => $employee->id,
+                        'employee_status_id' => $employee->employee_status_id,
+                        'id_section' => $request->idSection,
+                        'created_at' => date('Y-m-d H:m'),
+                    ]);
                 }
 
                 $employee->employee_status_id = 3;
@@ -131,6 +175,11 @@ class EmployeeController extends Controller
             'message' => $notificationEmployee,
             'success' => true,
         ]);
+    }
+
+
+    public function setActionEmployee($employee)
+    {
     }
 
     /**
