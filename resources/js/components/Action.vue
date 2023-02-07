@@ -136,7 +136,7 @@ export default {
       this.recordsFiltered.forEach((employee) => {
         employee.record_updated = format(
           new Date(employee.record_updated),
-          "EEEE, dd MMMM, yyyy",
+          "EEEE, dd MMMM, yyyy hh:mm a",
           {
             locale: esEsLocale,
           }
