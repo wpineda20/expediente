@@ -86,19 +86,6 @@
                 @endif
                 <!-- Registered Records -->
 
-                <!-- Actions -->
-                @if (auth()->user()->hasRole('Administrador') == 'Administrador')
-                <li class="text-center pb-1">
-                    <a href="{{ url('/actions') }}" class="text-center">
-                        <i class="material-icons md-18 mx-auto">list</i>
-                    </a>
-                    <a href="{{ url('/actions') }}">
-                        <p class="link mx-auto">Acciones</p>
-                    </a>
-                </li>
-                @endif
-                <!-- Actions -->
-
                 <!-- Settings -->
                 <!-- Administrative routes -->
                 @if (auth()->user()->hasRole('Administrador') == 'Administrador')
@@ -126,6 +113,18 @@
                 <!-- End Administrative routes -->
                 <!-- Settings -->
 
+                <!-- Actions -->
+                @if (auth()->user()->hasRole('Administrador') == 'Administrador')
+                <li class="text-center pb-1">
+                    <a href="{{ url('/actions') }}" class="text-center">
+                        <i class="material-icons md-18 mx-auto">list</i>
+                    </a>
+                    <a href="{{ url('/actions') }}">
+                        <p class="link mx-auto">Acciones</p>
+                    </a>
+                </li>
+                @endif
+                <!-- Actions -->
                 <!-- Logout -->
                 <li class="text-center pb-1">
                     <a href="{{ route('register') }}" class="text-center"
