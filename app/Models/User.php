@@ -40,7 +40,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new \App\Notifications\VerifyEmailQueued);
+        $this->notify(new \App\Notifications\UserVerifyNotification);
     }
 
     /**

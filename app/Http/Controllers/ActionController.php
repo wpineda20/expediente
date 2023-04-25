@@ -79,7 +79,10 @@ class ActionController extends Controller
         )
             ->join('employee as e', 'action.employee_id', '=', 'e.id')
             ->join('employee_status as es', 'action.employee_status_id', '=', 'es.id')
+            ->orderByDesc('record_updated')
             ->get();
+
+        // dd($employeeActions);
 
         $employeeActions->makeHidden(['id']);
 

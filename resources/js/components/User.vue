@@ -30,10 +30,10 @@
           <v-toolbar-title>Usuarios</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="">
               <v-row>
                 <v-col align="right">
-                  <v-btn
+                  <!-- <v-btn
                     class="mb-2 btn-normal no-uppercase"
                     v-bind="attrs"
                     v-on="on"
@@ -41,7 +41,7 @@
                     @click="newUser()"
                   >
                     Agregar
-                  </v-btn>
+                  </v-btn> -->
                 </v-col>
                 <v-col
                   xs="6"
@@ -100,7 +100,7 @@
                     </v-col>
 
                     <!-- DUI -->
-                    <v-col cols="12" sm="6" md="6">
+                    <!-- <v-col cols="12" sm="6" md="6">
                       <base-input
                         label="DUI"
                         v-model.trim="$v.editedItem.dui.$model"
@@ -112,7 +112,7 @@
                           isValidDui: true,
                         }"
                       />
-                    </v-col>
+                    </v-col> -->
 
                     <!-- Rol  -->
                     <v-col cols="12" sm="6" md="6">

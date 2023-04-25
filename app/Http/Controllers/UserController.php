@@ -22,7 +22,7 @@ class UserController extends Controller
         $limit = $request->take - $skip; // the limit
 
         $users = User::skip($skip)->take($limit)
-        ->get();
+            ->get();
 
         $users->makeVisible(["password"]);
 
@@ -36,7 +36,7 @@ class UserController extends Controller
 
         return response()->json([
             "status" => "success",
-            "message"=>"Registros obtenidos correctamente.",
+            "message" => "Registros obtenidos correctamente.",
             "users" => $users,
             "total" => $total,
         ]);
@@ -50,12 +50,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = count(User::where(["email"=>$request->email])->get());
+        $user = count(User::where(["email" => $request->email])->get());
 
         if ($user > 0) {
             return response()->json([
-                "status"=>"fail",
-                "message"=>"Este email ya existe."
+                "status" => "fail",
+                "message" => "Este email ya existe."
             ]);
         }
 
@@ -75,8 +75,8 @@ class UserController extends Controller
         $user->assignRole($role);
 
         return response()->json([
-            "status"=>"success",
-            "message"=>"Registro creado correctamente."
+            "status" => "success",
+            "message" => "Registro creado correctamente."
         ]);
     }
 
@@ -122,8 +122,8 @@ class UserController extends Controller
         $user->update($data);
 
         return response()->json([
-            "status"=>"success",
-            "message"=>"Registro creado correctamente."
+            "status" => "success",
+            "message" => "Registro creado correctamente."
         ]);
     }
 
@@ -137,8 +137,8 @@ class UserController extends Controller
     {
         $user->delete();
         return response()->json([
-            "status"=>"success",
-            "message"=>"Registro creado correctamente."
+            "status" => "success",
+            "message" => "Registro creado correctamente."
         ]);
     }
 
@@ -153,9 +153,9 @@ class UserController extends Controller
         $user = User::find(auth()->user()->id);
 
         return response()->json([
-            "status"=>"success",
-            "message"=>"Registro creado correctamente.",
-            "user"=> $user
+            "status" => "success",
+            "message" => "Registro creado correctamente.",
+            "user" => $user
         ]);
     }
 }
