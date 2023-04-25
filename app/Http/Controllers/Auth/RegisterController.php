@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use DB;
 use Carbon\Carbon;
+use App\Notifications\UserVerifyNotification;
 
 class RegisterController extends Controller
 {
@@ -77,7 +78,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'last_name' => $data['last_name'],
             // 'dui' => $data['dui'],
-            'email_verified_at' => now(),
+            // 'email_verified_at' => now(),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
@@ -94,6 +95,8 @@ class RegisterController extends Controller
         $role = Role::findOrFail(2);
 
         $user->assignRole($role);
+
+        $user->notify(new UserVerifyNotification($user));
 
         return $user;
     }
