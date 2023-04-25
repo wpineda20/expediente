@@ -173,6 +173,6 @@ Route::get('api/dependencies', [DependenceController::class, 'index']);
 Route::get('api/kinships', [KinshipController::class, 'index']);
 Route::get('api/academicLevels', [AcademicLevelController::class, 'index']);
 Route::get('api/municipality/byDepartmentName/{department}', [MunicipalityController::class, 'byDepartmentName']);
-Route::get('api/dependence/byDirectionName/{direction}', [DependenceController::class, 'byDirectionName']);
+    Route::get('api/dependence/byDirectionName/{direction}', [DependenceController::class, 'byDirectionName']);
 
 Route::post('import', [ExcelController::class, 'import']);

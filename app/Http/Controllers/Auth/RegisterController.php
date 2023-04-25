@@ -73,7 +73,7 @@ class RegisterController extends Controller
         $latest = User::find(DB::table('users')->max('id'));
 
         $user = User::create([
-            'id' => $latest->id+1,
+            'id' => $latest->id + 1,
             'name' => $data['name'],
             'last_name' => $data['last_name'],
             // 'dui' => $data['dui'],
