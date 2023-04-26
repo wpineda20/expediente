@@ -35,7 +35,7 @@
                 </td>
                 <td class="text-center">
                   <a
-                    @click="deleteAcademic(academicObject.id)"
+                    @click="deleteAcademic(index)"
                     class="p-1 mr-1 text-center"
                     ><span class="material-icons text-blue"> delete </span></a
                   >
@@ -355,8 +355,8 @@ export default {
       });
     },
 
-    deleteAcademic() {
-      this.academics.splice(this.academics.indexOf(this.academic), 1);
+    deleteAcademic(index) {
+      this.academics.splice(index, 1);
     },
 
     finishedCareer() {

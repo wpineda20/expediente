@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 
 //Libraries
 use DB;
+use Str;
 
 class EmployeeController extends Controller
 {
@@ -145,11 +146,11 @@ class EmployeeController extends Controller
             case 5:
 
                 if ($request->dui_file) {
-                    $employee->dui_file = FileController::base64ToFile($request->dui_file, date("Y-m-d") . '-dui', 'dui');
+                    $employee->dui_file = FileController::base64ToFile($request->dui_file, date("Y-m-d") . '-' . Str::random(4) . '-dui', 'dui');
                 }
 
                 if ($request->title_file) {
-                    $employee->title_file = FileController::base64ToFile($request->title_file, date("Y-m-d") . '-title', 'titles');
+                    $employee->title_file = FileController::base64ToFile($request->title_file, date("Y-m-d") . '-'  . Str::random(4) . '-title', 'titles');
                 }
 
                 if ($employee->employee_status_id == 3) {
@@ -175,11 +176,6 @@ class EmployeeController extends Controller
             'message' => $notificationEmployee,
             'success' => true,
         ]);
-    }
-
-
-    public function setActionEmployee($employee)
-    {
     }
 
     /**
