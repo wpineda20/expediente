@@ -31,7 +31,7 @@
                 </td>
                 <td class="text-center">
                   <a
-                    @click="deleteFamily(familyObject.id)"
+                    @click="deleteFamily(index)"
                     class="p-1 mr-1 text-center"
                     ><span class="material-icons text-blue"> delete </span></a
                   >
@@ -310,8 +310,8 @@ export default {
       });
     },
 
-    deleteFamily() {
-      this.families.splice(this.families.indexOf(this.family), 1);
+    deleteFamily(index) {
+      this.families.splice(index, 1);
     },
   },
 
